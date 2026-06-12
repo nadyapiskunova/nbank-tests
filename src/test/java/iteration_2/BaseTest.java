@@ -3,21 +3,23 @@ package iteration_2;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
-import org.apache.http.HttpStatus;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import requests.AdminDeleteUserRequester;
+import specs.RequestSpecs;
+import specs.ResponseSpecs;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static io.restassured.RestAssured.given;
 
 public class BaseTest {
     protected List<Integer> createdUserIds = new ArrayList<>();
     protected String username;
     protected String secondUsername;
     protected String password;
+    protected SoftAssertions softly;
 
     @BeforeAll
     public static void setUpRestAssured() {
@@ -28,22 +30,29 @@ public class BaseTest {
     }
 
     @BeforeEach
-    public void setUpData() {
-        username = "kate" + (System.currentTimeMillis() % 100000);
-        secondUsername = "user2" + (System.currentTimeMillis() % 100000);
-        password = "Kat#e2000";
+    public void setupTest() {
+        this.softly = new SoftAssertions();
+    }
+
+    @AfterEach
+    public void afterTest() {
+        softly.assertAll();
     }
 
     @AfterEach
     public void deleteUsers() {
         for (Integer userId : createdUserIds) {
-            given()
-                    .header("Authorization", "Basic YWRtaW46YWRtaW4=")
-                    .delete("http://localhost:4111/api/v1/admin/users/" + userId)
-                    .then()
-                    .statusCode(HttpStatus.SC_OK);
-
+            new AdminDeleteUserRequester(
+                    RequestSpecs.adminSpec(),
+                    ResponseSpecs.requestReturnsOK())
+                    .delete(userId);
         }
         createdUserIds.clear();
+    }
+
+    protected void repeat(int times, Runnable action) {
+        for (int i = 0; i < times; i++) {
+            action.run();
+        }
     }
 }
