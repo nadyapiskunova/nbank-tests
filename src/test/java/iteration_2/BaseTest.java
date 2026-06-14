@@ -16,18 +16,7 @@ import java.util.List;
 
 public class BaseTest {
     protected List<Integer> createdUserIds = new ArrayList<>();
-    protected String username;
-    protected String secondUsername;
-    protected String password;
     protected SoftAssertions softly;
-
-    @BeforeAll
-    public static void setUpRestAssured() {
-        RestAssured.filters(
-                List.of(new RequestLoggingFilter(),
-                        new ResponseLoggingFilter())
-        );
-    }
 
     @BeforeEach
     public void setupTest() {
