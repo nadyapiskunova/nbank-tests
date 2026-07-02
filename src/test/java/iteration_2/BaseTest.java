@@ -1,13 +1,10 @@
 package iteration_2;
 
-import io.restassured.RestAssured;
-import io.restassured.filter.log.RequestLoggingFilter;
-import io.restassured.filter.log.ResponseLoggingFilter;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import requests.AdminDeleteUserRequester;
+import requests.skeleton.Endpoint;
+import requests.skeleton.requesters.CrudRequester;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
@@ -31,9 +28,9 @@ public class BaseTest {
     @AfterEach
     public void deleteUsers() {
         for (Integer userId : createdUserIds) {
-            new AdminDeleteUserRequester(
+            new CrudRequester(
                     RequestSpecs.adminSpec(),
-                    ResponseSpecs.requestReturnsOK())
+                    ResponseSpecs.requestReturnsOK(), Endpoint.ADMIN_USER)
                     .delete(userId);
         }
         createdUserIds.clear();
