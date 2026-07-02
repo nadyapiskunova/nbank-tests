@@ -1,4 +1,4 @@
-package iteration_2;
+package iteration_2.api;
 
 import constans.ErrorMessages;
 import constans.TestConstants;

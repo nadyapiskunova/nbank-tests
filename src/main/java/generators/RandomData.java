@@ -81,6 +81,11 @@ public class RandomData {
                 .nextDouble(10.0, 100.0);
     }
 
+    public static double getTransferAmount() {
+        return ThreadLocalRandom.current()
+                .nextDouble(0.01, 1999.99);
+    }
+
     public static double getAmountGreaterThan(double amount) {
         return BigDecimal.valueOf(
                         ThreadLocalRandom.current()

@@ -1,9 +1,8 @@
 package requests.steps;
 
+import generators.RandomData;
 import io.restassured.common.mapper.TypeRef;
-import models.AccountResponse;
-import models.CreateUserRequest;
-import models.DepositRequest;
+import models.*;
 import requests.skeleton.Endpoint;
 import requests.skeleton.requesters.CrudRequester;
 import requests.skeleton.requesters.ValidatedCrudRequester;
@@ -40,5 +39,29 @@ public class UserSteps {
                 RequestSpecs.authAsUser(userRequest.getUsername(),userRequest.getPassword()),
                 ResponseSpecs.requestReturnsOK(), Endpoint.DEPOSIT)
                 .post(depositRequest);
+    }
+
+    public static UpdateProfileRequest updateName(CreateUserRequest userRequest) {
+        UpdateProfileRequest updateProfileRequest = UpdateProfileRequest.builder()
+                .name(RandomData.getValidName())
+                .build();
+        new CrudRequester(
+                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                ResponseSpecs.requestReturnsOK(),
+                Endpoint.UPDATE_CUSTOMER_PROFILE)
+                .update(updateProfileRequest);
+        return updateProfileRequest;
+    }
+
+    public static TransferResponse transfer(CreateUserRequest userRequest, int senderAccountId, int receiverAccountId, double amount){
+        TransferRequest transferRequest = TransferRequest.builder()
+                .senderAccountId(senderAccountId)
+                .receiverAccountId(receiverAccountId)
+                .amount(amount)
+                .build();
+        return new ValidatedCrudRequester<TransferResponse>(
+                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                ResponseSpecs.requestReturnsOK(), Endpoint.TRANSFER)
+                .post(transferRequest);
     }
 }

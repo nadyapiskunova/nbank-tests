@@ -1,12 +1,10 @@
-package iteration_1;
+package iteration_1.api;
 
 import models.CreateUserRequest;
-import models.CreateUserResponse;
 import org.junit.jupiter.api.Test;
 import requests.skeleton.Endpoint;
 import requests.skeleton.requesters.CrudRequester;
 import requests.steps.AdminSteps;
-import requests.steps.UserSteps;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
