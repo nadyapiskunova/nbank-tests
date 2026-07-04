@@ -12,6 +12,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public abstract class BasePage<T extends BasePage> {
     protected SelenideElement usernameInput = $(Selectors.byAttribute("placeholder", "Username"));
     protected SelenideElement passwordInput = $(Selectors.byAttribute("placeholder","Password"));
+    protected SelenideElement accountsSelector = $(".account-selector");
+    protected SelenideElement inputAmount = $(Selectors.byAttribute("placeholder","Enter amount"));
 
     public abstract String url();
 
@@ -29,5 +31,16 @@ public abstract class BasePage<T extends BasePage> {
         alert.accept();
 
         return (T) this;
+    }
+    public T openSelectorAccounts(String accountNumber){
+        accountsSelector.selectOptionContainingText(accountNumber);
+
+        return (T)this;
+    }
+
+    public T setAmount(double amount){
+        inputAmount.setValue(String.valueOf(amount));
+
+        return (T)this;
     }
 }

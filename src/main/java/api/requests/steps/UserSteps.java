@@ -67,4 +67,12 @@ public class UserSteps {
                 ResponseSpecs.requestReturnsOK())
                 .post(transferRequest);
     }
+
+    public static CustomerResponse getCustomerProfile(CreateUserRequest userRequest) {
+        return new ValidatedCrudRequester<CustomerResponse>(
+                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                Endpoint.CUSTOMER_PROFILE,
+                ResponseSpecs.requestReturnsOK())
+                .get();
+    }
 }

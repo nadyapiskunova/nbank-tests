@@ -1,29 +1,20 @@
 package iteration_2.ui;
 
-import api.models.*;
-import com.codeborne.selenide.Selectors;
-import com.codeborne.selenide.Selenide;
 import api.constans.TestConstants;
 import api.generators.RandomData;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Alert;
-import api.requests.skeleton.Endpoint;
-import api.requests.skeleton.requesters.CrudRequester;
+import api.models.*;
 import api.requests.steps.AdminSteps;
 import api.requests.steps.UserSteps;
-import api.specs.RequestSpecs;
-import api.specs.ResponseSpecs;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import ui.pages.BankAlert;
+import ui.pages.TransferPage;
 
 import java.util.List;
 
-import static com.codeborne.selenide.Condition.exactText;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selenide.*;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.within;
 
-public class AccountsTransferTest extends BaseTest {
+public class AccountsTransferTest extends BaseUITest {
     @Test
     public void userCanTransferWithValidDataTest(){
         CreateUserRequest user = AdminSteps.createUser(createdUserIds);
@@ -34,38 +25,22 @@ public class AccountsTransferTest extends BaseTest {
                         firstAccount.getId(),
                         TestConstants.MAX_DEPOSIT_AMOUNT
                 );
-        String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(), Endpoint.LOGIN,
-                ResponseSpecs.requestReturnsOK())
-                .post(
-                        LoginUserRequest.builder()
-                                .username(user.getUsername())
-                                .password(user.getPassword())
-                                .build())
-                .extract()
-                .header("Authorization");
 
-        Selenide.open("/");
-        executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthHeader);
-        Selenide.open("/transfer");
-
-        $(".account-selector").selectOptionContainingText(firstAccount.getAccountNumber());
-
-        $(Selectors.byAttribute("placeholder","Enter recipient name"))
-                .setValue(user.getUsername());
-
-        $(Selectors.byAttribute("placeholder","Enter recipient account number"))
-                .setValue(secondAccount.getAccountNumber());
-
-        Double amount = RandomData.getTransferAmount();
-        $(Selectors.byAttribute("placeholder","Enter amount"))
-                .setValue(String.valueOf(amount));
-        $("#confirmCheck").setSelected(true);
-        $(".btn-primary.shadow-custom.green-btn.mt-4").click();
-
-        Alert alert = switchTo().alert();
-        assertThat(alert.getText()).contains("✅ Successfully transferred ");
-        alert.accept();
+        authAsUser(user);
+        double amount = RandomData.getTransferAmount();
+        new TransferPage()
+                .open()
+                .selectAccount(firstAccount.getAccountNumber())
+                .setUsername(user.getUsername())
+                .setReceiverAccountNumber(secondAccount.getAccountNumber())
+                .setAmount(amount)
+                .confirmCheckbox()
+                .clickTransferButton()
+                .checkAlertMessageAndAccept(BankAlert.SUCCESSFULLY_TRANSFERRED.getMessage())
+                .open()
+                .clickTransferAgainButton()
+                .checkTransactionIsDisplayed(TransactionType.TRANSFER_IN, amount)
+                .checkTransactionIsDisplayed(TransactionType.TRANSFER_OUT, amount);
 
         List<AccountResponse> accountsAfterTransfer = UserSteps.getAccounts(user);
 
@@ -105,38 +80,21 @@ public class AccountsTransferTest extends BaseTest {
                 firstAccount.getId(),
                 TestConstants.MAX_DEPOSIT_AMOUNT
         );
-        String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(), Endpoint.LOGIN,
-                ResponseSpecs.requestReturnsOK())
-                .post(
-                        LoginUserRequest.builder()
-                                .username(user.getUsername())
-                                .password(user.getPassword())
-                                .build())
-                .extract()
-                .header("Authorization");
 
-        Selenide.open("/");
-        executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthHeader);
-        Selenide.open("/transfer");
-
-        $(".account-selector").selectOptionContainingText(firstAccount.getAccountNumber());
-
-        $(Selectors.byAttribute("placeholder", "Enter recipient name"))
-                .setValue(user.getUsername());
-
-        $(Selectors.byAttribute("placeholder", "Enter recipient account number"))
-                .setValue(secondAccount.getAccountNumber());
-
-        Double amount = TestConstants.ZERO_AMOUNT;
-        $(Selectors.byAttribute("placeholder", "Enter amount"))
-                .setValue(String.valueOf(amount));
-        $("#confirmCheck").setSelected(true);
-        $(".btn-primary.shadow-custom.green-btn.mt-4").click();
-
-        Alert alert = switchTo().alert();
-        assertThat(alert.getText()).contains("❌ Error: Transfer amount must be at least 0.01");
-        alert.accept();
+        authAsUser(user);
+        double amount = TestConstants.ZERO_AMOUNT;
+        new TransferPage()
+                .open()
+                .selectAccount(firstAccount.getAccountNumber())
+                .setUsername(user.getUsername())
+                .setReceiverAccountNumber(secondAccount.getAccountNumber())
+                .setAmount(amount)
+                .confirmCheckbox()
+                .clickTransferButton()
+                .checkAlertMessageAndAccept(BankAlert.TRANSFER_AMOUNT_MUST_BE_AT_LEAST_0_01.getMessage())
+                .open()
+                .clickTransferAgainButton()
+                .checkTransferTransactionsAreNotDisplayed();
     }
 
     @Test
@@ -149,69 +107,40 @@ public class AccountsTransferTest extends BaseTest {
                 firstAccount.getId(),
                 TestConstants.MAX_DEPOSIT_AMOUNT
         );
-        String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(), Endpoint.LOGIN,
-                ResponseSpecs.requestReturnsOK())
-                .post(
-                        LoginUserRequest.builder()
-                                .username(user.getUsername())
-                                .password(user.getPassword())
-                                .build())
-                .extract()
-                .header("Authorization");
 
-        Selenide.open("/");
-        executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthHeader);
-        Selenide.open("/transfer");
-
-        $(".account-selector").selectOptionContainingText(firstAccount.getAccountNumber());
-
-        $(Selectors.byAttribute("placeholder", "Enter recipient name"))
-                .setValue(user.getUsername());
-
-        $(Selectors.byAttribute("placeholder", "Enter recipient account number"))
-                .setValue(secondAccount.getAccountNumber());
-
-        Double amount = RandomData.getTransferAmount();
-        $(Selectors.byAttribute("placeholder", "Enter amount"))
-                .setValue(String.valueOf(amount));
-        $("#confirmCheck").setSelected(true);
-        $(".btn-primary.shadow-custom.green-btn.mt-4").click();
-
-        Alert alert = switchTo().alert();
-        assertThat(alert.getText()).contains("❌ Please fill all fields and confirm.");
-        alert.accept();
+        authAsUser(user);
+        double amount = RandomData.getTransferAmount();;
+        new TransferPage()
+                .open()
+                .selectAccount(firstAccount.getAccountNumber())
+                .setUsername(user.getUsername())
+                .setReceiverAccountNumber(secondAccount.getAccountNumber())
+                .setAmount(amount)
+                .clickTransferButton()
+                .checkAlertMessageAndAccept(BankAlert.PLEASE_FILL_ALL_FIELDS_AND_CONFIRM.getMessage())
+                .open()
+                .clickTransferAgainButton()
+                .checkTransferTransactionsAreNotDisplayed();
     }
 
     @Test
     public void userCanSearchTransactionWithValidName(){
         CreateUserRequest user = AdminSteps.createUser(createdUserIds);
         AccountResponse firstAccount = UserSteps.createAccount(user);
-        UpdateProfileRequest updateName = UserSteps.updateName(user);
+        UpdateProfileRequest updatedName = UserSteps.updateName(user);
         UserSteps.deposit(
                 user,
                 firstAccount.getId(),
                 TestConstants.MAX_DEPOSIT_AMOUNT
         );
-        String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(), Endpoint.LOGIN,
-                ResponseSpecs.requestReturnsOK())
-                .post(
-                        LoginUserRequest.builder()
-                                .username(user.getUsername())
-                                .password(user.getPassword())
-                                .build())
-                .extract()
-                .header("Authorization");
 
-        Selenide.open("/");
-        executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthHeader);
-
-        Selenide.open("/transfer");
-        $(".custom-btn.shadow-custom.gray-btn").click();
-        $(".form-control").sendKeys(updateName.getName());
-        $(".custom-btn.shadow-custom.blue-btn.mt-3").click();
-        $(".list-group-item small").shouldHave(text("Found under: " + updateName.getName()));
+        authAsUser(user);
+        new TransferPage()
+                .open()
+                .clickTransferAgainButton()
+                .searchByName(updatedName.getName())
+                .clickSearchTransactionButton()
+                .checkFoundUnder(updatedName.getName());
     }
 
     @Test
@@ -224,28 +153,14 @@ public class AccountsTransferTest extends BaseTest {
                 firstAccount.getId(),
                 TestConstants.MAX_DEPOSIT_AMOUNT
         );
-        String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(), Endpoint.LOGIN,
-                ResponseSpecs.requestReturnsOK())
-                .post(
-                        LoginUserRequest.builder()
-                                .username(user.getUsername())
-                                .password(user.getPassword())
-                                .build())
-                .extract()
-                .header("Authorization");
 
-        Selenide.open("/");
-        executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthHeader);
-        Selenide.open("/transfer");
-
-        $(".custom-btn.shadow-custom.gray-btn").click();
-        $(".form-control").sendKeys(RandomData.getNameWithoutSurname());
-        $(".custom-btn.shadow-custom.blue-btn.mt-3").click();
-
-        Alert alert = switchTo().alert();
-        assertThat(alert.getText()).contains("❌ No matching users found.");
-        alert.accept();
+        authAsUser(user);
+        new TransferPage()
+                .open()
+                .clickTransferAgainButton()
+                .searchByName(RandomData.getNameWithoutSurname())
+                .clickSearchTransactionButton()
+                .checkAlertMessageAndAccept(BankAlert.NO_MATCHING_USERS_FOUND.getMessage());
     }
 
     @Disabled("Баг: в popup повтора операции TRANSFER_IN отображается firstAccount.getId()")
@@ -266,34 +181,16 @@ public class AccountsTransferTest extends BaseTest {
                 secondAccount.getId(),
                 amountTransfer);
 
-        String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(), Endpoint.LOGIN,
-                ResponseSpecs.requestReturnsOK())
-                .post(
-                        LoginUserRequest.builder()
-                                .username(user.getUsername())
-                                .password(user.getPassword())
-                                .build())
-                .extract()
-                .header("Authorization");
-
-        Selenide.open("/");
-        executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthHeader);
-
-        Selenide.open("/transfer");
-        $(".custom-btn.shadow-custom.gray-btn").click();
-        $$("li.list-group-item")
-                .findBy(text("TRANSFER_IN"))
-                .$(".custom-btn")
-                .click();
-        $("p strong").shouldHave(exactText(String.valueOf(secondAccount.getId())));
-        $("select.form-control")
-                .selectOptionContainingText(firstAccount.getAccountNumber());
-        $("#confirmCheck").setSelected(true);
-        $(".btn.btn-success").click();
-        Alert alert = switchTo().alert();
-        assertThat(alert.getText()).contains("✅ Transfer of");
-        alert.accept();
+        authAsUser(user);
+        new TransferPage()
+                .open()
+                .clickTransferAgainButton()
+                .repeatTransaction(TransactionType.TRANSFER_IN)
+                .checkAccountId(secondAccount.getId())
+                .selectSenderAccountNumber(firstAccount.getAccountNumber())
+                .confirmCheckbox()
+                .clickSendTransferButton()
+                .checkAlertMessageAndAccept(BankAlert.TRANSFER_OF_SUCCESSFULLY.getMessage());
 
         double expectedSenderBalance =
                 TestConstants.MAX_DEPOSIT_AMOUNT - amountTransfer - amountTransfer;
