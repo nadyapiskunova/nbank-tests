@@ -12,11 +12,12 @@ import io.restassured.common.mapper.TypeRef;
 import java.util.List;
 
 public class UserSteps {
+    private UserSteps(){};
 
     public static AccountResponse createAccount(CreateUserRequest userRequest){
         return new ValidatedCrudRequester<AccountResponse>(
-                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.entityWasCreated(), Endpoint.ACCOUNTS)
+                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()), Endpoint.ACCOUNTS,
+                ResponseSpecs.entityWasCreated())
                 .post();
     }
 
@@ -25,9 +26,9 @@ public class UserSteps {
                 RequestSpecs.authAsUser(
                         userRequest.getUsername(),
                         userRequest.getPassword()),
-                ResponseSpecs.requestReturnsOK(),
-                Endpoint.CUSTOMER_ACCOUNTS)
-                .getAsList(new TypeRef<List<AccountResponse>>() {});
+                Endpoint.CUSTOMER_ACCOUNTS,
+                ResponseSpecs.requestReturnsOK())
+                .getAll(AccountResponse[].class);
     }
 
     public static AccountResponse deposit(CreateUserRequest userRequest, int accountId, double amount){
@@ -37,7 +38,8 @@ public class UserSteps {
                 .build();
        return new ValidatedCrudRequester<AccountResponse>(
                 RequestSpecs.authAsUser(userRequest.getUsername(),userRequest.getPassword()),
-                ResponseSpecs.requestReturnsOK(), Endpoint.DEPOSIT)
+                Endpoint.DEPOSIT,
+                ResponseSpecs.requestReturnsOK())
                 .post(depositRequest);
     }
 
@@ -47,8 +49,8 @@ public class UserSteps {
                 .build();
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.requestReturnsOK(),
-                Endpoint.UPDATE_CUSTOMER_PROFILE)
+                Endpoint.UPDATE_CUSTOMER_PROFILE,
+                ResponseSpecs.requestReturnsOK())
                 .update(updateProfileRequest);
         return updateProfileRequest;
     }
@@ -61,7 +63,8 @@ public class UserSteps {
                 .build();
         return new ValidatedCrudRequester<TransferResponse>(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.requestReturnsOK(), Endpoint.TRANSFER)
+                Endpoint.TRANSFER,
+                ResponseSpecs.requestReturnsOK())
                 .post(transferRequest);
     }
 }

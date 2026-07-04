@@ -19,12 +19,20 @@ public class AdminSteps {
         CreateUserResponse userResponse =
                 new ValidatedCrudRequester<CreateUserResponse>(
                         RequestSpecs.adminSpec(),
-                        ResponseSpecs.entityWasCreated(),
-                        Endpoint.ADMIN_USER)
+                        Endpoint.ADMIN_USER,
+                        ResponseSpecs.entityWasCreated())
                         .post(userRequest);
 
         createdUserIds.add(userResponse.getId());
 
         return userRequest;
+    }
+
+    public static List<CreateUserResponse> getAllUsers() {
+        return new ValidatedCrudRequester<CreateUserResponse>(
+                RequestSpecs.adminSpec(),
+                Endpoint.ADMIN_USER,
+                ResponseSpecs.requestReturnsOK())
+                .getAll(CreateUserResponse[].class);
     }
 }

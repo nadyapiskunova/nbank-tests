@@ -29,8 +29,8 @@ public class BaseTest {
     public void deleteUsers() {
         for (Integer userId : createdUserIds) {
             new CrudRequester(
-                    RequestSpecs.adminSpec(),
-                    ResponseSpecs.requestReturnsOK(), Endpoint.ADMIN_USER)
+                    RequestSpecs.adminSpec(), Endpoint.ADMIN_USER,
+                    ResponseSpecs.requestReturnsOK())
                     .delete(userId);
         }
         createdUserIds.clear();

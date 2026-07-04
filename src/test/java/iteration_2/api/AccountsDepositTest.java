@@ -47,7 +47,8 @@ public class AccountsDepositTest extends BaseTest {
                 .build();
         AccountResponse depositedAccount = new ValidatedCrudRequester<AccountResponse>(
                 RequestSpecs.authAsUser(userRequest.getUsername(),userRequest.getPassword()),
-                ResponseSpecs.requestReturnsOK(), Endpoint.DEPOSIT)
+                Endpoint.DEPOSIT,
+                ResponseSpecs.requestReturnsOK())
                 .post(depositRequest);
 
         List<TransactionResponse> transactions = depositedAccount.getTransactions();
@@ -79,7 +80,8 @@ public class AccountsDepositTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(),userRequest.getPassword()),
-                ResponseSpecs.requestReturnsBadRequest(), Endpoint.DEPOSIT)
+                Endpoint.DEPOSIT,
+                ResponseSpecs.requestReturnsBadRequest())
                 .post(depositRequest);
 
         List<AccountResponse> accountsAfterFailedDeposit = UserSteps.getAccounts(userRequest);
@@ -102,7 +104,8 @@ public class AccountsDepositTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.adminSpec(),
-                ResponseSpecs.requestReturnsForbidden(), Endpoint.DEPOSIT)
+                Endpoint.DEPOSIT,
+                ResponseSpecs.requestReturnsForbidden())
                 .post(adminDeposit);
 
         List<AccountResponse> accountsAfterFailedDeposit = UserSteps.getAccounts(userRequest);
@@ -124,7 +127,8 @@ public class AccountsDepositTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(),userRequest.getPassword()),
-                ResponseSpecs.requestReturnsForbidden(ErrorMessages.UNAUTHORIZED_ACCESS_TO_ACCOUNT), Endpoint.DEPOSIT)
+                Endpoint.DEPOSIT,
+                ResponseSpecs.requestReturnsForbidden(ErrorMessages.UNAUTHORIZED_ACCESS_TO_ACCOUNT))
                 .post(userDepositToNonExistentAccount);
 
         List<AccountResponse> accountsAfterFailedDeposit = UserSteps.getAccounts(userRequest);
@@ -151,7 +155,8 @@ public class AccountsDepositTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.authAsUser(firstUserRequest.getUsername(),firstUserRequest.getPassword()),
-                ResponseSpecs.requestReturnsForbidden(ErrorMessages.UNAUTHORIZED_ACCESS_TO_ACCOUNT), Endpoint.DEPOSIT)
+                Endpoint.DEPOSIT,
+                ResponseSpecs.requestReturnsForbidden(ErrorMessages.UNAUTHORIZED_ACCESS_TO_ACCOUNT))
                 .post(depositRequest);
 
         List<AccountResponse> accountsAfterFailedDeposit = UserSteps.getAccounts(secondUserRequest);
@@ -174,7 +179,8 @@ public class AccountsDepositTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsUnauthorized(), Endpoint.DEPOSIT)
+                Endpoint.DEPOSIT,
+                ResponseSpecs.requestReturnsUnauthorized())
                 .post(unauthorizedUserDeposit);
     }
 }

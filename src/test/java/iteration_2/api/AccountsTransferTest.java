@@ -67,7 +67,8 @@ public class AccountsTransferTest extends BaseTest {
                 .build();
         TransferResponse transferToSecondAccountId = new ValidatedCrudRequester<TransferResponse>(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.requestReturnsOK(), Endpoint.TRANSFER)
+                Endpoint.TRANSFER,
+                ResponseSpecs.requestReturnsOK())
                 .post(transferToSecondAccountIdRequest);
 
         softly.assertThat(transferToSecondAccountId.getMessage()).isEqualTo(Messages.TRANSFER_SUCCESSFUL);
@@ -134,7 +135,8 @@ public class AccountsTransferTest extends BaseTest {
                 .build();
         TransferResponse transferToSecondAccountId = new ValidatedCrudRequester<TransferResponse>(
                 RequestSpecs.authAsUser(firstUserRequest.getUsername(), firstUserRequest.getPassword()),
-                ResponseSpecs.requestReturnsOK(), Endpoint.TRANSFER)
+                Endpoint.TRANSFER,
+                ResponseSpecs.requestReturnsOK())
                 .post(transferToSecondUser);
 
         softly.assertThat(transferToSecondAccountId.getMessage()).isEqualTo(Messages.TRANSFER_SUCCESSFUL);
@@ -192,7 +194,8 @@ public class AccountsTransferTest extends BaseTest {
 
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.requestReturnsBadRequest(errorValue), Endpoint.TRANSFER)
+                Endpoint.TRANSFER,
+                ResponseSpecs.requestReturnsBadRequest(errorValue))
                 .post(transferToSecondAccountIdRequest);
 
         List<AccountResponse> accountsAfterFailedTransfer = UserSteps.getAccounts(userRequest);
@@ -246,7 +249,8 @@ public class AccountsTransferTest extends BaseTest {
                 .build();
          new CrudRequester(
                 RequestSpecs.authAsUser(firstUserRequest.getUsername(), firstUserRequest.getPassword()),
-                ResponseSpecs.requestReturnsBadRequest(errorValue), Endpoint.TRANSFER)
+                 Endpoint.TRANSFER,
+                ResponseSpecs.requestReturnsBadRequest(errorValue))
                 .post(transferToSecondUser);
 
         double expectedBalance = TestConstants.MAX_DEPOSIT_AMOUNT * 3;
@@ -304,7 +308,8 @@ public class AccountsTransferTest extends BaseTest {
 
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.requestReturnsBadRequest(ErrorMessages.INVALID_TRANSFER), Endpoint.TRANSFER)
+                Endpoint.TRANSFER,
+                ResponseSpecs.requestReturnsBadRequest(ErrorMessages.INVALID_TRANSFER))
                 .post(transferToSecondAccountIdRequest);
 
         List<AccountResponse> accountsAfterFailedTransfer = UserSteps.getAccounts(userRequest);
@@ -358,7 +363,8 @@ public class AccountsTransferTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.authAsUser(firstUserRequest.getUsername(), firstUserRequest.getPassword()),
-                ResponseSpecs.requestReturnsBadRequest(ErrorMessages.INVALID_TRANSFER), Endpoint.TRANSFER)
+                Endpoint.TRANSFER,
+                ResponseSpecs.requestReturnsBadRequest(ErrorMessages.INVALID_TRANSFER))
                 .post(transferToSecondUser);
 
         List<AccountResponse> accountsByFirstUserAfterFailedTransfer =UserSteps.getAccounts(firstUserRequest);
@@ -412,7 +418,8 @@ public class AccountsTransferTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.adminSpec(),
-                ResponseSpecs.requestReturnsForbidden(), Endpoint.TRANSFER)
+                Endpoint.TRANSFER,
+                ResponseSpecs.requestReturnsForbidden())
                 .post(transferToSecondAccountIdRequest);
 
         List<AccountResponse> accountsAfterFailedTransfer = UserSteps.getAccounts(userRequest);
@@ -465,7 +472,8 @@ public class AccountsTransferTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.adminSpec(),
-                ResponseSpecs.requestReturnsForbidden(), Endpoint.TRANSFER)
+                Endpoint.TRANSFER,
+                ResponseSpecs.requestReturnsForbidden())
                 .post(transferToSecondUser);
 
         List<AccountResponse> accountsByFirstUserAfterFailedTransfer = UserSteps.getAccounts(firstUserRequest);
@@ -519,7 +527,8 @@ public class AccountsTransferTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsUnauthorized(), Endpoint.TRANSFER)
+                Endpoint.TRANSFER,
+                ResponseSpecs.requestReturnsUnauthorized())
                 .post(transferToSecondAccountIdRequest);
 
         List<AccountResponse> accountsAfterFailedTransfer = UserSteps.getAccounts(userRequest);
@@ -566,7 +575,8 @@ public class AccountsTransferTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.requestReturnsBadRequest(ErrorMessages.INVALID_TRANSFER), Endpoint.TRANSFER)
+                Endpoint.TRANSFER,
+                ResponseSpecs.requestReturnsBadRequest(ErrorMessages.INVALID_TRANSFER))
                 .post(transferToSecondAccountIdRequest);
 
         List<AccountResponse> accountsAfterFailedTransfer = UserSteps.getAccounts(userRequest);
@@ -601,7 +611,8 @@ public class AccountsTransferTest extends BaseTest {
 
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.requestReturnsForbidden(), Endpoint.TRANSFER)
+                Endpoint.TRANSFER,
+                ResponseSpecs.requestReturnsForbidden())
                 .post(transferToAccountRequest);
 
         List<AccountResponse> accountsAfterFailedTransfer = UserSteps.getAccounts(userRequest);

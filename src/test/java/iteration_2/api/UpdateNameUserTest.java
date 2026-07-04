@@ -40,14 +40,15 @@ public class UpdateNameUserTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.requestReturnsOK(),
-                Endpoint.UPDATE_CUSTOMER_PROFILE)
+                Endpoint.UPDATE_CUSTOMER_PROFILE,
+                ResponseSpecs.requestReturnsOK())
                 .update(updateName);
 
         CustomerResponse updatedName =
                 new ValidatedCrudRequester<CustomerResponse>(
                         RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                        ResponseSpecs.requestReturnsOK(),Endpoint.CUSTOMER_PROFILE)
+                        Endpoint.CUSTOMER_PROFILE,
+                        ResponseSpecs.requestReturnsOK())
                         .get();
 
         ModelAssertions.assertThatModels(updateName, updatedName).match();
@@ -62,13 +63,15 @@ public class UpdateNameUserTest extends BaseTest {
                 .build();
 
          new CrudRequester(RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsUnauthorized(),Endpoint.UPDATE_CUSTOMER_PROFILE)
+                 Endpoint.UPDATE_CUSTOMER_PROFILE,
+                ResponseSpecs.requestReturnsUnauthorized())
                 .update(updateName);
 
         CustomerResponse updatedName =
                 new ValidatedCrudRequester<CustomerResponse>(
                         RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                        ResponseSpecs.requestReturnsOK(), Endpoint.CUSTOMER_PROFILE)
+                        Endpoint.CUSTOMER_PROFILE,
+                        ResponseSpecs.requestReturnsOK())
                         .get();
 
         softly.assertThat(updatedName.getName()).isNull();
@@ -93,14 +96,14 @@ public class UpdateNameUserTest extends BaseTest {
                 .build();
 
         new CrudRequester(RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.requestReturnsBadRequest(errorValue),
-                Endpoint.UPDATE_CUSTOMER_PROFILE)
+                Endpoint.UPDATE_CUSTOMER_PROFILE,
+                ResponseSpecs.requestReturnsBadRequest(errorValue))
                 .update(updateName);
 
         CustomerResponse updatedName = new ValidatedCrudRequester<CustomerResponse>(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.requestReturnsOK(),
-                Endpoint.CUSTOMER_PROFILE)
+                Endpoint.CUSTOMER_PROFILE,
+                ResponseSpecs.requestReturnsOK())
                 .get();
         softly.assertThat(updatedName.getName()).isNull();
     }

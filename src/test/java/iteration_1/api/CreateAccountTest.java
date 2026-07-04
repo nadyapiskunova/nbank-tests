@@ -15,11 +15,13 @@ public class CreateAccountTest extends BaseTest {
 
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.entityWasCreated(), Endpoint.ACCOUNTS)
+                Endpoint.ACCOUNTS,
+                ResponseSpecs.entityWasCreated())
                 .post();
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.entityWasCreated(), Endpoint.ACCOUNTS)
+                Endpoint.ACCOUNTS,
+                ResponseSpecs.entityWasCreated())
                 .post();
     }
 }

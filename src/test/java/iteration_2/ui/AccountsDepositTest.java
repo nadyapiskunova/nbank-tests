@@ -28,7 +28,8 @@ public class AccountsDepositTest extends BaseTest{
 
         String userAuthHeader = new CrudRequester(
                 RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
+                Endpoint.LOGIN,
+                ResponseSpecs.requestReturnsOK())
                 .post(
                         LoginUserRequest.builder()
                                 .username(user.getUsername())
@@ -69,8 +70,8 @@ public class AccountsDepositTest extends BaseTest{
         AccountResponse createdAccount = UserSteps.createAccount(user);
 
         String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
+                RequestSpecs.unauthSpec(), Endpoint.LOGIN,
+                ResponseSpecs.requestReturnsOK())
                 .post(
                         LoginUserRequest.builder()
                                 .username(user.getUsername())
@@ -102,8 +103,8 @@ public class AccountsDepositTest extends BaseTest{
         AccountResponse createdAccount = UserSteps.createAccount(user);
 
         String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
+                RequestSpecs.unauthSpec(), Endpoint.LOGIN,
+                ResponseSpecs.requestReturnsOK())
                 .post(
                         LoginUserRequest.builder()
                                 .username(user.getUsername())

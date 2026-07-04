@@ -35,8 +35,8 @@ public class AccountsTransferTest extends BaseTest {
                         TestConstants.MAX_DEPOSIT_AMOUNT
                 );
         String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
+                RequestSpecs.unauthSpec(), Endpoint.LOGIN,
+                ResponseSpecs.requestReturnsOK())
                 .post(
                         LoginUserRequest.builder()
                                 .username(user.getUsername())
@@ -106,8 +106,8 @@ public class AccountsTransferTest extends BaseTest {
                 TestConstants.MAX_DEPOSIT_AMOUNT
         );
         String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
+                RequestSpecs.unauthSpec(), Endpoint.LOGIN,
+                ResponseSpecs.requestReturnsOK())
                 .post(
                         LoginUserRequest.builder()
                                 .username(user.getUsername())
@@ -150,8 +150,8 @@ public class AccountsTransferTest extends BaseTest {
                 TestConstants.MAX_DEPOSIT_AMOUNT
         );
         String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
+                RequestSpecs.unauthSpec(), Endpoint.LOGIN,
+                ResponseSpecs.requestReturnsOK())
                 .post(
                         LoginUserRequest.builder()
                                 .username(user.getUsername())
@@ -194,8 +194,8 @@ public class AccountsTransferTest extends BaseTest {
                 TestConstants.MAX_DEPOSIT_AMOUNT
         );
         String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
+                RequestSpecs.unauthSpec(), Endpoint.LOGIN,
+                ResponseSpecs.requestReturnsOK())
                 .post(
                         LoginUserRequest.builder()
                                 .username(user.getUsername())
@@ -225,8 +225,8 @@ public class AccountsTransferTest extends BaseTest {
                 TestConstants.MAX_DEPOSIT_AMOUNT
         );
         String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
+                RequestSpecs.unauthSpec(), Endpoint.LOGIN,
+                ResponseSpecs.requestReturnsOK())
                 .post(
                         LoginUserRequest.builder()
                                 .username(user.getUsername())
@@ -267,8 +267,8 @@ public class AccountsTransferTest extends BaseTest {
                 amountTransfer);
 
         String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
+                RequestSpecs.unauthSpec(), Endpoint.LOGIN,
+                ResponseSpecs.requestReturnsOK())
                 .post(
                         LoginUserRequest.builder()
                                 .username(user.getUsername())

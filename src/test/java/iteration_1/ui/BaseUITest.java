@@ -1,9 +1,11 @@
 package iteration_1.ui;
 
 import api.configs.Config;
+import api.models.CreateUserRequest;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import iteration_1.api.BaseTest;
+import iteration_1.api.CreateUserTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import api.requests.skeleton.Endpoint;
@@ -18,11 +20,6 @@ import java.util.Map;
 import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 public class BaseUITest extends BaseTest {
-    public void authAsUser(String username, String password) {
-        Selenide.open("/");
-        String userAuthHeader = RequestSpecs.getUserAuthHeader(username, password);
-        executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthHeader);
-    }
 
     @BeforeAll
     public static void setupSelenoid(){
@@ -34,5 +31,15 @@ public class BaseUITest extends BaseTest {
         Configuration.browserCapabilities.setCapability("selenoid:options",
                 Map.of("enableVNC", true, "enableLog", true)
         );
+    }
+
+    public void authAsUser(String username, String password) {
+        Selenide.open("/");
+        String userAuthHeader = RequestSpecs.getUserAuthHeader(username, password);
+        executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthHeader);
+    }
+
+    public void authAsUser(CreateUserRequest createUserRequest){
+        authAsUser(createUserRequest.getUsername(), createUserRequest.getPassword());
     }
 }

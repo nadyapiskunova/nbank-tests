@@ -1,14 +1,12 @@
 package iteration_1.ui;
 
-import com.codeborne.selenide.Condition;
 import api.models.CreateUserRequest;
-import org.junit.jupiter.api.Test;
 import api.requests.steps.AdminSteps;
+import com.codeborne.selenide.Condition;
+import org.junit.jupiter.api.Test;
 import ui.pages.AdminPanel;
 import ui.pages.LoginPage;
 import ui.pages.UserDashboard;
-
-import static com.codeborne.selenide.Selenide.$;
 
 public class LoginUserTest extends BaseUITest {
     @Test

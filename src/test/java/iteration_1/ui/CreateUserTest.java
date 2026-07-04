@@ -1,62 +1,31 @@
 package iteration_1.ui;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.Selectors;
-import com.codeborne.selenide.Selenide;
 import api.generators.RandomModelGenerator;
 import api.models.CreateUserRequest;
 import api.models.CreateUserResponse;
 import api.models.comparison.ModelAssertions;
-import org.apache.http.HttpStatus;
+import api.requests.steps.AdminSteps;
+import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Alert;
-import api.specs.RequestSpecs;
+import ui.pages.AdminPanel;
+import ui.pages.BankAlert;
 
-import java.util.Arrays;
-
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.switchTo;
-import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CreateUserTest extends BaseUITest {
     @Test
     public void adminCanCrateUserTest(){
-        // ШАГ 1: админ залогинился в банке
         CreateUserRequest admin = CreateUserRequest.getAdmin();
+        authAsUser(admin);
 
-
-        $(Selectors.byText("Admin Panel")).shouldBe(Condition.visible);
-
-        // ШАГ 2: админ создает юзера в банке
         CreateUserRequest newUser = RandomModelGenerator.generate(CreateUserRequest.class);
 
-        $(Selectors.byAttribute("placeholder", "Username")).sendKeys(newUser.getUsername());
-        $(Selectors.byAttribute("placeholder","Password")).sendKeys(newUser.getPassword());
-        $(Selectors.byText("Add User")).click();
-
-        // ШАГ 3: проверка, что алерт "✅ User created successfully!"
-        Alert alert = switchTo().alert();
-        assertEquals(alert.getText(), "✅ User created successfully!");
-        alert.accept();
-
-        // ШАГ 4: проверка, что юзер отображается на UI
-        ElementsCollection allUsersFromDashBoard = $(Selectors.byText("All Users")).parent().findAll("li");
-
-        allUsersFromDashBoard.findBy(Condition.exactText(newUser.getUsername() + "\nUSER")).shouldBe(Condition.visible);
-
-        // ШАГ 5: проверка, что юзер создан на API
-        CreateUserResponse[] users = given()
-                .spec(RequestSpecs.adminSpec())
-                .get("http://localhost:4111/api/v1/admin/users")
-                .then().assertThat()
-                .statusCode(HttpStatus.SC_OK)
-                .extract().as(CreateUserResponse[].class);
+        new AdminPanel().open().createUser(newUser.getUsername(), newUser.getPassword())
+                .checkAlertMessageAndAccept(BankAlert.USER_CREATED_SUCCESSFULLY.getMessage())
+                .getAllUsers().findBy(Condition.exactText(newUser.getUsername() + "\nUSER")).shouldBe(Condition.visible);
 
         CreateUserResponse createdUser =
-                Arrays.stream(users).filter(user -> user.getUsername().equals(newUser.getUsername()))
+              AdminSteps.getAllUsers().stream().filter(user -> user.getUsername().equals(newUser.getUsername()))
                 .findFirst().get();
 
         ModelAssertions.assertThatModels(newUser, createdUser).match();
@@ -64,44 +33,19 @@ public class CreateUserTest extends BaseUITest {
 
     @Test
     public void adminCannotCrateUserWithInvalidDataTest(){
-        // ШАГ 1: админ залогинился в банке
-        CreateUserRequest admin = CreateUserRequest.builder().username("admin").password("admin").build();
+        CreateUserRequest admin = CreateUserRequest.getAdmin();
 
-        Selenide.open("/login");
-        $(Selectors.byAttribute("placeholder", "Username")).sendKeys(admin.getUsername());
-        $(Selectors.byAttribute("placeholder","Password")).sendKeys(admin.getPassword());
-        $("button").click();
+        authAsUser(admin);
 
-        $(Selectors.byText("Admin Panel")).shouldBe(Condition.visible);
-
-        // ШАГ 2: админ создает юзера в банке
         CreateUserRequest newUser = RandomModelGenerator.generate(CreateUserRequest.class);
         newUser.setUsername("a");
 
-        $(Selectors.byAttribute("placeholder", "Username")).sendKeys(newUser.getUsername());
-        $(Selectors.byAttribute("placeholder","Password")).sendKeys(newUser.getPassword());
-        $(Selectors.byText("Add User")).click();
-
-        // ШАГ 3: проверка, что алерт
-        Alert alert = switchTo().alert();
-        assertThat(alert.getText()).contains("Username must be between 3 and 15 characters");
-        alert.accept();
-
-        // ШАГ 4: проверка, что юзер НЕ отображается на UI
-        ElementsCollection allUsersFromDashBoard = $(Selectors.byText("All Users")).parent().findAll("li");
-
-        allUsersFromDashBoard.findBy(Condition.exactText(newUser.getUsername() + "\nUSER")).shouldNotBe(Condition.exist);
-
-        // ШАГ 5: проверка, что юзер НЕ создан на API
-        CreateUserResponse[] users = given()
-                .spec(RequestSpecs.adminSpec())
-                .get("http://localhost:4111/api/v1/admin/users")
-                .then().assertThat()
-                .statusCode(HttpStatus.SC_OK)
-                .extract().as(CreateUserResponse[].class);
+       new AdminPanel().open().createUser(newUser.getUsername(), newUser.getPassword())
+               .checkAlertMessageAndAccept(BankAlert.USERNAME_MUST_BE_BETWEEN_3_AND_15_CHARACTERS.getMessage())
+               .getAllUsers().findBy(Condition.exactText(newUser.getUsername() + "\nUSER")).shouldNotBe(Condition.exist);
 
        long usersWithSameUsernameAsNewUser =
-                Arrays.stream(users).filter(user -> user.getUsername().equals(newUser.getUsername())).count();
+                AdminSteps.getAllUsers().stream().filter(user -> user.getUsername().equals(newUser.getUsername())).count();
 
         assertThat(usersWithSameUsernameAsNewUser).isZero();
     }

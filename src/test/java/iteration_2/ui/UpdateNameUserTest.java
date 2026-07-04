@@ -29,7 +29,8 @@ public class UpdateNameUserTest extends BaseTest{
 
         String userAuthHeader = new CrudRequester(
                 RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
+                Endpoint.LOGIN,
+                ResponseSpecs.requestReturnsOK())
                 .post(
                         LoginUserRequest.builder()
                                 .username(user.getUsername())
@@ -60,8 +61,8 @@ public class UpdateNameUserTest extends BaseTest{
         CustomerResponse updatedName =
                 new ValidatedCrudRequester<CustomerResponse>(
                         RequestSpecs.authAsUser(user.getUsername(), user.getPassword()),
-                        ResponseSpecs.requestReturnsOK(),
-                        Endpoint.CUSTOMER_PROFILE)
+                        Endpoint.CUSTOMER_PROFILE,
+                        ResponseSpecs.requestReturnsOK())
                         .get();
 
         softly.assertThat(updatedName.getName()).isEqualTo(name);
@@ -74,7 +75,8 @@ public class UpdateNameUserTest extends BaseTest{
 
         String userAuthHeader = new CrudRequester(
                 RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
+                Endpoint.LOGIN,
+                ResponseSpecs.requestReturnsOK())
                 .post(
                         LoginUserRequest.builder()
                                 .username(user.getUsername())

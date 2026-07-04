@@ -50,8 +50,8 @@ public class RequestSpecs {
 
         if(!authHeaders.containsKey(username)){
             userAuthHeader = new CrudRequester(
-                    RequestSpecs.unauthSpec(),
-                    ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
+                    RequestSpecs.unauthSpec(), Endpoint.LOGIN,
+                    ResponseSpecs.requestReturnsOK())
                     .post(LoginUserRequest.builder().username(username).password(password).build())
                     .extract()
                     .header("Authorization");
