@@ -1,22 +1,22 @@
 package iteration_2.api;
 
-import constans.ErrorMessages;
-import constans.Messages;
-import constans.TestConstants;
-import generators.RandomData;
-import models.*;
-import models.comparison.ModelAssertions;
+import api.constans.ErrorMessages;
+import api.constans.Messages;
+import api.constans.TestConstants;
+import api.generators.RandomData;
+import api.models.*;
+import api.models.comparison.ModelAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.skeleton.Endpoint;
-import requests.skeleton.requesters.CrudRequester;
-import requests.skeleton.requesters.ValidatedCrudRequester;
-import requests.steps.AdminSteps;
-import requests.steps.UserSteps;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
+import api.requests.skeleton.Endpoint;
+import api.requests.skeleton.requesters.CrudRequester;
+import api.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.requests.steps.AdminSteps;
+import api.requests.steps.UserSteps;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
 
 import java.math.BigDecimal;
 import java.util.List;

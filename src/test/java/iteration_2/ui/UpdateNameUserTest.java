@@ -2,24 +2,21 @@ package iteration_2.ui;
 
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.Selenide;
-import constans.TestConstants;
-import generators.RandomData;
-import models.CreateUserRequest;
-import models.CustomerResponse;
-import models.LoginUserRequest;
-import models.comparison.ModelAssertions;
+import api.generators.RandomData;
+import api.models.CreateUserRequest;
+import api.models.CustomerResponse;
+import api.models.LoginUserRequest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
-import requests.skeleton.Endpoint;
-import requests.skeleton.requesters.CrudRequester;
-import requests.skeleton.requesters.ValidatedCrudRequester;
-import requests.steps.AdminSteps;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
+import api.requests.skeleton.Endpoint;
+import api.requests.skeleton.requesters.CrudRequester;
+import api.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.requests.steps.AdminSteps;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
 
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Selenide.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

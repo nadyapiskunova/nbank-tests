@@ -4,14 +4,14 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.Selenide;
-import generators.RandomModelGenerator;
-import models.CreateUserRequest;
-import models.CreateUserResponse;
-import models.comparison.ModelAssertions;
+import api.generators.RandomModelGenerator;
+import api.models.CreateUserRequest;
+import api.models.CreateUserResponse;
+import api.models.comparison.ModelAssertions;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
-import specs.RequestSpecs;
+import api.specs.RequestSpecs;
 
 import java.util.Arrays;
 
@@ -21,16 +21,12 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CreateUserTest extends BaseTest {
+public class CreateUserTest extends BaseUITest {
     @Test
     public void adminCanCrateUserTest(){
         // ШАГ 1: админ залогинился в банке
-        CreateUserRequest admin = CreateUserRequest.builder().username("admin").password("admin").build();
+        CreateUserRequest admin = CreateUserRequest.getAdmin();
 
-        Selenide.open("/login");
-        $(Selectors.byAttribute("placeholder", "Username")).sendKeys(admin.getUsername());
-        $(Selectors.byAttribute("placeholder","Password")).sendKeys(admin.getPassword());
-        $("button").click();
 
         $(Selectors.byText("Admin Panel")).shouldBe(Condition.visible);
 

@@ -2,16 +2,16 @@ package iteration_1.ui;
 
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.Selenide;
-import models.AccountResponse;
-import models.CreateUserRequest;
-import models.LoginUserRequest;
+import api.models.AccountResponse;
+import api.models.CreateUserRequest;
+import api.models.LoginUserRequest;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
-import requests.skeleton.Endpoint;
-import requests.skeleton.requesters.CrudRequester;
-import requests.steps.AdminSteps;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
+import api.requests.skeleton.Endpoint;
+import api.requests.skeleton.requesters.CrudRequester;
+import api.requests.steps.AdminSteps;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,7 +20,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class CreateAccountTest extends BaseTest {
+public class CreateAccountTest extends BaseUITest {
     @Test
     public void userCanCreateAccountTest(){
         // шаги по настройке окружения
