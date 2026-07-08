@@ -12,7 +12,7 @@ import io.restassured.common.mapper.TypeRef;
 import java.util.List;
 
 public class UserSteps {
-    private UserSteps(){};
+    private UserSteps(){}
 
     public static AccountResponse createAccount(CreateUserRequest userRequest){
         return new ValidatedCrudRequester<AccountResponse>(
