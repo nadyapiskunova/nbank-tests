@@ -1,12 +1,12 @@
 package common.extensions;
 
 import api.models.CreateUserRequest;
+import api.requests.steps.AdminSteps;
 import common.annotations.UserSession;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import storage.SessionStorage;
 import ui.pages.BasePage;
-import ui.steps.UiAdminSteps;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class UserSessionExtension implements BeforeEachCallback {
             List<CreateUserRequest> users = new LinkedList<>();
 
             for(int i = 0; i < userCount; i++) {
-                CreateUserRequest user = UiAdminSteps.createUser();
+                CreateUserRequest user = AdminSteps.createUser();
                 users.add(user);
             }
 

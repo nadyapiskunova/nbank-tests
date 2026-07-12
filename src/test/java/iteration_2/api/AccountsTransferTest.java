@@ -6,17 +6,18 @@ import api.constans.TestConstants;
 import api.generators.RandomData;
 import api.models.*;
 import api.models.comparison.ModelAssertions;
+import api.requests.skeleton.Endpoint;
+import api.requests.skeleton.requesters.CrudRequester;
+import api.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.requests.steps.UserSteps;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
+import common.annotations.UserSession;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import api.requests.skeleton.Endpoint;
-import api.requests.skeleton.requesters.CrudRequester;
-import api.requests.skeleton.requesters.ValidatedCrudRequester;
-import api.requests.steps.AdminSteps;
-import api.requests.steps.UserSteps;
-import api.specs.RequestSpecs;
-import api.specs.ResponseSpecs;
+import storage.SessionStorage;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -42,20 +43,20 @@ public class AccountsTransferTest extends BaseTest {
                 Arguments.of(TestConstants.ABOVE_MAX_TRANSFER_AMOUNT, ErrorMessages.TRANSFER_AMOUNT_MAX)
         );
     }
-
     @MethodSource("validTransferAmounts")
     @ParameterizedTest
+    @UserSession
     public void userCanTransferBetweenTheirAccountWithValidDataTest(Double amount) {
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        CreateUserRequest user = SessionStorage.getUser();
+        UserSteps userSteps = SessionStorage.getSteps();
 
-        AccountResponse firstAccount = UserSteps.createAccount(userRequest);
+        AccountResponse firstAccount = userSteps.createAccount();
         Integer firstAccountId = firstAccount.getId();
 
-        AccountResponse secondAccount = UserSteps.createAccount(userRequest);
+        AccountResponse secondAccount = userSteps.createAccount();
         Integer secondAccountId = secondAccount.getId();
 
-        repeat(2, () -> UserSteps.deposit(
-                userRequest,
+        repeat(2, () -> userSteps.deposit(
                 firstAccountId,
                 TestConstants.MAX_DEPOSIT_AMOUNT
         ));
@@ -66,7 +67,7 @@ public class AccountsTransferTest extends BaseTest {
                 .amount(amount)
                 .build();
         TransferResponse transferToSecondAccountId = new ValidatedCrudRequester<TransferResponse>(
-                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                RequestSpecs.authAsUser(user.getUsername(), user.getPassword()),
                 Endpoint.TRANSFER,
                 ResponseSpecs.requestReturnsOK())
                 .post(transferToSecondAccountIdRequest);
@@ -82,7 +83,7 @@ public class AccountsTransferTest extends BaseTest {
                 .subtract(BigDecimal.valueOf(amount));
         BigDecimal expectedReceiverBalance = BigDecimal.valueOf(amount);
 
-        List<AccountResponse> accountsAfterTransfer = UserSteps.getAccounts(userRequest);
+        List<AccountResponse> accountsAfterTransfer = userSteps.getAllAccounts();
 
         AccountResponse senderAccount = accountsAfterTransfer.stream()
                 .filter(account -> account.getId().equals(firstAccountId))
@@ -111,19 +112,20 @@ public class AccountsTransferTest extends BaseTest {
 
     @MethodSource("validTransferAmounts")
     @ParameterizedTest
+    @UserSession(2)
     public void userCanTransferToExternalAccountWithValidDataTest(Double amount) {
-        CreateUserRequest firstUserRequest = AdminSteps.createUser(createdUserIds);
+        CreateUserRequest firstUser = SessionStorage.getUser(1);
 
-        CreateUserRequest secondUserRequest = AdminSteps.createUser(createdUserIds);
+        UserSteps firstUserSteps = SessionStorage.getSteps(1);
+        UserSteps secondUserSteps = SessionStorage.getSteps(2);
 
-        AccountResponse createdAccountForFirstUser = UserSteps.createAccount(firstUserRequest);
+        AccountResponse createdAccountForFirstUser = firstUserSteps.createAccount();
         Integer accountIdByFirstUser = createdAccountForFirstUser.getId();
 
-        AccountResponse createdAccountForSecondUser = UserSteps.createAccount(secondUserRequest);
+        AccountResponse createdAccountForSecondUser = secondUserSteps.createAccount();
         Integer accountIdBySecondUser = createdAccountForSecondUser.getId();
 
-        repeat(2, () -> UserSteps.deposit(
-                firstUserRequest,
+        repeat(2, () -> firstUserSteps.deposit(
                 accountIdByFirstUser,
                 TestConstants.MAX_DEPOSIT_AMOUNT
         ));
@@ -134,7 +136,7 @@ public class AccountsTransferTest extends BaseTest {
                 .amount(amount)
                 .build();
         TransferResponse transferToSecondAccountId = new ValidatedCrudRequester<TransferResponse>(
-                RequestSpecs.authAsUser(firstUserRequest.getUsername(), firstUserRequest.getPassword()),
+                RequestSpecs.authAsUser(firstUser.getUsername(), firstUser.getPassword()),
                 Endpoint.TRANSFER,
                 ResponseSpecs.requestReturnsOK())
                 .post(transferToSecondUser);
@@ -145,7 +147,7 @@ public class AccountsTransferTest extends BaseTest {
         BigDecimal expectedSenderBalance = BigDecimal.valueOf(expectedBalance).subtract(BigDecimal.valueOf(amount));
         BigDecimal expectedReceiverBalance = BigDecimal.valueOf(amount);
 
-        List<AccountResponse> accountsByFirstUserAfterTransfer = UserSteps.getAccounts(firstUserRequest);
+        List<AccountResponse> accountsByFirstUserAfterTransfer = firstUserSteps.getAllAccounts();
 
         AccountResponse firstUserAccount = accountsByFirstUserAfterTransfer.stream()
                 .filter(account -> account.getId().equals(accountIdByFirstUser))
@@ -159,7 +161,7 @@ public class AccountsTransferTest extends BaseTest {
                 .extracting(TransactionResponse::getType)
                 .contains(TransactionType.TRANSFER_OUT);
 
-        List<AccountResponse> accountsBySecondUserAfterTransfer = UserSteps.getAccounts(secondUserRequest);
+        List<AccountResponse> accountsBySecondUserAfterTransfer = secondUserSteps.getAllAccounts();
         AccountResponse secondUserAccount = accountsBySecondUserAfterTransfer.stream()
                 .filter(account -> account.getId().equals(accountIdBySecondUser))
                 .findFirst()
@@ -175,16 +177,18 @@ public class AccountsTransferTest extends BaseTest {
 
     @MethodSource("invalidTransferAmounts")
     @ParameterizedTest
+    @UserSession
     public void userCannotTransferBetweenTheirAccountWithInvalidDataTest(Double amount, String errorValue) {
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        CreateUserRequest user = SessionStorage.getUser();
+        UserSteps userSteps = SessionStorage.getSteps();
 
-        AccountResponse firstAccount = UserSteps.createAccount(userRequest);
+        AccountResponse firstAccount = userSteps.createAccount();
         Integer firstAccountId = firstAccount.getId();
 
-        AccountResponse secondAccount = UserSteps.createAccount(userRequest);
+        AccountResponse secondAccount = userSteps.createAccount();
         Integer secondAccountId = secondAccount.getId();
 
-        repeat(3, () -> UserSteps.deposit(userRequest, firstAccountId, TestConstants.MAX_DEPOSIT_AMOUNT));
+        repeat(3, () -> userSteps.deposit(firstAccountId, TestConstants.MAX_DEPOSIT_AMOUNT));
 
         TransferRequest transferToSecondAccountIdRequest = TransferRequest.builder()
                 .senderAccountId(firstAccountId)
@@ -193,12 +197,12 @@ public class AccountsTransferTest extends BaseTest {
                 .build();
 
         new CrudRequester(
-                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                RequestSpecs.authAsUser(user.getUsername(), user.getPassword()),
                 Endpoint.TRANSFER,
                 ResponseSpecs.requestReturnsBadRequest(errorValue))
                 .post(transferToSecondAccountIdRequest);
 
-        List<AccountResponse> accountsAfterFailedTransfer = UserSteps.getAccounts(userRequest);
+        List<AccountResponse> accountsAfterFailedTransfer = userSteps.getAllAccounts();
 
         AccountResponse senderAccount = accountsAfterFailedTransfer.stream()
                 .filter(account -> account.getId().equals(firstAccountId))
@@ -226,19 +230,20 @@ public class AccountsTransferTest extends BaseTest {
 
     @MethodSource("invalidTransferAmounts")
     @ParameterizedTest
+    @UserSession(2)
     public void userCannotTransferToExternalAccountWithInvalidDataTest(Double amount, String errorValue) {
-        CreateUserRequest firstUserRequest = AdminSteps.createUser(createdUserIds);
+        CreateUserRequest firstUser = SessionStorage.getUser(1);
 
-        CreateUserRequest secondUserRequest = AdminSteps.createUser(createdUserIds);
+        UserSteps firstUserSteps = SessionStorage.getSteps(1);
+        UserSteps secondUserSteps = SessionStorage.getSteps(2);
 
-        AccountResponse createdAccountForFirstUser = UserSteps.createAccount(firstUserRequest);
+        AccountResponse createdAccountForFirstUser = firstUserSteps.createAccount();
         Integer accountIdByFirstUser = createdAccountForFirstUser.getId();
 
-        AccountResponse createdAccountForSecondUser = UserSteps.createAccount(secondUserRequest);
+        AccountResponse createdAccountForSecondUser = secondUserSteps.createAccount();
         Integer accountIdBySecondUser = createdAccountForSecondUser.getId();
 
-        repeat(3, () -> UserSteps.deposit(
-                firstUserRequest,
+        repeat(3, () -> firstUserSteps.deposit(
                 accountIdByFirstUser,
                 TestConstants.MAX_DEPOSIT_AMOUNT));
 
@@ -248,14 +253,14 @@ public class AccountsTransferTest extends BaseTest {
                 .amount(amount)
                 .build();
          new CrudRequester(
-                RequestSpecs.authAsUser(firstUserRequest.getUsername(), firstUserRequest.getPassword()),
+                RequestSpecs.authAsUser(firstUser.getUsername(), firstUser.getPassword()),
                  Endpoint.TRANSFER,
                 ResponseSpecs.requestReturnsBadRequest(errorValue))
                 .post(transferToSecondUser);
 
         double expectedBalance = TestConstants.MAX_DEPOSIT_AMOUNT * 3;
 
-        List<AccountResponse> accountsByFirstUserAfterFailedTransfer = UserSteps.getAccounts(firstUserRequest);
+        List<AccountResponse> accountsByFirstUserAfterFailedTransfer = firstUserSteps.getAllAccounts();
 
         AccountResponse firstUserAccountAfterFailedTransfer =
                 accountsByFirstUserAfterFailedTransfer.stream()
@@ -270,7 +275,7 @@ public class AccountsTransferTest extends BaseTest {
                 .extracting(TransactionResponse::getType)
                 .doesNotContain(TransactionType.TRANSFER_OUT);
 
-        List<AccountResponse> accountsBySecondUserAfterFailedTransfer = UserSteps.getAccounts(secondUserRequest);
+        List<AccountResponse> accountsBySecondUserAfterFailedTransfer = secondUserSteps.getAllAccounts();
         AccountResponse secondUserAccountAfterFailedTransfer =
                 accountsBySecondUserAfterFailedTransfer.stream()
                         .filter(account -> account.getId().equals(accountIdBySecondUser))
@@ -286,17 +291,19 @@ public class AccountsTransferTest extends BaseTest {
     }
 
     @Test
+    @UserSession
     public void userCannotTransferAmountExceedingBalanceBetweenTheirAccountTest(){
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        CreateUserRequest user = SessionStorage.getUser();
+        UserSteps userSteps = SessionStorage.getSteps();
 
-        AccountResponse firstAccount = UserSteps.createAccount(userRequest);
+        AccountResponse firstAccount = userSteps.createAccount();
         Integer firstAccountId = firstAccount.getId();
 
-        AccountResponse secondAccount = UserSteps.createAccount(userRequest);
+        AccountResponse secondAccount = userSteps.createAccount();
         Integer secondAccountId = secondAccount.getId();
 
         double depositAmount = RandomData.getSmallDepositAmount();
-        UserSteps.deposit(userRequest, firstAccountId, depositAmount);
+        userSteps.deposit(firstAccountId, depositAmount);
 
         double transferAmount = RandomData.getAmountGreaterThan(depositAmount);
 
@@ -307,12 +314,12 @@ public class AccountsTransferTest extends BaseTest {
                 .build();
 
         new CrudRequester(
-                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                RequestSpecs.authAsUser(user.getUsername(), user.getPassword()),
                 Endpoint.TRANSFER,
                 ResponseSpecs.requestReturnsBadRequest(ErrorMessages.INVALID_TRANSFER))
                 .post(transferToSecondAccountIdRequest);
 
-        List<AccountResponse> accountsAfterFailedTransfer = UserSteps.getAccounts(userRequest);
+        List<AccountResponse> accountsAfterFailedTransfer = userSteps.getAllAccounts();
 
         AccountResponse senderAccount = accountsAfterFailedTransfer.stream()
                 .filter(account -> account.getId().equals(firstAccountId))
@@ -340,19 +347,21 @@ public class AccountsTransferTest extends BaseTest {
     }
 
     @Test
+    @UserSession(2)
     public void userCannotTransferAmountExceedingBalanceToExternalAccountTest(){
-        CreateUserRequest firstUserRequest = AdminSteps.createUser(createdUserIds);
+        CreateUserRequest firstUser = SessionStorage.getUser(1);
 
-        CreateUserRequest secondUserRequest = AdminSteps.createUser(createdUserIds);
+        UserSteps firstUserSteps = SessionStorage.getSteps(1);
+        UserSteps secondUserSteps = SessionStorage.getSteps(2);
 
-        AccountResponse createdAccountForFirstUser = UserSteps.createAccount(firstUserRequest);
+        AccountResponse createdAccountForFirstUser = firstUserSteps.createAccount();
         Integer accountIdByFirstUser = createdAccountForFirstUser.getId();
 
-        AccountResponse createdAccountForSecondUser = UserSteps.createAccount(secondUserRequest);
+        AccountResponse createdAccountForSecondUser = secondUserSteps.createAccount();
         Integer accountIdBySecondUser = createdAccountForSecondUser.getId();
 
         double depositAmount = RandomData.getSmallDepositAmount();
-        UserSteps.deposit(firstUserRequest, accountIdByFirstUser, depositAmount);
+        firstUserSteps.deposit(accountIdByFirstUser, depositAmount);
 
         double transferAmount = RandomData.getAmountGreaterThan(depositAmount);
 
@@ -362,12 +371,12 @@ public class AccountsTransferTest extends BaseTest {
                 .amount(transferAmount)
                 .build();
         new CrudRequester(
-                RequestSpecs.authAsUser(firstUserRequest.getUsername(), firstUserRequest.getPassword()),
+                RequestSpecs.authAsUser(firstUser.getUsername(), firstUser.getPassword()),
                 Endpoint.TRANSFER,
                 ResponseSpecs.requestReturnsBadRequest(ErrorMessages.INVALID_TRANSFER))
                 .post(transferToSecondUser);
 
-        List<AccountResponse> accountsByFirstUserAfterFailedTransfer =UserSteps.getAccounts(firstUserRequest);
+        List<AccountResponse> accountsByFirstUserAfterFailedTransfer = firstUserSteps.getAllAccounts();
 
         AccountResponse firstUserAccountAfterFailedTransfer =
                 accountsByFirstUserAfterFailedTransfer.stream()
@@ -382,7 +391,7 @@ public class AccountsTransferTest extends BaseTest {
                 .extracting(TransactionResponse::getType)
                 .doesNotContain(TransactionType.TRANSFER_OUT);
 
-        List<AccountResponse> accountsBySecondUserAfterFailedTransfer = UserSteps.getAccounts(secondUserRequest);
+        List<AccountResponse> accountsBySecondUserAfterFailedTransfer = secondUserSteps.getAllAccounts();
 
         AccountResponse secondUserAccountAfterFailedTransfer =
                 accountsBySecondUserAfterFailedTransfer.stream()
@@ -399,17 +408,18 @@ public class AccountsTransferTest extends BaseTest {
     }
 
     @Test
+    @UserSession
     public void adminCannotTransferBetweenUserAccountsTest(){
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        UserSteps userSteps = SessionStorage.getSteps();
 
-        AccountResponse firstAccount = UserSteps.createAccount(userRequest);
+        AccountResponse firstAccount = userSteps.createAccount();
         Integer firstAccountId = firstAccount.getId();
 
-        AccountResponse secondAccount = UserSteps.createAccount(userRequest);
+        AccountResponse secondAccount = userSteps.createAccount();
         Integer secondAccountId = secondAccount.getId();
 
         double depositAmount = RandomData.getSmallDepositAmount();
-        UserSteps.deposit(userRequest, firstAccountId, depositAmount);
+        userSteps.deposit(firstAccountId, depositAmount);
 
         TransferRequest transferToSecondAccountIdRequest = TransferRequest.builder()
                 .senderAccountId(firstAccountId)
@@ -422,7 +432,7 @@ public class AccountsTransferTest extends BaseTest {
                 ResponseSpecs.requestReturnsForbidden())
                 .post(transferToSecondAccountIdRequest);
 
-        List<AccountResponse> accountsAfterFailedTransfer = UserSteps.getAccounts(userRequest);
+        List<AccountResponse> accountsAfterFailedTransfer = userSteps.getAllAccounts();
 
         AccountResponse senderAccount = accountsAfterFailedTransfer.stream()
                 .filter(account -> account.getId().equals(firstAccountId))
@@ -450,20 +460,20 @@ public class AccountsTransferTest extends BaseTest {
     }
 
     @Test
+    @UserSession(2)
     public void adminCannotTransferFromUserAccountToAnotherUsersAccountTest(){
-        CreateUserRequest firstUserRequest = AdminSteps.createUser(createdUserIds);
+        UserSteps firstUserSteps = SessionStorage.getSteps(1);
+        UserSteps secondUserSteps = SessionStorage.getSteps(2);
 
-        CreateUserRequest secondUserRequest = AdminSteps.createUser(createdUserIds);
-
-        AccountResponse createdAccountForFirstUser = UserSteps.createAccount(firstUserRequest);
+        AccountResponse createdAccountForFirstUser = firstUserSteps.createAccount();
         Integer accountIdByFirstUser = createdAccountForFirstUser.getId();
 
-        AccountResponse createdAccountForSecondUser = UserSteps.createAccount(secondUserRequest);
+        AccountResponse createdAccountForSecondUser = secondUserSteps.createAccount();
         Integer accountIdBySecondUser = createdAccountForSecondUser.getId();
 
         double depositAmount = RandomData.getSmallDepositAmount();
 
-        UserSteps.deposit(firstUserRequest, accountIdByFirstUser, depositAmount);
+        firstUserSteps.deposit(accountIdByFirstUser, depositAmount);
 
         TransferRequest transferToSecondUser = TransferRequest.builder()
                 .senderAccountId(accountIdByFirstUser)
@@ -476,7 +486,7 @@ public class AccountsTransferTest extends BaseTest {
                 ResponseSpecs.requestReturnsForbidden())
                 .post(transferToSecondUser);
 
-        List<AccountResponse> accountsByFirstUserAfterFailedTransfer = UserSteps.getAccounts(firstUserRequest);
+        List<AccountResponse> accountsByFirstUserAfterFailedTransfer = firstUserSteps.getAllAccounts();
 
         AccountResponse firstUserAccountAfterFailedTransfer =
                 accountsByFirstUserAfterFailedTransfer.stream()
@@ -491,7 +501,7 @@ public class AccountsTransferTest extends BaseTest {
                 .extracting(TransactionResponse::getType)
                 .doesNotContain(TransactionType.TRANSFER_OUT);
 
-        List<AccountResponse> accountsBySecondUserAfterFailedTransfer = UserSteps.getAccounts(secondUserRequest);
+        List<AccountResponse> accountsBySecondUserAfterFailedTransfer = secondUserSteps.getAllAccounts();
 
         AccountResponse secondUserAccountAfterFailedTransfer =
                 accountsBySecondUserAfterFailedTransfer.stream()
@@ -508,17 +518,18 @@ public class AccountsTransferTest extends BaseTest {
     }
 
     @Test
+    @UserSession
     public void unauthorizedUserCannotTransferBetweenOwnAccountsTest(){
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        UserSteps userSteps = SessionStorage.getSteps();
 
-        AccountResponse firstAccount = UserSteps.createAccount(userRequest);
+        AccountResponse firstAccount = userSteps.createAccount();
         Integer firstAccountId = firstAccount.getId();
 
-        AccountResponse secondAccount = UserSteps.createAccount(userRequest);
+        AccountResponse secondAccount = userSteps.createAccount();
         Integer secondAccountId = secondAccount.getId();
 
         double depositAmount = RandomData.getSmallDepositAmount();
-        UserSteps.deposit(userRequest, firstAccountId, depositAmount);
+        userSteps.deposit(firstAccountId, depositAmount);
 
         TransferRequest transferToSecondAccountIdRequest = TransferRequest.builder()
                 .senderAccountId(firstAccountId)
@@ -531,7 +542,7 @@ public class AccountsTransferTest extends BaseTest {
                 ResponseSpecs.requestReturnsUnauthorized())
                 .post(transferToSecondAccountIdRequest);
 
-        List<AccountResponse> accountsAfterFailedTransfer = UserSteps.getAccounts(userRequest);
+        List<AccountResponse> accountsAfterFailedTransfer = userSteps.getAllAccounts();
 
         AccountResponse senderAccount = accountsAfterFailedTransfer.stream()
                 .filter(account -> account.getId().equals(firstAccountId))
@@ -559,14 +570,16 @@ public class AccountsTransferTest extends BaseTest {
     }
 
     @Test
+    @UserSession
     public void userCannotTransferToNonExistentAccountTest(){
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        CreateUserRequest user = SessionStorage.getUser();
+        UserSteps userSteps = SessionStorage.getSteps();
 
-        AccountResponse firstAccount = UserSteps.createAccount(userRequest);
+        AccountResponse firstAccount = userSteps.createAccount();
         Integer firstAccountId = firstAccount.getId();
 
         double depositAmount = RandomData.getSmallDepositAmount();
-        UserSteps.deposit(userRequest, firstAccountId, depositAmount);
+        userSteps.deposit(firstAccountId, depositAmount);
 
         TransferRequest transferToSecondAccountIdRequest = TransferRequest.builder()
                 .senderAccountId(firstAccountId)
@@ -574,12 +587,12 @@ public class AccountsTransferTest extends BaseTest {
                 .amount(depositAmount)
                 .build();
         new CrudRequester(
-                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                RequestSpecs.authAsUser(user.getUsername(), user.getPassword()),
                 Endpoint.TRANSFER,
                 ResponseSpecs.requestReturnsBadRequest(ErrorMessages.INVALID_TRANSFER))
                 .post(transferToSecondAccountIdRequest);
 
-        List<AccountResponse> accountsAfterFailedTransfer = UserSteps.getAccounts(userRequest);
+        List<AccountResponse> accountsAfterFailedTransfer = userSteps.getAllAccounts();
 
         AccountResponse senderAccount = accountsAfterFailedTransfer.stream()
                 .filter(account -> account.getId().equals(firstAccountId))
@@ -595,11 +608,13 @@ public class AccountsTransferTest extends BaseTest {
     }
 
     @Test
+    @UserSession
     public void userCannotTransferFromNonExistentAccountTest() {
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        CreateUserRequest user = SessionStorage.getUser();
+        UserSteps userSteps = SessionStorage.getSteps();
 
-        AccountResponse account = UserSteps.createAccount(userRequest);
-        Integer accountId = account.getId();
+        AccountResponse firstAccount = userSteps.createAccount();
+        Integer accountId = firstAccount.getId();
 
         double transferAmount = RandomData.getValidDepositAmount();
 
@@ -610,12 +625,12 @@ public class AccountsTransferTest extends BaseTest {
                 .build();
 
         new CrudRequester(
-                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                RequestSpecs.authAsUser(user.getUsername(), user.getPassword()),
                 Endpoint.TRANSFER,
                 ResponseSpecs.requestReturnsForbidden())
                 .post(transferToAccountRequest);
 
-        List<AccountResponse> accountsAfterFailedTransfer = UserSteps.getAccounts(userRequest);
+        List<AccountResponse> accountsAfterFailedTransfer = userSteps.getAllAccounts();
 
         AccountResponse receiverAccount = accountsAfterFailedTransfer.stream()
                 .filter(accountResponse -> accountResponse.getId().equals(accountId))

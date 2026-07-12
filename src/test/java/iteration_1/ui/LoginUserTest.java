@@ -21,7 +21,7 @@ public class LoginUserTest extends BaseUITest {
 
     @Test
     public void userCanLoginWithCorrectDataTest(){
-        CreateUserRequest user = AdminSteps.createUser(createdUserIds);
+        CreateUserRequest user = AdminSteps.createUser();
 
         new LoginPage()
                 .open()

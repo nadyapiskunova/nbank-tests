@@ -12,19 +12,15 @@ import java.util.List;
 
 public class AdminSteps {
 
-    public static CreateUserRequest createUser(List<Integer> createdUserIds) {
+    public static CreateUserRequest createUser() {
         CreateUserRequest userRequest =
                 RandomModelGenerator.generate(CreateUserRequest.class);
 
-        CreateUserResponse userResponse =
                 new ValidatedCrudRequester<CreateUserResponse>(
                         RequestSpecs.adminSpec(),
                         Endpoint.ADMIN_USER,
                         ResponseSpecs.entityWasCreated())
                         .post(userRequest);
-
-        createdUserIds.add(userResponse.getId());
-
         return userRequest;
     }
 

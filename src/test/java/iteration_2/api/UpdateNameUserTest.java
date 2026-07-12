@@ -6,16 +6,17 @@ import api.models.CreateUserRequest;
 import api.models.CustomerResponse;
 import api.models.UpdateProfileRequest;
 import api.models.comparison.ModelAssertions;
+import api.requests.skeleton.Endpoint;
+import api.requests.skeleton.requesters.CrudRequester;
+import api.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
+import common.annotations.UserSession;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import api.requests.skeleton.Endpoint;
-import api.requests.skeleton.requesters.CrudRequester;
-import api.requests.skeleton.requesters.ValidatedCrudRequester;
-import api.requests.steps.AdminSteps;
-import api.specs.RequestSpecs;
-import api.specs.ResponseSpecs;
+import storage.SessionStorage;
 
 import java.util.stream.Stream;
 
@@ -32,31 +33,32 @@ public class UpdateNameUserTest extends BaseTest {
     }
     @MethodSource("dataForUserCanUpdateNameWithValidDataTest")
     @ParameterizedTest
+    @UserSession
     public void userCanUpdateNameWithValidDataTest(String name) {
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        CreateUserRequest user = SessionStorage.getUser();
 
         UpdateProfileRequest updateName = UpdateProfileRequest.builder()
                 .name(name)
                 .build();
         new CrudRequester(
-                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                RequestSpecs.authAsUser(user.getUsername(), user.getPassword()),
                 Endpoint.UPDATE_CUSTOMER_PROFILE,
                 ResponseSpecs.requestReturnsOK())
                 .update(updateName);
 
         CustomerResponse updatedName =
                 new ValidatedCrudRequester<CustomerResponse>(
-                        RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                        RequestSpecs.authAsUser(user.getUsername(), user.getPassword()),
                         Endpoint.CUSTOMER_PROFILE,
                         ResponseSpecs.requestReturnsOK())
                         .get();
-
         ModelAssertions.assertThatModels(updateName, updatedName).match();
     }
 
     @Test
+    @UserSession
     public void unauthorizedUserCannotUpdateNameTest() {
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        CreateUserRequest user = SessionStorage.getUser();
 
         UpdateProfileRequest updateName = UpdateProfileRequest.builder()
                 .name(RandomData.getValidName())
@@ -69,7 +71,7 @@ public class UpdateNameUserTest extends BaseTest {
 
         CustomerResponse updatedName =
                 new ValidatedCrudRequester<CustomerResponse>(
-                        RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                        RequestSpecs.authAsUser(user.getUsername(), user.getPassword()),
                         Endpoint.CUSTOMER_PROFILE,
                         ResponseSpecs.requestReturnsOK())
                         .get();
@@ -88,20 +90,21 @@ public class UpdateNameUserTest extends BaseTest {
     }
     @MethodSource("dataForUserCannotUpdateNameWithInvalidDataTest")
     @ParameterizedTest
+    @UserSession
     public void userCannotUpdateNameWithInValidDataTest(String name, String errorValue) {
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        CreateUserRequest user = SessionStorage.getUser();
 
         UpdateProfileRequest updateName = UpdateProfileRequest.builder()
                 .name(name)
                 .build();
 
-        new CrudRequester(RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+        new CrudRequester(RequestSpecs.authAsUser(user.getUsername(), user.getPassword()),
                 Endpoint.UPDATE_CUSTOMER_PROFILE,
                 ResponseSpecs.requestReturnsBadRequest(errorValue))
                 .update(updateName);
 
         CustomerResponse updatedName = new ValidatedCrudRequester<CustomerResponse>(
-                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                RequestSpecs.authAsUser(user.getUsername(), user.getPassword()),
                 Endpoint.CUSTOMER_PROFILE,
                 ResponseSpecs.requestReturnsOK())
                 .get();

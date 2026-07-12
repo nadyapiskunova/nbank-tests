@@ -8,17 +8,18 @@ import api.models.CreateUserRequest;
 import api.models.DepositRequest;
 import api.models.TransactionResponse;
 import api.models.comparison.ModelAssertions;
+import api.requests.skeleton.Endpoint;
+import api.requests.skeleton.requesters.CrudRequester;
+import api.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.requests.steps.UserSteps;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
+import common.annotations.UserSession;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import api.requests.skeleton.Endpoint;
-import api.requests.skeleton.requesters.CrudRequester;
-import api.requests.skeleton.requesters.ValidatedCrudRequester;
-import api.requests.steps.AdminSteps;
-import api.requests.steps.UserSteps;
-import api.specs.RequestSpecs;
-import api.specs.ResponseSpecs;
+import storage.SessionStorage;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -33,12 +34,15 @@ public class AccountsDepositTest extends BaseTest {
                 Arguments.of(TestConstants.MAX_DEPOSIT_AMOUNT)
         );
     }
+
     @MethodSource("validDataForUserCanDepositWithValidDataTest")
     @ParameterizedTest
+    @UserSession
     public void userCanDepositWithValidDataTest(Double amount) {
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        UserSteps userSteps = SessionStorage.getSteps();
+        CreateUserRequest user = SessionStorage.getUser();
 
-        AccountResponse account = UserSteps.createAccount(userRequest);
+        AccountResponse account = userSteps.createAccount();
         Integer accountId = account.getId();
 
         DepositRequest depositRequest = DepositRequest.builder()
@@ -46,7 +50,7 @@ public class AccountsDepositTest extends BaseTest {
                 .balance(amount)
                 .build();
         AccountResponse depositedAccount = new ValidatedCrudRequester<AccountResponse>(
-                RequestSpecs.authAsUser(userRequest.getUsername(),userRequest.getPassword()),
+                RequestSpecs.authAsUser(user.getUsername(), user.getPassword()),
                 Endpoint.DEPOSIT,
                 ResponseSpecs.requestReturnsOK())
                 .post(depositRequest);
@@ -66,12 +70,15 @@ public class AccountsDepositTest extends BaseTest {
                 Arguments.of(TestConstants.ABOVE_MAX_DEPOSIT_AMOUNT, ErrorMessages.DEPOSIT_AMOUNT_MAX)
         );
     }
+
     @MethodSource("dataForUserCannotDepositWithInvalidAmountTest")
     @ParameterizedTest
+    @UserSession
     public void userCannotDepositWithInvalidAmountTest(Double amount, String errorValue) {
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        UserSteps userSteps = SessionStorage.getSteps();
 
-        AccountResponse account = UserSteps.createAccount(userRequest);
+        CreateUserRequest user = SessionStorage.getUser();
+        AccountResponse account = userSteps.createAccount();
         Integer accountId = account.getId();
 
         DepositRequest depositRequest = DepositRequest.builder()
@@ -79,12 +86,12 @@ public class AccountsDepositTest extends BaseTest {
                 .balance(amount)
                 .build();
         new CrudRequester(
-                RequestSpecs.authAsUser(userRequest.getUsername(),userRequest.getPassword()),
+                RequestSpecs.authAsUser(user.getUsername(),user.getPassword()),
                 Endpoint.DEPOSIT,
-                ResponseSpecs.requestReturnsBadRequest())
+                ResponseSpecs.requestReturnsBadRequest(errorValue))
                 .post(depositRequest);
 
-        List<AccountResponse> accountsAfterFailedDeposit = UserSteps.getAccounts(userRequest);
+        List<AccountResponse> accountsAfterFailedDeposit = userSteps.getAllAccounts();
         AccountResponse accountAfterFailedDeposit = accountsAfterFailedDeposit.get(0);
 
         softly.assertThat(accountAfterFailedDeposit.getBalance()).isEqualTo(0.0);
@@ -92,10 +99,11 @@ public class AccountsDepositTest extends BaseTest {
     }
 
     @Test
+    @UserSession
     public void adminCannotDepositToUserAccountTest() {
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        UserSteps userSteps = SessionStorage.getSteps();
 
-        AccountResponse account = UserSteps.createAccount(userRequest);
+        AccountResponse account = userSteps.createAccount();
         Integer accountId = account.getId();
 
         DepositRequest adminDeposit = DepositRequest.builder()
@@ -108,7 +116,7 @@ public class AccountsDepositTest extends BaseTest {
                 ResponseSpecs.requestReturnsForbidden())
                 .post(adminDeposit);
 
-        List<AccountResponse> accountsAfterFailedDeposit = UserSteps.getAccounts(userRequest);
+        List<AccountResponse> accountsAfterFailedDeposit = userSteps.getAllAccounts();
         AccountResponse accountAfterFailedDeposit = accountsAfterFailedDeposit.get(0);
 
         softly.assertThat(accountAfterFailedDeposit.getBalance()).isEqualTo(0.0);
@@ -116,22 +124,24 @@ public class AccountsDepositTest extends BaseTest {
     }
 
     @Test
+    @UserSession
     public void authorizedUserCannotDepositToNonExistentAccountTest(){
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        UserSteps userSteps = SessionStorage.getSteps();
 
-        UserSteps.createAccount(userRequest);
+        CreateUserRequest user = SessionStorage.getUser();
+        userSteps.createAccount();
 
         DepositRequest userDepositToNonExistentAccount = DepositRequest.builder()
                 .id(TestConstants.NON_EXISTING_ACCOUNT_ID)
                 .balance(RandomData.getValidDepositAmount())
                 .build();
         new CrudRequester(
-                RequestSpecs.authAsUser(userRequest.getUsername(),userRequest.getPassword()),
+                RequestSpecs.authAsUser(user.getUsername(),user.getPassword()),
                 Endpoint.DEPOSIT,
                 ResponseSpecs.requestReturnsForbidden(ErrorMessages.UNAUTHORIZED_ACCESS_TO_ACCOUNT))
                 .post(userDepositToNonExistentAccount);
 
-        List<AccountResponse> accountsAfterFailedDeposit = UserSteps.getAccounts(userRequest);
+        List<AccountResponse> accountsAfterFailedDeposit = userSteps.getAllAccounts();
         AccountResponse accountAfterFailedDeposit = accountsAfterFailedDeposit.get(0);
 
         softly.assertThat(accountAfterFailedDeposit.getBalance()).isEqualTo(0.0);
@@ -139,27 +149,29 @@ public class AccountsDepositTest extends BaseTest {
     }
 
     @Test
+    @UserSession(2)
     public void authorizedUserCannotDepositToAnotherUsersAccountTest(){
-        CreateUserRequest firstUserRequest = AdminSteps.createUser(createdUserIds);
+       CreateUserRequest firstUser = SessionStorage.getUser(1);
 
-        CreateUserRequest secondUserRequest = AdminSteps.createUser(createdUserIds);
+       UserSteps firstUserSteps = SessionStorage.getSteps(1);
+       UserSteps secondUserSteps = SessionStorage.getSteps(2);
 
-        UserSteps.createAccount(firstUserRequest);
+       firstUserSteps.createAccount();
 
-        AccountResponse createdAccountForSecondUser = UserSteps.createAccount(secondUserRequest);
-        Integer accountIdBySecondUser = createdAccountForSecondUser.getId();
+       AccountResponse createdAccountForSecondUser = secondUserSteps.createAccount();
+       Integer accountIdBySecondUser = createdAccountForSecondUser.getId();
 
         DepositRequest depositRequest = DepositRequest.builder()
                 .id(accountIdBySecondUser)
                 .balance(RandomData.getValidDepositAmount())
                 .build();
         new CrudRequester(
-                RequestSpecs.authAsUser(firstUserRequest.getUsername(),firstUserRequest.getPassword()),
+                RequestSpecs.authAsUser(firstUser.getUsername(),firstUser.getPassword()),
                 Endpoint.DEPOSIT,
                 ResponseSpecs.requestReturnsForbidden(ErrorMessages.UNAUTHORIZED_ACCESS_TO_ACCOUNT))
                 .post(depositRequest);
 
-        List<AccountResponse> accountsAfterFailedDeposit = UserSteps.getAccounts(secondUserRequest);
+        List<AccountResponse> accountsAfterFailedDeposit = secondUserSteps.getAllAccounts();
         AccountResponse accountAfterFailedDeposit = accountsAfterFailedDeposit.get(0);
 
         softly.assertThat(accountAfterFailedDeposit.getBalance()).isEqualTo(0.0);
@@ -167,10 +179,11 @@ public class AccountsDepositTest extends BaseTest {
     }
 
     @Test
+    @UserSession
     public void unauthorizedUserCannotDepositFundsToAccountTest(){
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        UserSteps userSteps = SessionStorage.getSteps();
 
-        AccountResponse account = UserSteps.createAccount(userRequest);
+        AccountResponse account = userSteps.createAccount();
         Integer accountId = account.getId();
 
         DepositRequest unauthorizedUserDeposit = DepositRequest.builder()

@@ -12,65 +12,69 @@ import io.restassured.common.mapper.TypeRef;
 import java.util.List;
 
 public class UserSteps {
-    private UserSteps(){}
+    private String username;
+    private String password;
 
-    public static AccountResponse createAccount(CreateUserRequest userRequest){
+    public UserSteps(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public AccountResponse createAccount(){
         return new ValidatedCrudRequester<AccountResponse>(
-                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()), Endpoint.ACCOUNTS,
+                RequestSpecs.authAsUser(username, password), Endpoint.ACCOUNTS,
                 ResponseSpecs.entityWasCreated())
                 .post();
     }
 
-    public static List<AccountResponse> getAccounts(CreateUserRequest userRequest) {
+    public  List<AccountResponse> getAllAccounts() {
         return new ValidatedCrudRequester<AccountResponse>(
-                RequestSpecs.authAsUser(
-                        userRequest.getUsername(),
-                        userRequest.getPassword()),
+                RequestSpecs.authAsUser(username, password),
                 Endpoint.CUSTOMER_ACCOUNTS,
                 ResponseSpecs.requestReturnsOK())
                 .getAll(AccountResponse[].class);
     }
 
-    public static AccountResponse deposit(CreateUserRequest userRequest, int accountId, double amount){
+    public  AccountResponse deposit(int accountId, double amount){
         DepositRequest depositRequest = DepositRequest.builder()
                 .id(accountId)
                 .balance(amount)
                 .build();
        return new ValidatedCrudRequester<AccountResponse>(
-                RequestSpecs.authAsUser(userRequest.getUsername(),userRequest.getPassword()),
+                RequestSpecs.authAsUser(username,password),
                 Endpoint.DEPOSIT,
                 ResponseSpecs.requestReturnsOK())
                 .post(depositRequest);
     }
 
-    public static UpdateProfileRequest updateName(CreateUserRequest userRequest) {
+    public  UpdateProfileRequest updateName() {
         UpdateProfileRequest updateProfileRequest = UpdateProfileRequest.builder()
                 .name(RandomData.getValidName())
                 .build();
         new CrudRequester(
-                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                RequestSpecs.authAsUser(username, password),
                 Endpoint.UPDATE_CUSTOMER_PROFILE,
                 ResponseSpecs.requestReturnsOK())
                 .update(updateProfileRequest);
         return updateProfileRequest;
     }
 
-    public static TransferResponse transfer(CreateUserRequest userRequest, int senderAccountId, int receiverAccountId, double amount){
+    public TransferResponse transfer(int senderAccountId, int receiverAccountId, double amount){
         TransferRequest transferRequest = TransferRequest.builder()
                 .senderAccountId(senderAccountId)
                 .receiverAccountId(receiverAccountId)
                 .amount(amount)
                 .build();
         return new ValidatedCrudRequester<TransferResponse>(
-                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                RequestSpecs.authAsUser(username, password),
                 Endpoint.TRANSFER,
                 ResponseSpecs.requestReturnsOK())
                 .post(transferRequest);
     }
 
-    public static CustomerResponse getCustomerProfile(CreateUserRequest userRequest) {
+    public CustomerResponse getCustomerProfile() {
         return new ValidatedCrudRequester<CustomerResponse>(
-                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                RequestSpecs.authAsUser(username, password),
                 Endpoint.CUSTOMER_PROFILE,
                 ResponseSpecs.requestReturnsOK())
                 .get();

@@ -1,7 +1,7 @@
 package storage;
 
 import api.models.CreateUserRequest;
-import ui.steps.UiUserSteps;
+import api.requests.steps.UserSteps;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -10,13 +10,13 @@ import java.util.List;
 public class SessionStorage {
     private static final SessionStorage INSTANCE = new SessionStorage();
 
-    private final LinkedHashMap<CreateUserRequest, UiUserSteps> userStepsMap = new LinkedHashMap<>();
+    private final LinkedHashMap<CreateUserRequest, UserSteps> userStepsMap = new LinkedHashMap<>();
 
     private SessionStorage(){}
 
-    public static void addUsers(List<CreateUserRequest> users) {
-        for(CreateUserRequest user: users) {
-            INSTANCE.userStepsMap.put(user, new UiUserSteps(user.getUsername(), user.getPassword()));
+    public static void addUsers(List<CreateUserRequest>users) {
+        for (CreateUserRequest user: users) {
+            INSTANCE.userStepsMap.put(user, new UserSteps(user.getUsername(), user.getPassword()));
         }
     }
     /**
@@ -32,11 +32,11 @@ public class SessionStorage {
         return getUser(1);
     }
 
-    public static UiUserSteps getSteps(int number) {
+    public static UserSteps getSteps(int number) {
         return new ArrayList<>(INSTANCE.userStepsMap.values()).get(number-1);
     }
 
-    public static UiUserSteps getSteps() {
+    public static UserSteps getSteps() {
         return getSteps(1);
     }
 
