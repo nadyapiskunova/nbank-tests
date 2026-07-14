@@ -35,4 +35,8 @@ public class AdminPanel extends BasePage<AdminPanel>{
         return generatePageElement(elementsCollection, UserBage::new);
     }
 
+    public UserBage findUserByUsername(String username) {
+        return getAllUsers().stream().filter(userBage -> userBage.getUsername() .equals(username)).findAny().orElse(null);
+
+    }
 }
