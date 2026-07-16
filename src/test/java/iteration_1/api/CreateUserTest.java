@@ -14,6 +14,7 @@ import api.requests.skeleton.requesters.CrudRequester;
 import api.requests.skeleton.requesters.ValidatedCrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
+import storage.SessionStorage;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -29,6 +30,7 @@ public class CreateUserTest extends BaseTest {
                         Endpoint.ADMIN_USER,
                         ResponseSpecs.entityWasCreated())
                 .post(createUserRequest);
+        SessionStorage.addUser(createUserRequest, createUserResponse.getId());
 
         ModelAssertions.assertThatModels(createUserRequest, createUserResponse).match();
     }

@@ -33,7 +33,7 @@ public class UpdateNameUserTest extends BaseUITest {
         CustomerResponse updatedName = userSteps.getCustomerProfile();
         softly.assertThat(updatedName.getName()).isEqualTo(name);
     }
-
+    @UserSession
     @Test
     public void userCannotUpdateNameWithInvalidDataTest(){
         String name = RandomData.getNameWithoutSurname();

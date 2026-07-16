@@ -4,6 +4,7 @@ import api.models.TransactionType;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
+import common.utils.RetryUtils;
 import ui.elements.TransactionItem;
 
 import java.math.BigDecimal;
@@ -78,25 +79,28 @@ public class TransferPage extends BasePage<TransferPage> {
     }
 
     public TransferPage checkTransactionIsDisplayed(TransactionType transactionType, double amount) {
-        double expectedAmount = BigDecimal.valueOf(amount).setScale(2, RoundingMode.HALF_UP).doubleValue();
-        boolean transactionIsDisplayed = getTransactions().stream()
+        double expectedAmount = BigDecimal.valueOf(amount)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+
+        Boolean transactionIsDisplayed = RetryUtils.retry(
+                () -> getTransactions().stream()
                         .anyMatch(transaction ->
-                                transaction.getTransactionType() == transactionType && Double.compare(
-
-                                        transaction.getAmount(),
-
-                                        expectedAmount
-
-                                ) == 0);
+                                transaction.getTransactionType() == transactionType
+                                        && Double.compare(transaction.getAmount(), expectedAmount) == 0),
+                result -> result,
+                10,
+                200
+        );
 
         assertThat(transactionIsDisplayed).isTrue();
+
         return this;
     }
 
     public TransferPage checkTransferTransactionsAreNotDisplayed() {
         transactionItems.filterBy(text(TransactionType.TRANSFER_IN.name()))
                 .shouldHave(size(0));
-
         transactionItems.filterBy(text(TransactionType.TRANSFER_OUT.name()))
                 .shouldHave(size(0));
 

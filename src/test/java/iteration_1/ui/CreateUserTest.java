@@ -7,6 +7,7 @@ import api.models.comparison.ModelAssertions;
 import api.requests.steps.AdminSteps;
 import common.annotations.AdminSession;
 import org.junit.jupiter.api.Test;
+import storage.SessionStorage;
 import ui.elements.UserBage;
 import ui.pages.AdminPanel;
 import ui.pages.BankAlert;
@@ -32,6 +33,8 @@ public class CreateUserTest extends BaseUITest {
         CreateUserResponse createdUser =
                 AdminSteps.getAllUsers().stream().filter(user -> user.getUsername().equals(newUser.getUsername()))
                         .findFirst().get();
+
+        SessionStorage.addUser(newUser, createdUser.getId());
 
         ModelAssertions.assertThatModels(newUser, createdUser).match();
     }

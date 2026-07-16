@@ -7,12 +7,12 @@ import api.requests.skeleton.Endpoint;
 import api.requests.skeleton.requesters.CrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
+import storage.SessionStorage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BaseTest {
-    protected List<Integer> createdUserIds = new ArrayList<>();
     protected SoftAssertions softly;
 
     @BeforeEach
@@ -24,14 +24,16 @@ public class BaseTest {
     public void afterTest() {
         softly.assertAll();
     }
+
     @AfterEach
     public void deleteUsers() {
-        for (Integer userId : createdUserIds) {
+        for (Integer userId : SessionStorage.getCreatedUserIds()) {
             new CrudRequester(
-                    RequestSpecs.adminSpec(), Endpoint.ADMIN_USER,
+                    RequestSpecs.adminSpec(),
+                    Endpoint.ADMIN_USER,
                     ResponseSpecs.requestReturnsOK())
                     .delete(userId);
         }
-        createdUserIds.clear();
+        SessionStorage.clear();
     }
 }

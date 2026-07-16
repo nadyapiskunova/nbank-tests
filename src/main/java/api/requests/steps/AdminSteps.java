@@ -7,6 +7,7 @@ import api.requests.skeleton.Endpoint;
 import api.requests.skeleton.requesters.ValidatedCrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
+import storage.SessionStorage;
 
 import java.util.List;
 
@@ -16,11 +17,14 @@ public class AdminSteps {
         CreateUserRequest userRequest =
                 RandomModelGenerator.generate(CreateUserRequest.class);
 
-                new ValidatedCrudRequester<CreateUserResponse>(
+        CreateUserResponse userResponse = new ValidatedCrudRequester<CreateUserResponse>(
                         RequestSpecs.adminSpec(),
                         Endpoint.ADMIN_USER,
                         ResponseSpecs.entityWasCreated())
                         .post(userRequest);
+
+        SessionStorage.addUser(userRequest, userResponse.getId());
+
         return userRequest;
     }
 
