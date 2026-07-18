@@ -38,6 +38,18 @@ public abstract class BasePage<T extends BasePage> {
 
         return (T) this;
     }
+    public T checkAlertMessageAndAccept(String... expectedMessages) {
+        Alert alert = switchTo().alert();
+        String actualMessage = alert.getText();
+
+        assertThat(expectedMessages)
+                .anySatisfy(expectedMessage ->
+                        assertThat(actualMessage).contains(expectedMessage)
+                );
+        alert.accept();
+        return (T) this;
+    }
+
     public T openSelectorAccounts(String accountNumber){
         accountsSelector.selectOptionContainingText(accountNumber);
 

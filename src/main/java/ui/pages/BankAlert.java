@@ -16,7 +16,8 @@ public enum BankAlert {
     NO_MATCHING_USERS_FOUND("❌ No matching users found."),
     TRANSFER_OF_SUCCESSFULLY("✅ Transfer of"),
     NAME_UPDATE_SUCCESSFULLY("✅ Name updated successfully!"),
-    NAME_MUST_CONTAIN_TWO_WORDS_WITH_LETTERS_ONLY("Name must contain two words with letters only");
+    NAME_MUST_CONTAIN_TWO_WORDS_WITH_LETTERS_ONLY("Name must contain two words with letters only"),
+    PLEASE_ENTER_VALID_NAME("❌ Please enter a valid name.");
 
     private final String message;
 
