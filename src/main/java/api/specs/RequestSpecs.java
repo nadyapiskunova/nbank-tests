@@ -1,6 +1,7 @@
 package api.specs;
 
 import api.configs.Config;
+import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
@@ -19,12 +20,15 @@ public class RequestSpecs {
 
     private RequestSpecs(){}
 
+    static {
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+    }
+
     private static RequestSpecBuilder defaultRequestBuilder() {
         return new RequestSpecBuilder()
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
-                .addFilters((List.of(new RequestLoggingFilter(),
-                        new ResponseLoggingFilter())))
+                //.addFilters((List.of(new RequestLoggingFilter(), new ResponseLoggingFilter())))
                 .setBaseUri(Config.getProperty("apiBaseUrl") + Config.getProperty("apiVersion"));
     }
 

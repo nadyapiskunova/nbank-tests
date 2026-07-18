@@ -8,21 +8,27 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class SessionStorage {
-    private static final SessionStorage INSTANCE = new SessionStorage();
+    /*
+     ThreadLocal - способ сделать SessionStorage потокобезопасным
+
+     Каждый поток обращая к INSTANCE.get() получают свою КОПИЮ
+
+     Map<Thread, SessionStorage>
+
+     Тест1 : создал юзеров, положил в SessionStorage (СВОЯ КОПИЯ), работает с ними
+     Тест2 : создал юзеров, положил в SessionStorage (СВОЯ КОПИЯ), работает с ними
+     Тест3 : создал юзеров, положил в SessionStorage (СВОЯ КОПИЯ), работает с ними
+    */
+
+    private static final ThreadLocal<SessionStorage> INSTANCE = ThreadLocal.withInitial(SessionStorage::new);
     private final LinkedHashMap<CreateUserRequest, UserSteps> userStepsMap = new LinkedHashMap<>();
     private final List<Integer> createdUserIds = new ArrayList<>();
 
     private SessionStorage(){}
 
-//    public static void addUsers(List<CreateUserRequest>users) {
-//        for (CreateUserRequest user: users) {
-//            INSTANCE.userStepsMap.put(user, new UserSteps(user.getUsername(), user.getPassword()));
-//        }
-//    }
-
     public static void addUser(CreateUserRequest user, Integer userId) {
-        INSTANCE.userStepsMap.put(user, new UserSteps(user.getUsername(), user.getPassword()));
-        INSTANCE.createdUserIds.add(userId);
+        INSTANCE.get().userStepsMap.put(user, new UserSteps(user.getUsername(), user.getPassword()));
+        INSTANCE.get().createdUserIds.add(userId);
     }
     /**
      * Возвращаем объект CreateUserRequest по его порядковому номеру в списке созданных пользователей
@@ -30,7 +36,7 @@ public class SessionStorage {
      * @return Объект CreateUserRequest, соответствующий указанному порядковому номеру
      */
     public static CreateUserRequest getUser(int number) {
-        return new ArrayList<>(INSTANCE.userStepsMap.keySet()).get(number-1);
+        return new ArrayList<>(INSTANCE.get().userStepsMap.keySet()).get(number-1);
     }
 
     public static CreateUserRequest getUser() {
@@ -38,7 +44,7 @@ public class SessionStorage {
     }
 
     public static UserSteps getSteps(int number) {
-        return new ArrayList<>(INSTANCE.userStepsMap.values()).get(number-1);
+        return new ArrayList<>(INSTANCE.get().userStepsMap.values()).get(number-1);
     }
 
     public static UserSteps getSteps() {
@@ -46,11 +52,10 @@ public class SessionStorage {
     }
 
     public static List<Integer> getCreatedUserIds() {
-        return new ArrayList<>(INSTANCE.createdUserIds);
+        return new ArrayList<>(INSTANCE.get().createdUserIds);
     }
 
     public static void clear(){
-        INSTANCE.userStepsMap.clear();
-        INSTANCE.createdUserIds.clear();
+        INSTANCE.remove();
     }
 }
