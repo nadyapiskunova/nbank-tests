@@ -1,4 +1,4 @@
-package iteration_1;
+package iteration_1.api;
 
 import constans.ErrorMessages;
 import generators.RandomModelGenerator;
