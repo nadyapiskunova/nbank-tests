@@ -3,10 +3,11 @@ package iteration_2.ui;
 import api.constans.TestConstants;
 import api.generators.RandomData;
 import api.models.*;
-import api.requests.steps.AdminSteps;
 import api.requests.steps.UserSteps;
+import common.annotations.UserSession;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import storage.SessionStorage;
 import ui.pages.BankAlert;
 import ui.pages.TransferPage;
 
@@ -16,17 +17,18 @@ import static org.assertj.core.api.AssertionsForClassTypes.within;
 
 public class AccountsTransferTest extends BaseUITest {
     @Test
+    @UserSession
     public void userCanTransferWithValidDataTest(){
-        CreateUserRequest user = AdminSteps.createUser(createdUserIds);
-        AccountResponse firstAccount = UserSteps.createAccount(user);
-        AccountResponse secondAccount = UserSteps.createAccount(user);
-                UserSteps.deposit(
-                        user,
+        CreateUserRequest user = SessionStorage.getUser();
+        UserSteps userSteps = SessionStorage.getSteps();
+
+        AccountResponse firstAccount = userSteps.createAccount();
+        AccountResponse secondAccount = userSteps.createAccount();
+        userSteps.deposit(
                         firstAccount.getId(),
                         TestConstants.MAX_DEPOSIT_AMOUNT
                 );
 
-        authAsUser(user);
         double amount = RandomData.getTransferAmount();
         new TransferPage()
                 .open()
@@ -42,7 +44,7 @@ public class AccountsTransferTest extends BaseUITest {
                 .checkTransactionIsDisplayed(TransactionType.TRANSFER_IN, amount)
                 .checkTransactionIsDisplayed(TransactionType.TRANSFER_OUT, amount);
 
-        List<AccountResponse> accountsAfterTransfer = UserSteps.getAccounts(user);
+        List<AccountResponse> accountsAfterTransfer = userSteps.getAllAccounts();
 
         AccountResponse senderAccount = accountsAfterTransfer.stream()
                 .filter(account -> account.getId().equals(firstAccount.getId()))
@@ -71,17 +73,19 @@ public class AccountsTransferTest extends BaseUITest {
     }
 
     @Test
+    @UserSession
     public void userCannotTransferWithInvalidDataTest() {
-        CreateUserRequest user = AdminSteps.createUser(createdUserIds);
-        AccountResponse firstAccount = UserSteps.createAccount(user);
-        AccountResponse secondAccount = UserSteps.createAccount(user);
-        UserSteps.deposit(
-                user,
+        CreateUserRequest user = SessionStorage.getUser();
+        UserSteps userSteps = SessionStorage.getSteps();
+
+        AccountResponse firstAccount = userSteps.createAccount();
+        AccountResponse secondAccount = userSteps.createAccount();
+
+        userSteps.deposit(
                 firstAccount.getId(),
                 TestConstants.MAX_DEPOSIT_AMOUNT
         );
 
-        authAsUser(user);
         double amount = TestConstants.ZERO_AMOUNT;
         new TransferPage()
                 .open()
@@ -98,18 +102,19 @@ public class AccountsTransferTest extends BaseUITest {
     }
 
     @Test
+    @UserSession
     public void userCannotTransferWithoutConfirmTest() {
-        CreateUserRequest user = AdminSteps.createUser(createdUserIds);
-        AccountResponse firstAccount = UserSteps.createAccount(user);
-        AccountResponse secondAccount = UserSteps.createAccount(user);
-        UserSteps.deposit(
-                user,
+        CreateUserRequest user = SessionStorage.getUser();
+        UserSteps userSteps = SessionStorage.getSteps();
+
+        AccountResponse firstAccount = userSteps.createAccount();
+        AccountResponse secondAccount = userSteps.createAccount();
+        userSteps.deposit(
                 firstAccount.getId(),
                 TestConstants.MAX_DEPOSIT_AMOUNT
         );
 
-        authAsUser(user);
-        double amount = RandomData.getTransferAmount();;
+        double amount = RandomData.getTransferAmount();
         new TransferPage()
                 .open()
                 .selectAccount(firstAccount.getAccountNumber())
@@ -124,17 +129,16 @@ public class AccountsTransferTest extends BaseUITest {
     }
 
     @Test
+    @UserSession
     public void userCanSearchTransactionWithValidName(){
-        CreateUserRequest user = AdminSteps.createUser(createdUserIds);
-        AccountResponse firstAccount = UserSteps.createAccount(user);
-        UpdateProfileRequest updatedName = UserSteps.updateName(user);
-        UserSteps.deposit(
-                user,
+        UserSteps userSteps = SessionStorage.getSteps();
+        AccountResponse firstAccount = userSteps.createAccount();
+        UpdateProfileRequest updatedName = userSteps.updateName();
+        userSteps.deposit(
                 firstAccount.getId(),
                 TestConstants.MAX_DEPOSIT_AMOUNT
         );
 
-        authAsUser(user);
         new TransferPage()
                 .open()
                 .clickTransferAgainButton()
@@ -144,17 +148,16 @@ public class AccountsTransferTest extends BaseUITest {
     }
 
     @Test
+    @UserSession
     public void userCannotSearchTransactionWithInvalidName(){
-        CreateUserRequest user = AdminSteps.createUser(createdUserIds);
-        AccountResponse firstAccount = UserSteps.createAccount(user);
-        UserSteps.updateName(user);
-        UserSteps.deposit(
-                user,
+        UserSteps userSteps = SessionStorage.getSteps();
+        AccountResponse firstAccount = userSteps.createAccount();
+        userSteps.updateName();
+        userSteps.deposit(
                 firstAccount.getId(),
                 TestConstants.MAX_DEPOSIT_AMOUNT
         );
 
-        authAsUser(user);
         new TransferPage()
                 .open()
                 .clickTransferAgainButton()
@@ -165,23 +168,22 @@ public class AccountsTransferTest extends BaseUITest {
 
     @Disabled("Баг: в popup повтора операции TRANSFER_IN отображается firstAccount.getId()")
     @Test
+    @UserSession
     public void userCanRepeatTransfer(){
-        CreateUserRequest user = AdminSteps.createUser(createdUserIds);
-        AccountResponse firstAccount = UserSteps.createAccount(user);
-        AccountResponse secondAccount = UserSteps.createAccount(user);
-        UserSteps.deposit(
-                user,
+        UserSteps userSteps = SessionStorage.getSteps();
+
+        AccountResponse firstAccount = userSteps.createAccount();
+        AccountResponse secondAccount = userSteps.createAccount();
+        userSteps.deposit(
                 firstAccount.getId(),
                 TestConstants.MAX_DEPOSIT_AMOUNT
         );
         double amountTransfer = RandomData.getTransferAmount();
-        UserSteps.transfer(
-                user,
+        userSteps.transfer(
                 firstAccount.getId(),
                 secondAccount.getId(),
                 amountTransfer);
 
-        authAsUser(user);
         new TransferPage()
                 .open()
                 .clickTransferAgainButton()
@@ -197,7 +199,7 @@ public class AccountsTransferTest extends BaseUITest {
 
         double expectedReceiverBalance = amountTransfer + amountTransfer;
 
-        List<AccountResponse> accountsAfterRepeatTransfer = UserSteps.getAccounts(user);
+        List<AccountResponse> accountsAfterRepeatTransfer = userSteps.getAllAccounts();
 
         AccountResponse senderAccount = accountsAfterRepeatTransfer.stream()
                 .filter(account -> account.getId().equals(firstAccount.getId()))

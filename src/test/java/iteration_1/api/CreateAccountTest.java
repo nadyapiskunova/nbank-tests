@@ -11,7 +11,7 @@ import api.specs.ResponseSpecs;
 public class CreateAccountTest extends BaseTest {
     @Test
     public void userCanCreateAccountTest() {
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        CreateUserRequest userRequest = AdminSteps.createUser();
 
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),

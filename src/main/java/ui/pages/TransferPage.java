@@ -4,13 +4,18 @@ import api.models.TransactionType;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
+import ui.elements.TransactionItem;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
 import java.util.Locale;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class TransferPage extends BasePage<TransferPage> {
     private SelenideElement
@@ -35,6 +40,13 @@ public class TransferPage extends BasePage<TransferPage> {
     @Override
     public String url() {
         return "/transfer";
+    }
+
+    public List<TransactionItem> getTransactions() {
+        return generatePageElement(
+                transactionItems,
+                TransactionItem::new
+        );
     }
 
     public TransferPage selectAccount(String senderAccountNumber){
@@ -66,9 +78,18 @@ public class TransferPage extends BasePage<TransferPage> {
     }
 
     public TransferPage checkTransactionIsDisplayed(TransactionType transactionType, double amount) {
-        transactionItems.findBy(
-                text(transactionType.name() + " - $" + String.format(Locale.US,"%.2f", amount))).shouldBe(visible);
+        double expectedAmount = BigDecimal.valueOf(amount).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        boolean transactionIsDisplayed = getTransactions().stream()
+                        .anyMatch(transaction ->
+                                transaction.getTransactionType() == transactionType && Double.compare(
 
+                                        transaction.getAmount(),
+
+                                        expectedAmount
+
+                                ) == 0);
+
+        assertThat(transactionIsDisplayed).isTrue();
         return this;
     }
 
@@ -104,14 +125,16 @@ public class TransferPage extends BasePage<TransferPage> {
         return this;
     }
 
-    public TransferPage repeatTransaction(TransactionType transactionType){
-        transactionItems.findBy(text(transactionType.name()))
-                .$(".custom-btn").click();
-
+    public TransferPage repeatTransaction(TransactionType transactionType) {
+        getTransactions().stream()
+                .filter(transaction ->
+                        transaction.getTransactionType() == transactionType)
+                .findFirst()
+                .orElseThrow()
+                .getRepeatButton()
+                .click();
         return this;
     }
-
-
 
     public TransferPage checkAccountId(Integer accountId) {
         accountIdLabel.shouldHave(exactText(String.valueOf(accountId)));
@@ -130,4 +153,5 @@ public class TransferPage extends BasePage<TransferPage> {
 
         return this;
     }
+
 }

@@ -2,23 +2,21 @@ package iteration_1.ui;
 
 import api.configs.Config;
 import api.models.CreateUserRequest;
+import api.specs.RequestSpecs;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import common.extensions.AdminSessionExtension;
+import common.extensions.UserSessionExtension;
 import iteration_1.api.BaseTest;
-import iteration_1.api.CreateUserTest;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import api.requests.skeleton.Endpoint;
-import api.requests.skeleton.requesters.CrudRequester;
-import api.specs.RequestSpecs;
-import api.specs.ResponseSpecs;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.executeJavaScript;
 
+@ExtendWith(AdminSessionExtension.class)
+@ExtendWith(UserSessionExtension.class)
 public class BaseUITest extends BaseTest {
 
     @BeforeAll

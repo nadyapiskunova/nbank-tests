@@ -29,7 +29,7 @@ public class LoginUserTest extends BaseTest {
 
     @Test
     public void userCanGenerateAuthTokenTest() {
-        CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
+        CreateUserRequest userRequest = AdminSteps.createUser();
 
         new CrudRequester(RequestSpecs.unauthSpec(),
                 Endpoint.LOGIN,

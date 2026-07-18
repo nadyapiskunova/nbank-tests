@@ -1,13 +1,13 @@
 package api.requests.skeleton.requesters;
 
-import api.requests.skeleton.interfaces.GetAllEndpointInterface;
-import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
 import api.models.BaseModel;
 import api.requests.skeleton.Endpoint;
 import api.requests.skeleton.HttpRequest;
 import api.requests.skeleton.interfaces.CrudEndpointInterface;
+import api.requests.skeleton.interfaces.GetAllEndpointInterface;
 import io.restassured.common.mapper.TypeRef;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.ResponseSpecification;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +25,7 @@ public class ValidatedCrudRequester<M extends BaseModel> extends HttpRequest imp
     public M post(BaseModel model) {
         return (M) crudRequester.post(model).extract().as(endpoint.getResponseModel());
     }
+
     @Override
     public M post() {
         return (M) crudRequester.post().extract().as(endpoint.getResponseModel());

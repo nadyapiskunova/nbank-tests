@@ -1,5 +1,7 @@
 package iteration_2.api;
 
+import common.extensions.AdminSessionExtension;
+import common.extensions.UserSessionExtension;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,10 +9,13 @@ import api.requests.skeleton.Endpoint;
 import api.requests.skeleton.requesters.CrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@ExtendWith(AdminSessionExtension.class)
+@ExtendWith(UserSessionExtension.class)
 public class BaseTest {
     protected List<Integer> createdUserIds = new ArrayList<>();
     protected SoftAssertions softly;

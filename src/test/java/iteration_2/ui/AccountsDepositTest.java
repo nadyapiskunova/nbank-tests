@@ -6,16 +6,18 @@ import api.models.AccountResponse;
 import api.models.CreateUserRequest;
 import api.requests.steps.AdminSteps;
 import api.requests.steps.UserSteps;
+import common.annotations.UserSession;
 import org.junit.jupiter.api.Test;
+import storage.SessionStorage;
 import ui.pages.BankAlert;
 import ui.pages.DepositPage;
 
 public class AccountsDepositTest extends BaseUITest {
     @Test
+    @UserSession
     public void userCanDepositWithValidData(){
-        CreateUserRequest user = AdminSteps.createUser(createdUserIds);
-        AccountResponse createdAccount = UserSteps.createAccount(user);
-        authAsUser(user);
+        UserSteps userSteps = SessionStorage.getSteps();
+        AccountResponse createdAccount = userSteps.createAccount();
 
         Double amount = RandomData.getValidDepositAmount();
         new DepositPage()
@@ -27,15 +29,15 @@ public class AccountsDepositTest extends BaseUITest {
                 .openSelectorAccounts(createdAccount.getAccountNumber())
                 .checkAccountBalance(amount, createdAccount.getAccountNumber());
 
-        AccountResponse depositedAccount = UserSteps.getAccounts(user).get(0);
+        AccountResponse depositedAccount = userSteps.getAllAccounts().get(0);
         softly.assertThat(depositedAccount.getBalance()).isEqualTo(amount);
     }
 
     @Test
+    @UserSession
     public void userCannotDepositWithInvalidData(){
-        CreateUserRequest user = AdminSteps.createUser(createdUserIds);
-        AccountResponse createdAccount = UserSteps.createAccount(user);
-        authAsUser(user);
+        UserSteps userSteps = SessionStorage.getSteps();
+        AccountResponse createdAccount = userSteps.createAccount();
 
         double amount = TestConstants.ZERO_AMOUNT;
         new DepositPage()
@@ -46,10 +48,11 @@ public class AccountsDepositTest extends BaseUITest {
     }
 
     @Test
+    @UserSession
     public void userCannotDepositWithoutSelectedAccountTest(){
-        CreateUserRequest user = AdminSteps.createUser(createdUserIds);
-        UserSteps.createAccount(user);
-        authAsUser(user);
+        UserSteps userSteps = SessionStorage.getSteps();
+
+        userSteps.createAccount();
 
         new DepositPage()
                 .open()
