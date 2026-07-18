@@ -1,21 +1,24 @@
 package iteration_2.api;
 
-import constans.ErrorMessages;
-import constans.TestConstants;
-import generators.RandomData;
-import models.*;
-import models.comparison.ModelAssertions;
+import api.constans.ErrorMessages;
+import api.constans.TestConstants;
+import api.generators.RandomData;
+import api.models.AccountResponse;
+import api.models.CreateUserRequest;
+import api.models.DepositRequest;
+import api.models.TransactionResponse;
+import api.models.comparison.ModelAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.skeleton.Endpoint;
-import requests.skeleton.requesters.CrudRequester;
-import requests.skeleton.requesters.ValidatedCrudRequester;
-import requests.steps.AdminSteps;
-import requests.steps.UserSteps;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
+import api.requests.skeleton.Endpoint;
+import api.requests.skeleton.requesters.CrudRequester;
+import api.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.requests.steps.AdminSteps;
+import api.requests.steps.UserSteps;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -44,7 +47,8 @@ public class AccountsDepositTest extends BaseTest {
                 .build();
         AccountResponse depositedAccount = new ValidatedCrudRequester<AccountResponse>(
                 RequestSpecs.authAsUser(userRequest.getUsername(),userRequest.getPassword()),
-                ResponseSpecs.requestReturnsOK(), Endpoint.DEPOSIT)
+                Endpoint.DEPOSIT,
+                ResponseSpecs.requestReturnsOK())
                 .post(depositRequest);
 
         List<TransactionResponse> transactions = depositedAccount.getTransactions();
@@ -76,7 +80,8 @@ public class AccountsDepositTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(),userRequest.getPassword()),
-                ResponseSpecs.requestReturnsBadRequest(), Endpoint.DEPOSIT)
+                Endpoint.DEPOSIT,
+                ResponseSpecs.requestReturnsBadRequest())
                 .post(depositRequest);
 
         List<AccountResponse> accountsAfterFailedDeposit = UserSteps.getAccounts(userRequest);
@@ -99,7 +104,8 @@ public class AccountsDepositTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.adminSpec(),
-                ResponseSpecs.requestReturnsForbidden(), Endpoint.DEPOSIT)
+                Endpoint.DEPOSIT,
+                ResponseSpecs.requestReturnsForbidden())
                 .post(adminDeposit);
 
         List<AccountResponse> accountsAfterFailedDeposit = UserSteps.getAccounts(userRequest);
@@ -121,7 +127,8 @@ public class AccountsDepositTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(),userRequest.getPassword()),
-                ResponseSpecs.requestReturnsForbidden(ErrorMessages.UNAUTHORIZED_ACCESS_TO_ACCOUNT), Endpoint.DEPOSIT)
+                Endpoint.DEPOSIT,
+                ResponseSpecs.requestReturnsForbidden(ErrorMessages.UNAUTHORIZED_ACCESS_TO_ACCOUNT))
                 .post(userDepositToNonExistentAccount);
 
         List<AccountResponse> accountsAfterFailedDeposit = UserSteps.getAccounts(userRequest);
@@ -148,7 +155,8 @@ public class AccountsDepositTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.authAsUser(firstUserRequest.getUsername(),firstUserRequest.getPassword()),
-                ResponseSpecs.requestReturnsForbidden(ErrorMessages.UNAUTHORIZED_ACCESS_TO_ACCOUNT), Endpoint.DEPOSIT)
+                Endpoint.DEPOSIT,
+                ResponseSpecs.requestReturnsForbidden(ErrorMessages.UNAUTHORIZED_ACCESS_TO_ACCOUNT))
                 .post(depositRequest);
 
         List<AccountResponse> accountsAfterFailedDeposit = UserSteps.getAccounts(secondUserRequest);
@@ -171,7 +179,8 @@ public class AccountsDepositTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsUnauthorized(), Endpoint.DEPOSIT)
+                Endpoint.DEPOSIT,
+                ResponseSpecs.requestReturnsUnauthorized())
                 .post(unauthorizedUserDeposit);
     }
 }

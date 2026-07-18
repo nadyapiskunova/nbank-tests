@@ -1,12 +1,12 @@
 package iteration_1.api;
 
-import models.CreateUserRequest;
+import api.models.CreateUserRequest;
 import org.junit.jupiter.api.Test;
-import requests.skeleton.Endpoint;
-import requests.skeleton.requesters.CrudRequester;
-import requests.steps.AdminSteps;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
+import api.requests.skeleton.Endpoint;
+import api.requests.skeleton.requesters.CrudRequester;
+import api.requests.steps.AdminSteps;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
 
 public class CreateAccountTest extends BaseTest {
     @Test
@@ -15,11 +15,13 @@ public class CreateAccountTest extends BaseTest {
 
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.entityWasCreated(), Endpoint.ACCOUNTS)
+                Endpoint.ACCOUNTS,
+                ResponseSpecs.entityWasCreated())
                 .post();
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.entityWasCreated(), Endpoint.ACCOUNTS)
+                Endpoint.ACCOUNTS,
+                ResponseSpecs.entityWasCreated())
                 .post();
     }
 }

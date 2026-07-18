@@ -1,19 +1,21 @@
 package iteration_2.api;
 
-import constans.ErrorMessages;
-import generators.RandomData;
-import models.*;
-import models.comparison.ModelAssertions;
+import api.constans.ErrorMessages;
+import api.generators.RandomData;
+import api.models.CreateUserRequest;
+import api.models.CustomerResponse;
+import api.models.UpdateProfileRequest;
+import api.models.comparison.ModelAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.skeleton.Endpoint;
-import requests.skeleton.requesters.CrudRequester;
-import requests.skeleton.requesters.ValidatedCrudRequester;
-import requests.steps.AdminSteps;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
+import api.requests.skeleton.Endpoint;
+import api.requests.skeleton.requesters.CrudRequester;
+import api.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.requests.steps.AdminSteps;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
 
 import java.util.stream.Stream;
 
@@ -38,14 +40,15 @@ public class UpdateNameUserTest extends BaseTest {
                 .build();
         new CrudRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.requestReturnsOK(),
-                Endpoint.UPDATE_CUSTOMER_PROFILE)
+                Endpoint.UPDATE_CUSTOMER_PROFILE,
+                ResponseSpecs.requestReturnsOK())
                 .update(updateName);
 
         CustomerResponse updatedName =
                 new ValidatedCrudRequester<CustomerResponse>(
                         RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                        ResponseSpecs.requestReturnsOK(),Endpoint.CUSTOMER_PROFILE)
+                        Endpoint.CUSTOMER_PROFILE,
+                        ResponseSpecs.requestReturnsOK())
                         .get();
 
         ModelAssertions.assertThatModels(updateName, updatedName).match();
@@ -60,13 +63,15 @@ public class UpdateNameUserTest extends BaseTest {
                 .build();
 
          new CrudRequester(RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsUnauthorized(),Endpoint.UPDATE_CUSTOMER_PROFILE)
+                 Endpoint.UPDATE_CUSTOMER_PROFILE,
+                ResponseSpecs.requestReturnsUnauthorized())
                 .update(updateName);
 
         CustomerResponse updatedName =
                 new ValidatedCrudRequester<CustomerResponse>(
                         RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                        ResponseSpecs.requestReturnsOK(), Endpoint.CUSTOMER_PROFILE)
+                        Endpoint.CUSTOMER_PROFILE,
+                        ResponseSpecs.requestReturnsOK())
                         .get();
 
         softly.assertThat(updatedName.getName()).isNull();
@@ -91,14 +96,14 @@ public class UpdateNameUserTest extends BaseTest {
                 .build();
 
         new CrudRequester(RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.requestReturnsBadRequest(errorValue),
-                Endpoint.UPDATE_CUSTOMER_PROFILE)
+                Endpoint.UPDATE_CUSTOMER_PROFILE,
+                ResponseSpecs.requestReturnsBadRequest(errorValue))
                 .update(updateName);
 
         CustomerResponse updatedName = new ValidatedCrudRequester<CustomerResponse>(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.requestReturnsOK(),
-                Endpoint.CUSTOMER_PROFILE)
+                Endpoint.CUSTOMER_PROFILE,
+                ResponseSpecs.requestReturnsOK())
                 .get();
         softly.assertThat(updatedName.getName()).isNull();
     }

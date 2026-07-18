@@ -1,103 +1,47 @@
 package iteration_2.ui;
 
-import com.codeborne.selenide.Selectors;
-import com.codeborne.selenide.Selenide;
-import constans.TestConstants;
-import generators.RandomData;
-import models.CreateUserRequest;
-import models.CustomerResponse;
-import models.LoginUserRequest;
-import models.comparison.ModelAssertions;
+import api.generators.RandomData;
+import api.models.CreateUserRequest;
+import api.models.CustomerResponse;
+import api.requests.steps.AdminSteps;
+import api.requests.steps.UserSteps;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Alert;
-import requests.skeleton.Endpoint;
-import requests.skeleton.requesters.CrudRequester;
-import requests.skeleton.requesters.ValidatedCrudRequester;
-import requests.steps.AdminSteps;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
+import ui.pages.BankAlert;
+import ui.pages.EditProfilePage;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.value;
-import static com.codeborne.selenide.Selenide.*;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-public class UpdateNameUserTest extends BaseTest{
+public class UpdateNameUserTest extends BaseUITest {
 
     @Disabled("Баг: имя не обновляется без рефреша страницы в .user-name")
     @Test
     public void userCanUpdateNameWithValidDataTest(){
         CreateUserRequest user = AdminSteps.createUser(createdUserIds);
-
-        String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
-                .post(
-                        LoginUserRequest.builder()
-                                .username(user.getUsername())
-                                .password(user.getPassword())
-                                .build())
-                .extract()
-                .header("Authorization");
-
-        Selenide.open("/");
-        executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthHeader);
-        Selenide.open("/edit-profile");
-
         String name = RandomData.getValidName();
-        $(Selectors.byAttribute("placeholder", "Enter new name"))
-                .sendKeys(name);;
 
-        $(".btn.btn-primary.mt-3").click();
+        authAsUser(user);
+        new EditProfilePage()
+                .open()
+                .setName(name)
+                .clickSaveChangeButton()
+                .checkAlertMessageAndAccept(BankAlert.NAME_UPDATE_SUCCESSFULLY.getMessage())
+                .checkUserNameLabel(name)
+                .openDashboard()
+                .checkWelcomeUserName(name);
 
-        Alert alert = switchTo().alert();
-        assertThat(alert.getText()).contains("✅ Name updated successfully!");
-        alert.accept();
-
-       $(".user-name").shouldHave(text(name));
-
-        Selenide.open("/dashboard");
-        $("h2.welcome-text span").shouldHave(text(name));
-
-        CustomerResponse updatedName =
-                new ValidatedCrudRequester<CustomerResponse>(
-                        RequestSpecs.authAsUser(user.getUsername(), user.getPassword()),
-                        ResponseSpecs.requestReturnsOK(),
-                        Endpoint.CUSTOMER_PROFILE)
-                        .get();
-
+        CustomerResponse updatedName = UserSteps.getCustomerProfile(user);
         softly.assertThat(updatedName.getName()).isEqualTo(name);
     }
 
-    @Disabled("Баг: имя не обновляется без рефреша страницы в .user-name")
     @Test
     public void userCannotUpdateNameWithInvalidDataTest(){
         CreateUserRequest user = AdminSteps.createUser(createdUserIds);
-
-        String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
-                .post(
-                        LoginUserRequest.builder()
-                                .username(user.getUsername())
-                                .password(user.getPassword())
-                                .build())
-                .extract()
-                .header("Authorization");
-
-        Selenide.open("/");
-        executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthHeader);
-        Selenide.open("/edit-profile");
-
         String name = RandomData.getNameWithoutSurname();
-        $(Selectors.byAttribute("placeholder", "Enter new name"))
-                .sendKeys(name);;
 
-        $(".btn.btn-primary.mt-3").click();
-
-        Alert alert = switchTo().alert();
-        assertThat(alert.getText()).contains("Name must contain two words with letters only");
-        alert.accept();
+        authAsUser(user);
+        new EditProfilePage()
+                .open()
+                .setName(name)
+                .clickSaveChangeButton()
+                .checkAlertMessageAndAccept(BankAlert.NAME_MUST_CONTAIN_TWO_WORDS_WITH_LETTERS_ONLY.getMessage());
     }
 }

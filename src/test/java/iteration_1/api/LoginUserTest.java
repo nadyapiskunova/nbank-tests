@@ -1,16 +1,16 @@
 package iteration_1.api;
 
-import constans.TestConstants;
-import models.CreateUserRequest;
-import models.CreateUserResponse;
-import models.LoginUserRequest;
+import api.constans.TestConstants;
+import api.models.CreateUserRequest;
+import api.models.CreateUserResponse;
+import api.models.LoginUserRequest;
 import org.junit.jupiter.api.Test;
-import requests.skeleton.Endpoint;
-import requests.skeleton.requesters.CrudRequester;
-import requests.skeleton.requesters.ValidatedCrudRequester;
-import requests.steps.AdminSteps;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
+import api.requests.skeleton.Endpoint;
+import api.requests.skeleton.requesters.CrudRequester;
+import api.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.requests.steps.AdminSteps;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
 
 public class LoginUserTest extends BaseTest {
     @Test
@@ -22,8 +22,8 @@ public class LoginUserTest extends BaseTest {
 
         new ValidatedCrudRequester<CreateUserResponse>(
                 RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(),
-                Endpoint.LOGIN)
+                Endpoint.LOGIN,
+                ResponseSpecs.requestReturnsOK())
                 .post(userRequest);
     }
 
@@ -32,8 +32,8 @@ public class LoginUserTest extends BaseTest {
         CreateUserRequest userRequest = AdminSteps.createUser(createdUserIds);
 
         new CrudRequester(RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(),
-                Endpoint.LOGIN)
+                Endpoint.LOGIN,
+                ResponseSpecs.requestReturnsOK())
                 .post(LoginUserRequest.builder()
                         .username(userRequest.getUsername())
                         .password(userRequest.getPassword())

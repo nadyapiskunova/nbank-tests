@@ -1,61 +1,31 @@
 package iteration_2.ui;
 
-import com.codeborne.selenide.Selectors;
-import com.codeborne.selenide.Selenide;
-import constans.TestConstants;
-import generators.RandomData;
-import models.*;
+import api.constans.TestConstants;
+import api.generators.RandomData;
+import api.models.AccountResponse;
+import api.models.CreateUserRequest;
+import api.requests.steps.AdminSteps;
+import api.requests.steps.UserSteps;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Alert;
-import requests.skeleton.Endpoint;
-import requests.skeleton.requesters.CrudRequester;
-import requests.steps.AdminSteps;
-import requests.steps.UserSteps;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
+import ui.pages.BankAlert;
+import ui.pages.DepositPage;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selenide.*;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-public class AccountsDepositTest extends BaseTest{
+public class AccountsDepositTest extends BaseUITest {
     @Test
     public void userCanDepositWithValidData(){
         CreateUserRequest user = AdminSteps.createUser(createdUserIds);
         AccountResponse createdAccount = UserSteps.createAccount(user);
-
-        String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
-                .post(
-                        LoginUserRequest.builder()
-                                .username(user.getUsername())
-                                .password(user.getPassword())
-                                .build())
-                .extract()
-                .header("Authorization");
-
-        Selenide.open("/");
-        executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthHeader);
-        Selenide.open("/deposit");
-
-        $(".account-selector").selectOptionContainingText(createdAccount.getAccountNumber());
+        authAsUser(user);
 
         Double amount = RandomData.getValidDepositAmount();
-        $(Selectors.byAttribute("placeholder","Enter amount"))
-                .setValue(String.valueOf(amount));
-        $(Selectors.byText("💵 Deposit")).click();
-
-        Alert alert = switchTo().alert();
-        assertThat(alert.getText()).contains("✅ Successfully deposited");
-        alert.accept();
-
-        Selenide.open("/deposit");
-        $(".account-selector").selectOptionContainingText(createdAccount.getAccountNumber());
-
-        $("select.account-selector")
-                .shouldHave(text(createdAccount.getAccountNumber()))
-                .shouldHave(text("$" + amount));
+        new DepositPage()
+                .open()
+                .openSelectorAccounts(createdAccount.getAccountNumber())
+                .makeDeposit(amount)
+                .checkAlertMessageAndAccept(BankAlert.SUCCESSFULLY_DEPOSITED.getMessage())
+                .open()
+                .openSelectorAccounts(createdAccount.getAccountNumber())
+                .checkAccountBalance(amount, createdAccount.getAccountNumber());
 
         AccountResponse depositedAccount = UserSteps.getAccounts(user).get(0);
         softly.assertThat(depositedAccount.getBalance()).isEqualTo(amount);
@@ -65,61 +35,26 @@ public class AccountsDepositTest extends BaseTest{
     public void userCannotDepositWithInvalidData(){
         CreateUserRequest user = AdminSteps.createUser(createdUserIds);
         AccountResponse createdAccount = UserSteps.createAccount(user);
+        authAsUser(user);
 
-        String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
-                .post(
-                        LoginUserRequest.builder()
-                                .username(user.getUsername())
-                                .password(user.getPassword())
-                                .build())
-                .extract()
-                .header("Authorization");
-
-        Selenide.open("/");
-        executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthHeader);
-        Selenide.open("/deposit");
-
-        $(".account-selector").selectOptionContainingText(createdAccount.getAccountNumber());
-
-        Double amount = TestConstants.ZERO_AMOUNT;
-        $(Selectors.byAttribute("placeholder","Enter amount"))
-                .setValue(String.valueOf(amount));
-        $(Selectors.byText("💵 Deposit")).click();
-
-        Alert alert = switchTo().alert();
-
-        assertThat(alert.getText()).contains("❌ Please enter a valid amount.");
-        alert.accept();
+        double amount = TestConstants.ZERO_AMOUNT;
+        new DepositPage()
+                .open()
+                .openSelectorAccounts(createdAccount.getAccountNumber())
+                .makeDeposit(amount)
+                .checkAlertMessageAndAccept(BankAlert.PLEASE_ENTER_VALID_AMOUNT.getMessage());
     }
 
     @Test
     public void userCannotDepositWithoutSelectedAccountTest(){
         CreateUserRequest user = AdminSteps.createUser(createdUserIds);
-        AccountResponse createdAccount = UserSteps.createAccount(user);
+        UserSteps.createAccount(user);
+        authAsUser(user);
 
-        String userAuthHeader = new CrudRequester(
-                RequestSpecs.unauthSpec(),
-                ResponseSpecs.requestReturnsOK(), Endpoint.LOGIN)
-                .post(
-                        LoginUserRequest.builder()
-                                .username(user.getUsername())
-                                .password(user.getPassword())
-                                .build())
-                .extract()
-                .header("Authorization");
-
-        Selenide.open("/");
-        executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthHeader);
-        Selenide.open("/deposit");
-
-        $(Selectors.byText("💵 Deposit")).click();
-
-        Alert alert = switchTo().alert();
-
-        assertThat(alert.getText()).contains("❌ Please select an account.");
-        alert.accept();
+        new DepositPage()
+                .open()
+                .clickDeposit()
+                .checkAlertMessageAndAccept(BankAlert.PLEASE_SELECT_ACCOUNT.getMessage());
     }
 }
 
