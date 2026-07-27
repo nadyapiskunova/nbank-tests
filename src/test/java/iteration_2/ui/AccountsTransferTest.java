@@ -1,9 +1,11 @@
 package iteration_2.ui;
 
 import api.constans.TestConstants;
+import api.contract.BackendVersion;
 import api.generators.RandomData;
 import api.models.*;
 import api.requests.steps.UserSteps;
+import common.annotations.APIVersion;
 import common.annotations.UserSession;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.within;
 
 public class AccountsTransferTest extends BaseUITest {
+    @APIVersion(BackendVersion.WITH_VALIDATION_FIX)
     @Test
     @UserSession
     public void userCanTransferWithValidDataTest(){
@@ -71,7 +74,7 @@ public class AccountsTransferTest extends BaseUITest {
                 .contains(TransactionType.TRANSFER_IN);
 
     }
-
+    @APIVersion(BackendVersion.WITH_VALIDATION_FIX)
     @Test
     @UserSession
     public void userCannotTransferWithInvalidDataTest() {

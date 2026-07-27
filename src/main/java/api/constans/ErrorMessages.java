@@ -32,4 +32,12 @@ public class ErrorMessages {
 
     public static final String INVALID_NAME =
             "Name must contain two words with letters only";
+
+    public static final String DEPOSIT_AMOUNT_MIN_WITH_DATABASE =
+            "Invalid account or amount";
+
+    public static final String DEPOSIT_AMOUNT_MAX_WITH_DATABASE =
+            "Deposit amount exceeds the 5000 limit";
+    public static final String TRANSFER_AMOUNT_MIN_WITH_DATABASE =
+            "Invalid transfer: insufficient funds or invalid accounts";
 }
