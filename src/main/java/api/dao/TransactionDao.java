@@ -1,5 +1,6 @@
-package api.models;
+package api.dao;
 
+import api.models.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,12 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TransactionResponse extends BaseModel {
+public class TransactionDao {
     private Integer id;
     private Double amount;
     private TransactionType type;
-    private String timestamp;
+    private Integer accountId;
     private Integer relatedAccountId;
-    private String timestampAsString;
-    private Double amountAsDouble;
 }

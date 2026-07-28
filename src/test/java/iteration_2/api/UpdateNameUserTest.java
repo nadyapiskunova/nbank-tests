@@ -1,6 +1,7 @@
 package iteration_2.api;
 
 import api.constans.ErrorMessages;
+import api.contract.BackendVersion;
 import api.generators.RandomData;
 import api.models.CreateUserRequest;
 import api.models.CustomerResponse;
@@ -9,9 +10,12 @@ import api.models.comparison.ModelAssertions;
 import api.requests.skeleton.Endpoint;
 import api.requests.skeleton.requesters.CrudRequester;
 import api.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.requests.steps.DataBaseSteps;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
+import common.annotations.APIVersion;
 import common.annotations.UserSession;
+import common.helpers.DbCheck;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -31,6 +35,7 @@ public class UpdateNameUserTest extends BaseTest {
                 Arguments.of(RandomData.getMinLengthName())
         );
     }
+    @APIVersion(BackendVersion.WITH_VALIDATION_FIX)
     @MethodSource("dataForUserCanUpdateNameWithValidDataTest")
     @ParameterizedTest
     @UserSession
@@ -77,6 +82,11 @@ public class UpdateNameUserTest extends BaseTest {
                         .get();
 
         softly.assertThat(updatedName.getName()).isNull();
+        DbCheck.run(() ->
+                softly.assertThat(
+                        DataBaseSteps.getUserByUsername(user.getUsername()).getName()
+                ).isNull()
+        );
     }
 
     public static Stream<Arguments> dataForUserCannotUpdateNameWithInvalidDataTest() {
@@ -109,5 +119,12 @@ public class UpdateNameUserTest extends BaseTest {
                 ResponseSpecs.requestReturnsOK())
                 .get();
         softly.assertThat(updatedName.getName()).isNull();
+
+
+        DbCheck.run(() ->
+                softly.assertThat(
+                        DataBaseSteps.getUserByUsername(user.getUsername()).getName()
+                ).isNull()
+        );
     }
 }
