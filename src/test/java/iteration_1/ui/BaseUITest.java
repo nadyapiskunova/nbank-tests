@@ -1,11 +1,9 @@
 package iteration_1.ui;
 
 import api.configs.Config;
-import api.models.CreateUserRequest;
-import api.specs.RequestSpecs;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
 import common.extensions.AdminSessionExtension;
+import common.extensions.UiUserSessionExtension;
 import common.extensions.UserSessionExtension;
 import iteration_1.api.BaseTest;
 import org.junit.jupiter.api.AfterEach;
@@ -14,10 +12,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.Map;
 
-import static com.codeborne.selenide.Selenide.executeJavaScript;
+import static com.codeborne.selenide.Selenide.closeWebDriver;
 
-@ExtendWith(AdminSessionExtension.class)
-@ExtendWith(UserSessionExtension.class)
+@ExtendWith({
+        AdminSessionExtension.class,
+        UserSessionExtension.class,
+        UiUserSessionExtension.class
+})
 public class BaseUITest extends BaseTest {
 
     @BeforeAll
@@ -26,6 +27,7 @@ public class BaseUITest extends BaseTest {
         Configuration.baseUrl = Config.getProperty("uiBaseUrl");
         Configuration.browser = Config.getProperty("browser");
         Configuration.browserSize = Config.getProperty("browserSize");
+        Configuration.headless = true;
 
         Configuration.browserCapabilities.setCapability("selenoid:options",
                 Map.of("enableVNC", true, "enableLog", true)
@@ -34,16 +36,6 @@ public class BaseUITest extends BaseTest {
 
     @AfterEach
     public void closeBrowser() {
-        Selenide.closeWebDriver();
-    }
-
-    public void authAsUser(String username, String password) {
-        Selenide.open("/");
-        String userAuthHeader = RequestSpecs.getUserAuthHeader(username, password);
-        executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthHeader);
-    }
-
-    public void authAsUser(CreateUserRequest createUserRequest){
-        authAsUser(createUserRequest.getUsername(), createUserRequest.getPassword());
+        closeWebDriver();
     }
 }

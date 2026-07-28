@@ -42,6 +42,8 @@ public class UpdateNameUserTest extends BaseUITest {
                 .open()
                 .setName(name)
                 .clickSaveChangeButton()
-                .checkAlertMessageAndAccept(BankAlert.NAME_MUST_CONTAIN_TWO_WORDS_WITH_LETTERS_ONLY.getMessage());
+                .checkAlertMessageAndAccept(
+                        BankAlert.NAME_MUST_CONTAIN_TWO_WORDS_WITH_LETTERS_ONLY.getMessage(),
+                        BankAlert.PLEASE_ENTER_VALID_NAME.getMessage());
     }
 }
