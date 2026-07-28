@@ -8,6 +8,7 @@ import com.codeborne.selenide.Selenide;
 import common.extensions.AdminSessionExtension;
 import common.extensions.UserSessionExtension;
 import iteration_1.api.BaseTest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -29,6 +30,11 @@ public class BaseUITest extends BaseTest {
         Configuration.browserCapabilities.setCapability("selenoid:options",
                 Map.of("enableVNC", true, "enableLog", true)
         );
+    }
+
+    @AfterEach
+    public void closeBrowser() {
+        Selenide.closeWebDriver();
     }
 
     public void authAsUser(String username, String password) {
