@@ -1,0 +1,225 @@
+==================Deposit=========================================================
+
+1/ Валидное отображение страницы /deposit // Deposit page is displayed correctly
+Шаги:
+- пользователь перешел на страницу /deposit
+ОР:
+отображается заголовок
+отображается селектор для выбора аккаунта
+отображается поле для ввода суммы
+отображается кнопка Deposit
+
+2/ Пользователь может сделать депозит с валидными данными // User can deposit money successfully
+Шаги:
+- открыть список
+- выбрать аккаунт
+- кликнуть на поле ввода
+- ввести валидную сумму депозита
+- нажать на Deposit
+
+ОР:
+отображается алерт с сообщением об успехе
+сумма на счету увеличилась
+
+3/ Пользователь не может сделать депозит с невалидными данными
+Шаги:
+- открыть список
+- выбрать аккаунт
+- кликнуть на поле ввода
+- ввести невалидную сумму депозита
+- нажать на Deposit
+
+ОР:
+отображается алерт с сообщением об ошибке
+сумма на счету не увеличилась
+
+==================Transfer=========================================================
+
+1/ Валидное отображение страницы /transfer // Transfer page is displayed correctly
+Шаги:
+- пользователь перешел на страницу /transfer
+
+ОР:
+отображается заголовок Make a Transfer
+отображается кнопка New Transfer
+отображается кнопка Transfer Again
+отображается селектор выбора аккаунта
+отображается поле Recipient Name
+отображается поле Recipient Account Number
+отображается поле Amount
+отображается чекбокс Confirm details are correct
+отображается кнопка Send Transfer
+отображается кнопка Home
+
+2/ Пользователь не может сделать transfer без подтверждения checkbox // User cannot transfer money without confirmation
+Шаги:
+- открыть страницу /transfer
+- выбрать аккаунт отправителя
+- ввести имя получателя
+- ввести номер аккаунта получателя
+- ввести валидную сумму
+- не нажимать чекбокс Confirm details are correct
+- нажать Send Transfer
+
+ОР:
+отображается алерт с ошибкой
+transfer не выполнен
+баланс аккаунта отправителя не изменился
+баланс аккаунта получателя не изменился
+
+3/ Пользователь может сделать transfer с валидными данными // User can transfer money successfully
+Шаги:
+- открыть страницу /transfer
+- выбрать аккаунт отправителя
+- ввести имя получателя
+- ввести номер аккаунта получателя
+- ввести валидную сумму
+- нажать чекбокс Confirm details are correct
+- нажать Send Transfer
+
+ОР:
+отображается алерт с сообщением об успехе
+сумма на аккаунте отправителя уменьшилась
+сумма на аккаунте получателя увеличилась
+
+4/ Валидное отображение режима Transfer Again // Transfer Again page is displayed correctly
+Шаги:
+- открыть страницу /transfer
+- нажать Transfer Again
+
+ОР:
+отображается поле Search by Username or Name
+отображается кнопка Search Transactions
+отображается блок Matching Transactions
+отображается кнопка Home
+
+5/ Пользователь видит ошибку при поиске несуществующих транзакций // User sees error when no matching transactions found
+Шаги:
+- открыть страницу /transfer
+- нажать Transfer Again
+- ввести невалидное значение в поле поиска
+- нажать Search Transactions
+
+ОР:
+отображается алерт No matching users found
+список Matching Transactions не отображает результаты
+
+6/ Пользователь может найти транзакции по валидному username // User can search transactions by valid username
+Шаги:
+- открыть страницу /transfer
+- нажать Transfer Again
+- ввести валидный username в поле поиска
+- нажать Search Transactions
+
+ОР:
+отображается список Matching Transactions
+отображаются найденные транзакции
+у найденной транзакции отображается username
+у найденной транзакции отображается кнопка Repeat
+
+7/ Пользователь может открыть popup Repeat Transfer // User can open Repeat Transfer popup
+Шаги:
+- открыть страницу /transfer
+- нажать Transfer Again
+- найти транзакцию
+- нажать Repeat
+
+ОР:
+отображается popup Repeat Transfer
+отображается текст Confirm transfer to Account ID
+отображается селектор выбора аккаунта
+отображается поле Amount
+отображается чекбокс Confirm details are correct
+отображается кнопка Cancel
+отображается кнопка Send Transfer
+
+8/ Кнопка Send Transfer в popup недоступна без подтверждения checkbox // Send Transfer button is disabled without confirmation in popup
+Шаги:
+- открыть popup Repeat Transfer
+- не нажимать чекбокс Confirm details are correct
+
+ОР:
+кнопка Send Transfer недоступна
+
+9/ Пользователь может закрыть popup Repeat Transfer через Cancel // User can close Repeat Transfer popup by Cancel
+Шаги:
+- открыть popup Repeat Transfer
+- нажать Cancel
+
+ОР:
+popup Repeat Transfer закрыт
+пользователь остается на странице Transfer Again
+
+10/ Пользователь может повторить transfer из popup // User can repeat transfer successfully
+Шаги:
+- открыть popup Repeat Transfer
+- выбрать аккаунт отправителя
+- ввести валидную сумму
+- нажать чекбокс Confirm details are correct
+- нажать Send Transfer
+
+ОР:
+отображается алерт с сообщением об успехе
+сумма на аккаунте отправителя уменьшилась
+transfer выполнен
+
+10/ Пользователь может сбросить результаты поиска, переключившись на New Transfer
+                  // User can reset search results by switching to New Transfer
+Шаги:
+- открыть страницу /transfer
+- нажать Transfer Again
+- выполнить поиск с невалидными данными
+- нажать New Transfer
+- снова нажать Transfer Again
+
+ОР:
+отображается пустое поле поиска
+поле поиска не содержит ранее введенное значение
+список Matching Transactions не отображается
+
+==================Update name=========================================================
+1/ Валидное отображение страницы /edit-profile // Edit Profile page is displayed correctly
+Шаги:
+- пользователь перешел на страницу /edit-profile
+
+ОР:
+отображается заголовок Edit Profile
+отображается поле Enter new name
+отображается кнопка Save Changes
+отображается кнопка Home
+отображается Logout
+
+2/ Пользователь может изменить имя с валидными данными // User can update profile name successfully
+Шаги:
+- открыть страницу /edit-profile
+- кликнуть на поле Enter new name
+- ввести валидное имя
+- нажать Save Changes
+
+ОР:
+отображается алерт с сообщением об успехе
+имя пользователя изменилось
+
+3/ Пользователь видит обновленное имя без рефреша страницы // Updated name is displayed without page refresh
+Шаги:
+- открыть страницу /edit-profile
+- ввести валидное имя
+- нажать Save Changes
+- перейти на Dashboard без рефреша
+
+ОР:
+обновленное имя отображается в приветствии на Dashboard
+обновленное имя отображается в хедере
+обновление страницы не требуется
+
+4/ Пользователь не может изменить имя с невалидными данными // User cannot update profile name with invalid data
+Шаги:
+- открыть страницу /edit-profile
+- кликнуть на поле Enter new name
+- ввести невалидное имя
+- нажать Save Changes
+
+ОР:
+отображается алерт с ошибкой
+имя пользователя не изменилось
+старое имя отображается в хедере после перехода на Dashboard
