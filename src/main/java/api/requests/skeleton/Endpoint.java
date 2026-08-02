@@ -46,6 +46,11 @@ public enum Endpoint {
             "/customer/profile",
             UpdateProfileRequest.class,
             UpdateProfileResponse.class
+    ),
+    TRANSFER_WITH_FRAUD_CHECK(
+            "/accounts/transfer-with-fraud-check",
+            TransferRequest.class,
+            FraudCheckTransferResponse.class
     );
 
     private final String url;

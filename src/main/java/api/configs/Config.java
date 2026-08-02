@@ -1,5 +1,7 @@
 package api.configs;
 
+import api.contract.BackendVersion;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -21,5 +23,9 @@ public class Config {
 
     public static String getProperty(String key) {
         return INSTANCE.properties.getProperty(key);
+    }
+
+    public static BackendVersion getBackendVersion() {
+        return BackendVersion.valueOf(getProperty("backend.version"));
     }
 }
