@@ -20,8 +20,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.ResourceLock;
 import storage.SessionStorage;
 
-import static common.testdata.FraudCheckTestData.*;
-
 @APIVersion(BackendVersion.WITH_FRAUD_CHECK_WITH_TRANSFER_FIX)
 @ExtendWith(FraudCheckWireMockExtension.class)
 @ResourceLock("fraud-check-wiremock")
