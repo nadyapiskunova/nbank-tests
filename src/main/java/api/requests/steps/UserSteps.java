@@ -79,4 +79,21 @@ public class UserSteps {
                 ResponseSpecs.requestReturnsOK())
                 .get();
     }
+    public FraudCheckTransferResponse transferWithFraudCheck(
+            Integer senderAccountId,
+            Integer receiverAccountId,
+            Double amount
+    ) {
+        TransferRequest request = TransferRequest.builder()
+                .senderAccountId(senderAccountId)
+                .receiverAccountId(receiverAccountId)
+                .amount(amount)
+                .build();
+
+        return new ValidatedCrudRequester<FraudCheckTransferResponse>(
+                RequestSpecs.authAsUser(username, password),
+                Endpoint.TRANSFER_WITH_FRAUD_CHECK,
+                ResponseSpecs.requestReturnsOK()
+        ).post(request);
+    }
 }

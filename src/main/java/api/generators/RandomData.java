@@ -93,4 +93,17 @@ public class RandomData {
                 .setScale(2, RoundingMode.DOWN)
                 .doubleValue();
     }
+    public static double getTransferBalance() {
+        return getValidDepositAmount();
+    }
+
+    public static double getValidTransferAmount(double balance) {
+        return BigDecimal.valueOf(
+                        ThreadLocalRandom.current()
+                                .nextDouble(TestConstants.MIN_AMOUNT, balance)
+                )
+                .setScale(2, RoundingMode.DOWN)
+                .doubleValue();
+    }
+
 }

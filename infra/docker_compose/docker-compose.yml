@@ -1,6 +1,7 @@
 services:
   backend:
-    image: nobugsme/nbank:with_database_with_fix
+    image: nobugsme/nbank:with_fraud_check_with_transfer_fix
+    container_name: nbank-app
     ports:
       - "4111:4111"
     environment:
@@ -8,6 +9,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+      - FRAUD_DETECTION_SERVICE_URL=http://host.docker.internal:8080
     depends_on:
       - postgres
     networks:

@@ -14,7 +14,12 @@ public enum BackendVersion {
             true,
             true,
             true
-    );
+    ),
+    WITH_FRAUD_CHECK_WITH_TRANSFER_FIX(
+            true,
+            true,
+            true
+    );;
 
     private final boolean databaseSupported;
     private final boolean databaseValidationMessages;
