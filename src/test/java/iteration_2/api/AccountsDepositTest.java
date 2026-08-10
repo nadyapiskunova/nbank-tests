@@ -2,19 +2,22 @@ package iteration_2.api;
 
 import api.constans.ErrorMessages;
 import api.constans.TestConstants;
+import api.dao.AccountDao;
+import api.dao.TransactionDao;
+import api.dao.comparison.DaoAndModelAssertions;
 import api.generators.RandomData;
-import api.models.AccountResponse;
-import api.models.CreateUserRequest;
-import api.models.DepositRequest;
-import api.models.TransactionResponse;
+import api.models.*;
 import api.models.comparison.ModelAssertions;
 import api.requests.skeleton.Endpoint;
 import api.requests.skeleton.requesters.CrudRequester;
 import api.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.requests.steps.DataBaseSteps;
 import api.requests.steps.UserSteps;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
+import common.annotations.DepositInvalidArguments;
 import common.annotations.UserSession;
+import common.helpers.DbCheck;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -23,6 +26,9 @@ import storage.SessionStorage;
 
 import java.util.List;
 import java.util.stream.Stream;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class AccountsDepositTest extends BaseTest {
 
@@ -60,18 +66,23 @@ public class AccountsDepositTest extends BaseTest {
 
         softly.assertThat(transactions).hasSize(1);
         ModelAssertions.assertThatModels(depositRequest, transaction).match();
+
+        DbCheck.run(() -> {
+            AccountDao accountDao = DataBaseSteps.getAccountById(accountId);
+            TransactionDao transactionDao = DataBaseSteps.getTransactionByAccountId(accountId);
+
+            assertThat(accountDao.getBalance()).isEqualTo(amount);
+
+            DaoAndModelAssertions
+                    .assertThat(depositRequest, transactionDao)
+                    .match();
+
+            assertThat(transactionDao.getType()).isEqualTo(TransactionType.DEPOSIT);
+            assertThat(transactionDao.getRelatedAccountId()).isEqualTo(accountId);
+        });
     }
 
-    public static Stream<Arguments> dataForUserCannotDepositWithInvalidAmountTest(){
-
-        return Stream.of(
-                Arguments.of(TestConstants.NEGATIVE_AMOUNT, ErrorMessages.DEPOSIT_AMOUNT_MIN),
-                Arguments.of(TestConstants.ZERO_AMOUNT, ErrorMessages.DEPOSIT_AMOUNT_MIN),
-                Arguments.of(TestConstants.ABOVE_MAX_DEPOSIT_AMOUNT, ErrorMessages.DEPOSIT_AMOUNT_MAX)
-        );
-    }
-
-    @MethodSource("dataForUserCannotDepositWithInvalidAmountTest")
+    @DepositInvalidArguments
     @ParameterizedTest
     @UserSession
     public void userCannotDepositWithInvalidAmountTest(Double amount, String errorValue) {
@@ -96,6 +107,13 @@ public class AccountsDepositTest extends BaseTest {
 
         softly.assertThat(accountAfterFailedDeposit.getBalance()).isEqualTo(0.0);
         softly.assertThat(accountAfterFailedDeposit.getTransactions()).isEmpty();
+
+        DbCheck.run(() -> {
+            AccountDao accountDao = DataBaseSteps.getAccountById(accountId);
+
+            assertThat(accountDao.getBalance()).isEqualTo(0.0);
+            assertNull(DataBaseSteps.getTransactionByAccountId(accountId));
+        });
     }
 
     @Test
@@ -121,6 +139,13 @@ public class AccountsDepositTest extends BaseTest {
 
         softly.assertThat(accountAfterFailedDeposit.getBalance()).isEqualTo(0.0);
         softly.assertThat(accountAfterFailedDeposit.getTransactions()).isEmpty();
+
+        DbCheck.run(() -> {
+            AccountDao accountDao = DataBaseSteps.getAccountById(accountId);
+
+            assertThat(accountDao.getBalance()).isEqualTo(0.0);
+            assertNull(DataBaseSteps.getTransactionByAccountId(accountId));
+        });
     }
 
     @Test
@@ -130,6 +155,9 @@ public class AccountsDepositTest extends BaseTest {
 
         CreateUserRequest user = SessionStorage.getUser();
         userSteps.createAccount();
+
+        AccountResponse nonExistentAccount = userSteps.createAccount();
+        Integer nonExistentAccountId = nonExistentAccount.getId();
 
         DepositRequest userDepositToNonExistentAccount = DepositRequest.builder()
                 .id(TestConstants.NON_EXISTING_ACCOUNT_ID)
@@ -146,6 +174,12 @@ public class AccountsDepositTest extends BaseTest {
 
         softly.assertThat(accountAfterFailedDeposit.getBalance()).isEqualTo(0.0);
         softly.assertThat(accountAfterFailedDeposit.getTransactions()).isEmpty();
+
+        DbCheck.run(() ->
+                assertNull(
+                        DataBaseSteps.getTransactionByAccountId(nonExistentAccountId)
+                )
+        );
     }
 
     @Test
@@ -176,6 +210,12 @@ public class AccountsDepositTest extends BaseTest {
 
         softly.assertThat(accountAfterFailedDeposit.getBalance()).isEqualTo(0.0);
         softly.assertThat(accountAfterFailedDeposit.getTransactions()).isEmpty();
+
+        DbCheck.run(() ->
+                assertNull(
+                        DataBaseSteps.getTransactionByAccountId(accountIdBySecondUser)
+                )
+        );
     }
 
     @Test
@@ -195,5 +235,11 @@ public class AccountsDepositTest extends BaseTest {
                 Endpoint.DEPOSIT,
                 ResponseSpecs.requestReturnsUnauthorized())
                 .post(unauthorizedUserDeposit);
+
+        DbCheck.run(() ->
+                assertNull(
+                        DataBaseSteps.getTransactionByAccountId(accountId)
+                )
+        );
     }
 }

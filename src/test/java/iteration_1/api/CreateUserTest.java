@@ -1,10 +1,13 @@
 package iteration_1.api;
 
 import api.constans.ErrorMessages;
+import api.dao.UserDao;
+import api.dao.comparison.DaoAndModelAssertions;
 import api.generators.RandomModelGenerator;
 import api.models.CreateUserRequest;
 import api.models.CreateUserResponse;
 import api.models.comparison.ModelAssertions;
+import api.requests.steps.DataBaseSteps;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -18,6 +21,8 @@ import storage.SessionStorage;
 
 import java.util.List;
 import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class CreateUserTest extends BaseTest {
     @Test
@@ -33,6 +38,9 @@ public class CreateUserTest extends BaseTest {
         SessionStorage.addUser(createUserRequest, createUserResponse.getId());
 
         ModelAssertions.assertThatModels(createUserRequest, createUserResponse).match();
+
+        UserDao userDao = DataBaseSteps.getUserByUsername(createUserRequest.getUsername());
+        DaoAndModelAssertions.assertThat(createUserResponse, userDao).match();
     }
 
     public static Stream<Arguments> userInvalidData() {
@@ -79,5 +87,7 @@ public class CreateUserTest extends BaseTest {
                  Endpoint.ADMIN_USER,
                 ResponseSpecs.requestReturnsBadRequest("username", errors))
                 .post(createUserRequest);
+
+        assertNull(DataBaseSteps.getUserByUsername(createUserRequest.getUsername()));
     }
 }

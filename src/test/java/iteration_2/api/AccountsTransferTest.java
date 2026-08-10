@@ -3,16 +3,23 @@ package iteration_2.api;
 import api.constans.ErrorMessages;
 import api.constans.Messages;
 import api.constans.TestConstants;
+import api.dao.AccountDao;
+import api.dao.TransactionDao;
+import api.dao.comparison.DaoAndModelAssertions;
 import api.generators.RandomData;
 import api.models.*;
 import api.models.comparison.ModelAssertions;
 import api.requests.skeleton.Endpoint;
 import api.requests.skeleton.requesters.CrudRequester;
 import api.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.requests.steps.DataBaseSteps;
 import api.requests.steps.UserSteps;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
+import common.annotations.TransferInvalidArguments;
 import common.annotations.UserSession;
+import common.helpers.AmountHelper;
+import common.helpers.DbCheck;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -35,14 +42,6 @@ public class AccountsTransferTest extends BaseTest {
         );
     }
 
-    public static Stream<Arguments> invalidTransferAmounts() {
-
-        return Stream.of(
-                Arguments.of(TestConstants.NEGATIVE_AMOUNT, ErrorMessages.TRANSFER_AMOUNT_MIN),
-                Arguments.of(TestConstants.ZERO_AMOUNT, ErrorMessages.TRANSFER_AMOUNT_MIN),
-                Arguments.of(TestConstants.ABOVE_MAX_TRANSFER_AMOUNT, ErrorMessages.TRANSFER_AMOUNT_MAX)
-        );
-    }
     @MethodSource("validTransferAmounts")
     @ParameterizedTest
     @UserSession
@@ -108,6 +107,39 @@ public class AccountsTransferTest extends BaseTest {
         softly.assertThat(receiverAccount.getTransactions())
                 .extracting(TransactionResponse::getType)
                 .contains(TransactionType.TRANSFER_IN);
+        DbCheck.run(() -> {
+            DaoAndModelAssertions.assertThat(senderAccount, DataBaseSteps.getAccountById(firstAccountId)).match();
+
+            DaoAndModelAssertions.assertThat(receiverAccount, DataBaseSteps.getAccountById(secondAccountId)).match();
+
+            TransactionResponse transferOut = senderAccount.getTransactions()
+                    .stream()
+                    .filter(transaction -> transaction.getType() == TransactionType.TRANSFER_OUT)
+                    .findFirst()
+                    .orElseThrow();
+
+            TransactionResponse transferIn = receiverAccount.getTransactions()
+                    .stream()
+                    .filter(transaction -> transaction.getType() == TransactionType.TRANSFER_IN)
+                    .findFirst()
+                    .orElseThrow();
+
+            DaoAndModelAssertions.assertThat(
+                            transferOut,
+                            DataBaseSteps.getTransactionByAccountIdAndType(
+                                    firstAccountId,
+                                    TransactionType.TRANSFER_OUT
+                            )
+            ).match();
+
+            DaoAndModelAssertions.assertThat(
+                            transferIn,
+                            DataBaseSteps.getTransactionByAccountIdAndType(
+                                    secondAccountId,
+                                    TransactionType.TRANSFER_IN
+                            )
+            ).match();
+        });
     }
 
     @MethodSource("validTransferAmounts")
@@ -173,9 +205,56 @@ public class AccountsTransferTest extends BaseTest {
         softly.assertThat(secondUserAccount.getTransactions())
                 .extracting(TransactionResponse::getType)
                 .contains(TransactionType.TRANSFER_IN);
+        DbCheck.run(() -> {
+            DaoAndModelAssertions
+                    .assertThat(
+                            firstUserAccount,
+                            DataBaseSteps.getAccountById(accountIdByFirstUser)
+                    )
+                    .match();
+
+            DaoAndModelAssertions
+                    .assertThat(
+                            secondUserAccount,
+                            DataBaseSteps.getAccountById(accountIdBySecondUser)
+                    )
+                    .match();
+
+            TransactionResponse transferOut = firstUserAccount.getTransactions().stream()
+                    .filter(transaction ->
+                            transaction.getType() == TransactionType.TRANSFER_OUT)
+                    .findFirst()
+                    .orElseThrow();
+
+            TransactionResponse transferIn = secondUserAccount.getTransactions().stream()
+                    .filter(transaction ->
+                            transaction.getType() == TransactionType.TRANSFER_IN)
+                    .findFirst()
+                    .orElseThrow();
+
+            DaoAndModelAssertions
+                    .assertThat(
+                            transferOut,
+                            DataBaseSteps.getTransactionByAccountIdAndType(
+                                    accountIdByFirstUser,
+                                    TransactionType.TRANSFER_OUT
+                            )
+                    )
+                    .match();
+
+            DaoAndModelAssertions
+                    .assertThat(
+                            transferIn,
+                            DataBaseSteps.getTransactionByAccountIdAndType(
+                                    accountIdBySecondUser,
+                                    TransactionType.TRANSFER_IN
+                            )
+                    )
+                    .match();
+        });
     }
 
-    @MethodSource("invalidTransferAmounts")
+    @TransferInvalidArguments
     @ParameterizedTest
     @UserSession
     public void userCannotTransferBetweenTheirAccountWithInvalidDataTest(Double amount, String errorValue) {
@@ -226,9 +305,39 @@ public class AccountsTransferTest extends BaseTest {
         softly.assertThat(receiverAccount.getTransactions())
                 .extracting(TransactionResponse::getType)
                 .doesNotContain(TransactionType.TRANSFER_IN);
+
+        DbCheck.run(() -> {
+            DaoAndModelAssertions
+                    .assertThat(
+                            senderAccount,
+                            DataBaseSteps.getAccountById(firstAccountId)
+                    )
+                    .match();
+
+            DaoAndModelAssertions
+                    .assertThat(
+                            receiverAccount,
+                            DataBaseSteps.getAccountById(secondAccountId)
+                    )
+                    .match();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            firstAccountId,
+                            TransactionType.TRANSFER_OUT
+                    )
+            ).isNull();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            secondAccountId,
+                            TransactionType.TRANSFER_IN
+                    )
+            ).isNull();
+        });
     }
 
-    @MethodSource("invalidTransferAmounts")
+    @TransferInvalidArguments
     @ParameterizedTest
     @UserSession(2)
     public void userCannotTransferToExternalAccountWithInvalidDataTest(Double amount, String errorValue) {
@@ -288,6 +397,36 @@ public class AccountsTransferTest extends BaseTest {
         softly.assertThat(secondUserAccountAfterFailedTransfer.getTransactions())
                 .extracting(TransactionResponse::getType)
                 .doesNotContain(TransactionType.TRANSFER_IN);
+
+        DbCheck.run(() -> {
+            DaoAndModelAssertions
+                    .assertThat(
+                            firstUserAccountAfterFailedTransfer,
+                            DataBaseSteps.getAccountById(accountIdByFirstUser)
+                    )
+                    .match();
+
+            DaoAndModelAssertions
+                    .assertThat(
+                            secondUserAccountAfterFailedTransfer,
+                            DataBaseSteps.getAccountById(accountIdBySecondUser)
+                    )
+                    .match();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            accountIdByFirstUser,
+                            TransactionType.TRANSFER_OUT
+                    )
+            ).isNull();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            accountIdBySecondUser,
+                            TransactionType.TRANSFER_IN
+                    )
+            ).isNull();
+        });
     }
 
     @Test
@@ -332,7 +471,7 @@ public class AccountsTransferTest extends BaseTest {
                 .orElseThrow();
 
         softly.assertThat(senderAccount.getBalance())
-                .isEqualTo(depositAmount);
+                .isEqualTo(AmountHelper.expectedBalance(depositAmount));
 
         softly.assertThat(receiverAccount.getBalance())
                 .isEqualTo(0.0);
@@ -344,6 +483,36 @@ public class AccountsTransferTest extends BaseTest {
         softly.assertThat(receiverAccount.getTransactions())
                 .extracting(TransactionResponse::getType)
                 .doesNotContain(TransactionType.TRANSFER_IN);
+
+        DbCheck.run(() -> {
+            DaoAndModelAssertions
+                    .assertThat(
+                            senderAccount,
+                            DataBaseSteps.getAccountById(firstAccountId)
+                    )
+                    .match();
+
+            DaoAndModelAssertions
+                    .assertThat(
+                            receiverAccount,
+                            DataBaseSteps.getAccountById(secondAccountId)
+                    )
+                    .match();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            firstAccountId,
+                            TransactionType.TRANSFER_OUT
+                    )
+            ).isNull();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            secondAccountId,
+                            TransactionType.TRANSFER_IN
+                    )
+            ).isNull();
+        });
     }
 
     @Test
@@ -385,7 +554,7 @@ public class AccountsTransferTest extends BaseTest {
                         .orElseThrow();
 
         softly.assertThat(firstUserAccountAfterFailedTransfer.getBalance())
-                .isEqualTo(depositAmount);
+                .isEqualTo(AmountHelper.expectedBalance(depositAmount));
 
         softly.assertThat(firstUserAccountAfterFailedTransfer.getTransactions())
                 .extracting(TransactionResponse::getType)
@@ -405,6 +574,37 @@ public class AccountsTransferTest extends BaseTest {
         softly.assertThat(secondUserAccountAfterFailedTransfer.getTransactions())
                 .extracting(TransactionResponse::getType)
                 .doesNotContain(TransactionType.TRANSFER_IN);
+
+        DbCheck.run(() -> {
+            DaoAndModelAssertions
+                    .assertThat(
+                            firstUserAccountAfterFailedTransfer,
+                            DataBaseSteps.getAccountById(accountIdByFirstUser)
+                    )
+                    .match();
+
+            DaoAndModelAssertions
+                    .assertThat(
+                            secondUserAccountAfterFailedTransfer,
+                            DataBaseSteps.getAccountById(accountIdBySecondUser)
+                    )
+                    .match();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            accountIdByFirstUser,
+                            TransactionType.TRANSFER_OUT
+                    )
+            ).isNull();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            accountIdBySecondUser,
+                            TransactionType.TRANSFER_IN
+                    )
+            ).isNull();
+        });
+
     }
 
     @Test
@@ -445,7 +645,7 @@ public class AccountsTransferTest extends BaseTest {
                 .orElseThrow();
 
         softly.assertThat(senderAccount.getBalance())
-                .isEqualTo(depositAmount);
+                .isEqualTo(AmountHelper.expectedBalance(depositAmount));
 
         softly.assertThat(receiverAccount.getBalance())
                 .isEqualTo(0.0);
@@ -457,6 +657,36 @@ public class AccountsTransferTest extends BaseTest {
         softly.assertThat(receiverAccount.getTransactions())
                 .extracting(TransactionResponse::getType)
                 .doesNotContain(TransactionType.TRANSFER_IN);
+
+        DbCheck.run(() -> {
+            DaoAndModelAssertions
+                    .assertThat(
+                            senderAccount,
+                            DataBaseSteps.getAccountById(firstAccountId)
+                    )
+                    .match();
+
+            DaoAndModelAssertions
+                    .assertThat(
+                            receiverAccount,
+                            DataBaseSteps.getAccountById(secondAccountId)
+                    )
+                    .match();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            firstAccountId,
+                            TransactionType.TRANSFER_OUT
+                    )
+            ).isNull();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            secondAccountId,
+                            TransactionType.TRANSFER_IN
+                    )
+            ).isNull();
+        });
     }
 
     @Test
@@ -495,7 +725,7 @@ public class AccountsTransferTest extends BaseTest {
                         .orElseThrow();
 
         softly.assertThat(firstUserAccountAfterFailedTransfer.getBalance())
-                .isEqualTo(depositAmount);
+                .isEqualTo(AmountHelper.expectedBalance(depositAmount));
 
         softly.assertThat(firstUserAccountAfterFailedTransfer.getTransactions())
                 .extracting(TransactionResponse::getType)
@@ -515,6 +745,36 @@ public class AccountsTransferTest extends BaseTest {
         softly.assertThat(secondUserAccountAfterFailedTransfer.getTransactions())
                 .extracting(TransactionResponse::getType)
                 .doesNotContain(TransactionType.TRANSFER_IN);
+
+        DbCheck.run(() -> {
+            DaoAndModelAssertions
+                    .assertThat(
+                            firstUserAccountAfterFailedTransfer,
+                            DataBaseSteps.getAccountById(accountIdByFirstUser)
+                    )
+                    .match();
+
+            DaoAndModelAssertions
+                    .assertThat(
+                            secondUserAccountAfterFailedTransfer,
+                            DataBaseSteps.getAccountById(accountIdBySecondUser)
+                    )
+                    .match();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            accountIdByFirstUser,
+                            TransactionType.TRANSFER_OUT
+                    )
+            ).isNull();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            accountIdBySecondUser,
+                            TransactionType.TRANSFER_IN
+                    )
+            ).isNull();
+        });
     }
 
     @Test
@@ -555,7 +815,7 @@ public class AccountsTransferTest extends BaseTest {
                 .orElseThrow();
 
         softly.assertThat(senderAccount.getBalance())
-                .isEqualTo(depositAmount);
+                .isEqualTo(AmountHelper.expectedBalance(depositAmount));
 
         softly.assertThat(receiverAccount.getBalance())
                 .isEqualTo(0.0);
@@ -567,6 +827,36 @@ public class AccountsTransferTest extends BaseTest {
         softly.assertThat(receiverAccount.getTransactions())
                 .extracting(TransactionResponse::getType)
                 .doesNotContain(TransactionType.TRANSFER_IN);
+
+        DbCheck.run(() -> {
+            DaoAndModelAssertions
+                    .assertThat(
+                            senderAccount,
+                            DataBaseSteps.getAccountById(firstAccountId)
+                    )
+                    .match();
+
+            DaoAndModelAssertions
+                    .assertThat(
+                            receiverAccount,
+                            DataBaseSteps.getAccountById(secondAccountId)
+                    )
+                    .match();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            firstAccountId,
+                            TransactionType.TRANSFER_OUT
+                    )
+            ).isNull();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            secondAccountId,
+                            TransactionType.TRANSFER_IN
+                    )
+            ).isNull();
+        });
     }
 
     @Test
@@ -600,11 +890,31 @@ public class AccountsTransferTest extends BaseTest {
                 .orElseThrow();
 
         softly.assertThat(senderAccount.getBalance())
-                .isEqualTo(depositAmount);
+                .isEqualTo(AmountHelper.expectedBalance(depositAmount));
 
         softly.assertThat(senderAccount.getTransactions())
                 .extracting(TransactionResponse::getType)
                 .doesNotContain(TransactionType.TRANSFER_OUT);
+
+        DbCheck.run(() -> {
+            DaoAndModelAssertions
+                    .assertThat(
+                            senderAccount,
+                            DataBaseSteps.getAccountById(firstAccountId)
+                    )
+                    .match();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            firstAccountId,
+                            TransactionType.TRANSFER_OUT
+                    )
+            ).isNull();
+
+            softly.assertThat(
+                    DataBaseSteps.getAccountById(TestConstants.NON_EXISTING_ACCOUNT_ID)
+            ).isNull();
+        });
     }
 
     @Test
@@ -643,5 +953,25 @@ public class AccountsTransferTest extends BaseTest {
         softly.assertThat(receiverAccount.getTransactions())
                 .extracting(TransactionResponse::getType)
                 .doesNotContain(TransactionType.TRANSFER_IN);
+
+        DbCheck.run(() -> {
+            softly.assertThat(
+                    DataBaseSteps.getAccountById(TestConstants.NON_EXISTING_ACCOUNT_ID)
+            ).isNull();
+
+            DaoAndModelAssertions
+                    .assertThat(
+                            receiverAccount,
+                            DataBaseSteps.getAccountById(accountId)
+                    )
+                    .match();
+
+            softly.assertThat(
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            accountId,
+                            TransactionType.TRANSFER_IN
+                    )
+            ).isNull();
+        });
     }
 }

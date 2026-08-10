@@ -4,6 +4,7 @@ import api.constans.TestConstants;
 import api.models.CreateUserRequest;
 import api.models.CreateUserResponse;
 import api.models.LoginUserRequest;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import api.requests.skeleton.Endpoint;
 import api.requests.skeleton.requesters.CrudRequester;
@@ -37,6 +38,7 @@ public class LoginUserTest extends BaseTest {
                 .post(LoginUserRequest.builder()
                         .username(userRequest.getUsername())
                         .password(userRequest.getPassword())
-                        .build());
+                        .build())
+                .header("Authorization", Matchers.notNullValue());;
     }
 }
