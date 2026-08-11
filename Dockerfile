@@ -30,9 +30,12 @@ USER root
 CMD /bin/bash -c " \
     mkdir -p /app/logs ; \
     { \
-    echo '>>> Running tests with profile: ${TEST_PROFILE}' ; \
-    mvn test -q -P ${TEST_PROFILE} ; \
-    \
-    echo '>>> Running surefire-report:report' ; \
-    mvn -DskipTests=true surefire-report:report ; \
+        echo '>>> Running tests with profile: ${TEST_PROFILE}' ; \
+        mvn test -q -P ${TEST_PROFILE} ; \
+        TEST_EXIT_CODE=\$? ; \
+        \
+        echo '>>> Running surefire-report:report' ; \
+        mvn -DskipTests=true surefire-report:report || true ; \
+        \
+        exit \$TEST_EXIT_CODE ; \
     } > /app/logs/run.log 2>&1"
