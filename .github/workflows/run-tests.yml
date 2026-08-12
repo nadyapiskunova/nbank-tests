@@ -31,5 +31,10 @@ jobs: # аналог этапов
         run: bash restart_docker.sh
 
       - name: Run tests
-        run: ./mvnw -q clean test
+        run: ./mvnw clean test -q -Pall
+        env:
+          APIBASEURL: http://localhost:4111
+          UIBASEURL: http://nginx:80
+
+
 
