@@ -10,7 +10,7 @@ public class Config {
     private static final Config INSTANCE = new Config();
     private final Properties properties = new Properties();
 
-    private Config() {
+    private Config(){
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
             if (input == null) {
                 throw new RuntimeException("config.properties not found in resources");
