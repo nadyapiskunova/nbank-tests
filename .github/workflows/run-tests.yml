@@ -1,4 +1,4 @@
-name: Run tests
+name: Build and Publish Tests Image on Source Changes
 
 # триггер
 on:
@@ -9,7 +9,7 @@ on:
 
 jobs: # аналог этапов
   run-tests:
-    name: Set up services (review apps) and run tests
+    name: Build, Test and Publish
     runs-on: ubuntu-latest
     steps: # шаги конкретной job
       - name: Checkout repository # копируем файлы репозитория внутрь CI агента
