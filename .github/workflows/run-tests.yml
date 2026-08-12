@@ -31,5 +31,5 @@ jobs: # аналог этапов
         run: bash restart_docker.sh
 
       - name: Run tests
-        run: ./mvnw clean test
+        run: ./mvnw -q clean test
 
