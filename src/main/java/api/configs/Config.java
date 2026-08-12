@@ -12,7 +12,7 @@ public class Config {
 
     private Config(){
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
-            if (input == null) {
+            if (input == null){
                 throw new RuntimeException("config.properties not found in resources");
             }
             properties.load(input);
@@ -21,10 +21,10 @@ public class Config {
         }
     }
 
-    public static String getProperty(String key) {
+    public static String getProperty(String key){
         // ПРИОРИТЕТ 1 - это системное свойство baseApiUrl = ..
         String systemValue = System.getProperty(key);
-        if (systemValue != null) {
+        if (systemValue != null){
             return systemValue;
         }
 
