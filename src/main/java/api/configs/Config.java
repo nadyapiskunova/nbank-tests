@@ -12,7 +12,7 @@ public class Config {
 
     private Config() {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
-            if(input == null) {
+            if (input == null) {
                 throw new RuntimeException("config.properties not found in resources");
             }
             properties.load(input);
@@ -33,7 +33,7 @@ public class Config {
         String envKey = key.toUpperCase().replace('.', '_');
         String envValue = System.getenv(envKey);
 
-        if (envValue != null){
+        if (envValue != null) {
             return envValue;
         }
 

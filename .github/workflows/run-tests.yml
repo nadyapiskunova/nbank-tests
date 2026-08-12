@@ -1,7 +1,11 @@
 name: Run tests
 
 # триггер
-on: [ push, workflow_dispatch ]
+on:
+  push:
+    paths:
+      - 'src/**'
+  workflow_dispatch:
 
 jobs: # аналог этапов
   run-tests:
@@ -36,5 +40,18 @@ jobs: # аналог этапов
           APIBASEURL: http://localhost:4111
           UIBASEURL: http://nginx:80
 
+      - name: Check code style
+        run: ./mvnw checkstyle:check
 
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nbank-tests:${{ github.sha }}

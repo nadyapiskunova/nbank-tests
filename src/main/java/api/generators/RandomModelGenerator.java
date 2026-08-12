@@ -5,13 +5,19 @@ import com.github.curiousoddman.rgxgen.RgxGen;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 public class RandomModelGenerator {
 
     private static final Random random = new Random();
 
-    public static  <T> T generate(Class<T> clazz) {
+    public static <T> T generate(Class<T> clazz) {
         try {
             T instance = clazz.getDeclaredConstructor().newInstance();
             for (Field field : getAllFields(clazz)) {

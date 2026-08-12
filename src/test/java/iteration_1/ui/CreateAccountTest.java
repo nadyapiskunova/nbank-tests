@@ -17,7 +17,7 @@ public class CreateAccountTest extends BaseUITest {
     @Disabled("флаки")
     @Test
     @UserSession
-    public void userCanCreateAccountTest(){
+    public void userCanCreateAccountTest() {
 
         new UserDashboard().open().createUserAccount();
 

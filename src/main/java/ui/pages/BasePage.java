@@ -12,14 +12,16 @@ import ui.elements.BaseElement;
 import java.util.List;
 import java.util.function.Function;
 
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.executeJavaScript;
+import static com.codeborne.selenide.Selenide.switchTo;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public abstract class BasePage<T extends BasePage> {
     protected SelenideElement usernameInput = $(Selectors.byAttribute("placeholder", "Username"));
-    protected SelenideElement passwordInput = $(Selectors.byAttribute("placeholder","Password"));
+    protected SelenideElement passwordInput = $(Selectors.byAttribute("placeholder", "Password"));
     protected SelenideElement accountsSelector = $(".account-selector");
-    protected SelenideElement inputAmount = $(Selectors.byAttribute("placeholder","Enter amount"));
+    protected SelenideElement inputAmount = $(Selectors.byAttribute("placeholder", "Enter amount"));
 
     public abstract String url();
 
@@ -27,17 +29,18 @@ public abstract class BasePage<T extends BasePage> {
         return Selenide.open(url(), (Class<T>) this.getClass());
     }
 
-    public <T extends BasePage> T getPage(Class<T> pageClass){
+    public <T extends BasePage> T getPage(Class<T> pageClass) {
         return Selenide.page(pageClass);
     }
 
-    public T checkAlertMessageAndAccept(String bankAlert){
+    public T checkAlertMessageAndAccept(String bankAlert) {
         Alert alert = switchTo().alert();
         assertThat(alert.getText()).contains(bankAlert);
         alert.accept();
 
         return (T) this;
     }
+
     public T checkAlertMessageAndAccept(String... expectedMessages) {
         Alert alert = switchTo().alert();
         String actualMessage = alert.getText();
@@ -50,16 +53,16 @@ public abstract class BasePage<T extends BasePage> {
         return (T) this;
     }
 
-    public T openSelectorAccounts(String accountNumber){
+    public T openSelectorAccounts(String accountNumber) {
         accountsSelector.selectOptionContainingText(accountNumber);
 
-        return (T)this;
+        return (T) this;
     }
 
-    public T setAmount(double amount){
+    public T setAmount(double amount) {
         inputAmount.setValue(String.valueOf(amount));
 
-        return (T)this;
+        return (T) this;
     }
 
     public static void authAsUser(String username, String password) {
@@ -68,12 +71,12 @@ public abstract class BasePage<T extends BasePage> {
         executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthHeader);
     }
 
-    public static void authAsUser(CreateUserRequest createUserRequest){
+    public static void authAsUser(CreateUserRequest createUserRequest) {
         authAsUser(createUserRequest.getUsername(), createUserRequest.getPassword());
     }
 
 
-    protected <T extends BaseElement> List<T> generatePageElement(ElementsCollection elementsCollection, Function<SelenideElement, T> constructor){
+    protected <T extends BaseElement> List<T> generatePageElement(ElementsCollection elementsCollection, Function<SelenideElement, T> constructor) {
         return elementsCollection.stream().map(constructor).toList();
     }
 }

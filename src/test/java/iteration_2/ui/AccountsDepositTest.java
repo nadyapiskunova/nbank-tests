@@ -3,8 +3,6 @@ package iteration_2.ui;
 import api.constans.TestConstants;
 import api.generators.RandomData;
 import api.models.AccountResponse;
-import api.models.CreateUserRequest;
-import api.requests.steps.AdminSteps;
 import api.requests.steps.UserSteps;
 import common.annotations.UserSession;
 import org.junit.jupiter.api.Test;
@@ -15,7 +13,7 @@ import ui.pages.DepositPage;
 public class AccountsDepositTest extends BaseUITest {
     @Test
     @UserSession
-    public void userCanDepositWithValidData(){
+    public void userCanDepositWithValidData() {
         UserSteps userSteps = SessionStorage.getSteps();
         AccountResponse createdAccount = userSteps.createAccount();
 
@@ -35,7 +33,7 @@ public class AccountsDepositTest extends BaseUITest {
 
     @Test
     @UserSession
-    public void userCannotDepositWithInvalidData(){
+    public void userCannotDepositWithInvalidData() {
         UserSteps userSteps = SessionStorage.getSteps();
         AccountResponse createdAccount = userSteps.createAccount();
 
@@ -49,7 +47,7 @@ public class AccountsDepositTest extends BaseUITest {
 
     @Test
     @UserSession
-    public void userCannotDepositWithoutSelectedAccountTest(){
+    public void userCannotDepositWithoutSelectedAccountTest() {
         UserSteps userSteps = SessionStorage.getSteps();
 
         userSteps.createAccount();

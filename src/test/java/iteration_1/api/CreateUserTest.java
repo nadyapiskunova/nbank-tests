@@ -7,16 +7,16 @@ import api.generators.RandomModelGenerator;
 import api.models.CreateUserRequest;
 import api.models.CreateUserResponse;
 import api.models.comparison.ModelAssertions;
+import api.requests.skeleton.Endpoint;
+import api.requests.skeleton.requesters.CrudRequester;
+import api.requests.skeleton.requesters.ValidatedCrudRequester;
 import api.requests.steps.DataBaseSteps;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import api.requests.skeleton.Endpoint;
-import api.requests.skeleton.requesters.CrudRequester;
-import api.requests.skeleton.requesters.ValidatedCrudRequester;
-import api.specs.RequestSpecs;
-import api.specs.ResponseSpecs;
 import storage.SessionStorage;
 
 import java.util.List;
@@ -83,8 +83,8 @@ public class CreateUserTest extends BaseTest {
                 .role(role)
                 .build();
 
-         new CrudRequester(RequestSpecs.adminSpec(),
-                 Endpoint.ADMIN_USER,
+        new CrudRequester(RequestSpecs.adminSpec(),
+                Endpoint.ADMIN_USER,
                 ResponseSpecs.requestReturnsBadRequest("username", errors))
                 .post(createUserRequest);
 

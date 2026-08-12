@@ -11,6 +11,7 @@ public class TransactionItem extends BaseElement {
     private String username;
 
     private SelenideElement repeatButton;
+
     public TransactionItem(SelenideElement element) {
         super(element);
         String transactionText = element.$("span").getText().split("\n")[0];
