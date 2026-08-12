@@ -27,7 +27,8 @@ jobs: # аналог этапов
             ${{ runner.os }}-maven-
 
       - name: Set up services
-        run: cd infra/docker_compose && bash /restart_docker.sh && cd ../..
+        working-directory: infra/docker_compose
+        run: bash restart_docker.sh
 
       - name: Run tests
         run: ./mvnw clean test
