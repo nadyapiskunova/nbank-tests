@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 public abstract class BaseElement {
     protected final SelenideElement element;
 
-    public BaseElement(SelenideElement element){
+    public BaseElement(SelenideElement element) {
         this.element = element;
     }
 

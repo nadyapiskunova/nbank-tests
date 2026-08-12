@@ -1,9 +1,7 @@
 package iteration_2.ui;
 
 import api.generators.RandomData;
-import api.models.CreateUserRequest;
 import api.models.CustomerResponse;
-import api.requests.steps.AdminSteps;
 import api.requests.steps.UserSteps;
 import common.annotations.UserSession;
 import org.junit.jupiter.api.Disabled;
@@ -17,7 +15,7 @@ public class UpdateNameUserTest extends BaseUITest {
     @Disabled("Баг: имя не обновляется без рефреша страницы в .user-name")
     @Test
     @UserSession
-    public void userCanUpdateNameWithValidDataTest(){
+    public void userCanUpdateNameWithValidDataTest() {
         UserSteps userSteps = SessionStorage.getSteps();
         String name = RandomData.getValidName();
 
@@ -33,9 +31,10 @@ public class UpdateNameUserTest extends BaseUITest {
         CustomerResponse updatedName = userSteps.getCustomerProfile();
         softly.assertThat(updatedName.getName()).isEqualTo(name);
     }
+
     @UserSession
     @Test
-    public void userCannotUpdateNameWithInvalidDataTest(){
+    public void userCannotUpdateNameWithInvalidDataTest() {
         String name = RandomData.getNameWithoutSurname();
 
         new EditProfilePage()

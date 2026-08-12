@@ -12,7 +12,7 @@ public class Config {
 
     private Config() {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
-            if(input == null) {
+            if (input == null) {
                 throw new RuntimeException("config.properties not found in resources");
             }
             properties.load(input);
@@ -22,6 +22,22 @@ public class Config {
     }
 
     public static String getProperty(String key) {
+        // ПРИОРИТЕТ 1 - это системное свойство baseApiUrl = ..
+        String systemValue = System.getProperty(key);
+        if (systemValue != null) {
+            return systemValue;
+        }
+
+        // ПРИОРИТЕТ 2 - это переменная baseApiUrl - BASEAPIURL
+        // admin.username -> ADMIN_USERNAME
+        String envKey = key.toUpperCase().replace('.', '_');
+        String envValue = System.getenv(envKey);
+
+        if (envValue != null) {
+            return envValue;
+        }
+
+        // ПРИОРИТЕТ 3 - это config.properties
         return INSTANCE.properties.getProperty(key);
     }
 

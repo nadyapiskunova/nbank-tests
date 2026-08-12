@@ -35,6 +35,7 @@ public class UpdateNameUserTest extends BaseTest {
                 Arguments.of(RandomData.getMinLengthName())
         );
     }
+
     @APIVersion(BackendVersion.WITH_VALIDATION_FIX)
     @MethodSource("dataForUserCanUpdateNameWithValidDataTest")
     @ParameterizedTest
@@ -69,8 +70,8 @@ public class UpdateNameUserTest extends BaseTest {
                 .name(RandomData.getValidName())
                 .build();
 
-         new CrudRequester(RequestSpecs.unauthSpec(),
-                 Endpoint.UPDATE_CUSTOMER_PROFILE,
+        new CrudRequester(RequestSpecs.unauthSpec(),
+                Endpoint.UPDATE_CUSTOMER_PROFILE,
                 ResponseSpecs.requestReturnsUnauthorized())
                 .update(updateName);
 
@@ -98,6 +99,7 @@ public class UpdateNameUserTest extends BaseTest {
                 Arguments.of(RandomData.getNameWithSpecialCharacter(), ErrorMessages.INVALID_NAME)
         );
     }
+
     @MethodSource("dataForUserCannotUpdateNameWithInvalidDataTest")
     @ParameterizedTest
     @UserSession

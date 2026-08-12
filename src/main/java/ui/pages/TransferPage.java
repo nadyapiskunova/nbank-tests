@@ -10,10 +10,10 @@ import ui.elements.TransactionItem;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
-import java.util.Locale;
 
 import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -21,7 +21,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class TransferPage extends BasePage<TransferPage> {
     private SelenideElement
             inputUsername =
-                    $(Selectors.byAttribute("placeholder", "Enter recipient name")),
+            $(Selectors.byAttribute("placeholder", "Enter recipient name")),
             inputReceiverAccountNumber =
                     $(Selectors.byAttribute("placeholder", "Enter recipient account number")),
             confirmCheck = $("#confirmCheck"),
@@ -32,7 +32,7 @@ public class TransferPage extends BasePage<TransferPage> {
             foundUnderLabel = $(".list-group-item small"),
             repeatBtn = $(".custom-btn.shadow-custom.pink-btn"),
             accountIdLabel = $("p strong"),
-            accountList  = $("select.form-control"),
+            accountList = $("select.form-control"),
             sendTransferBtn = $(".btn.btn-success");
 
 
@@ -50,19 +50,19 @@ public class TransferPage extends BasePage<TransferPage> {
         );
     }
 
-    public TransferPage selectAccount(String senderAccountNumber){
+    public TransferPage selectAccount(String senderAccountNumber) {
         accountsSelector.selectOptionContainingText(senderAccountNumber);
 
         return this;
     }
 
-    public TransferPage setUsername(String username){
+    public TransferPage setUsername(String username) {
         inputUsername.setValue(username);
 
         return this;
     }
 
-    public TransferPage setReceiverAccountNumber(String receiverAccountNumber){
+    public TransferPage setReceiverAccountNumber(String receiverAccountNumber) {
         inputReceiverAccountNumber.setValue(receiverAccountNumber);
         return this;
     }
@@ -72,7 +72,7 @@ public class TransferPage extends BasePage<TransferPage> {
         return this;
     }
 
-    public TransferPage clickTransferButton(){
+    public TransferPage clickTransferButton() {
         transferBtn.click();
 
         return this;
@@ -107,18 +107,19 @@ public class TransferPage extends BasePage<TransferPage> {
         return this;
     }
 
-    public TransferPage clickTransferAgainButton(){
+    public TransferPage clickTransferAgainButton() {
         transferAgainBtn.click();
 
         return this;
     }
-    public TransferPage searchByName(String name){
+
+    public TransferPage searchByName(String name) {
         nameSearchInput.sendKeys(name);
 
         return this;
     }
 
-    public TransferPage clickSearchTransactionButton(){
+    public TransferPage clickSearchTransactionButton() {
         searchTransactionBtn.click();
 
         return this;
@@ -146,13 +147,13 @@ public class TransferPage extends BasePage<TransferPage> {
         return this;
     }
 
-    public TransferPage selectSenderAccountNumber(String accountNumber){
+    public TransferPage selectSenderAccountNumber(String accountNumber) {
         accountList.selectOptionContainingText(accountNumber);
 
         return this;
     }
 
-    public TransferPage clickSendTransferButton(){
+    public TransferPage clickSendTransferButton() {
         sendTransferBtn.click();
 
         return this;

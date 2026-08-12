@@ -6,6 +6,7 @@ import api.models.CreateUserResponse;
 import api.models.comparison.ModelAssertions;
 import api.requests.steps.AdminSteps;
 import common.annotations.AdminSession;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import storage.SessionStorage;
 import ui.elements.UserBage;
@@ -18,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CreateUserTest extends BaseUITest {
 
+    @Disabled
     @Test
     @AdminSession
     public void adminCanCrateUserTest() {

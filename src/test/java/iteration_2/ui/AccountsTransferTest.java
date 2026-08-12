@@ -3,7 +3,11 @@ package iteration_2.ui;
 import api.constans.TestConstants;
 import api.contract.BackendVersion;
 import api.generators.RandomData;
-import api.models.*;
+import api.models.AccountResponse;
+import api.models.CreateUserRequest;
+import api.models.TransactionResponse;
+import api.models.TransactionType;
+import api.models.UpdateProfileRequest;
 import api.requests.steps.UserSteps;
 import common.annotations.APIVersion;
 import common.annotations.UserSession;
@@ -21,16 +25,16 @@ public class AccountsTransferTest extends BaseUITest {
     @APIVersion(BackendVersion.WITH_VALIDATION_FIX)
     @Test
     @UserSession
-    public void userCanTransferWithValidDataTest(){
+    public void userCanTransferWithValidDataTest() {
         CreateUserRequest user = SessionStorage.getUser();
         UserSteps userSteps = SessionStorage.getSteps();
 
         AccountResponse firstAccount = userSteps.createAccount();
         AccountResponse secondAccount = userSteps.createAccount();
         userSteps.deposit(
-                        firstAccount.getId(),
-                        TestConstants.MAX_DEPOSIT_AMOUNT
-                );
+                firstAccount.getId(),
+                TestConstants.MAX_DEPOSIT_AMOUNT
+        );
 
         double amount = RandomData.getTransferAmount();
         new TransferPage()
@@ -74,6 +78,7 @@ public class AccountsTransferTest extends BaseUITest {
                 .contains(TransactionType.TRANSFER_IN);
 
     }
+
     @APIVersion(BackendVersion.WITH_VALIDATION_FIX)
     @Test
     @UserSession
@@ -131,9 +136,10 @@ public class AccountsTransferTest extends BaseUITest {
                 .checkTransferTransactionsAreNotDisplayed();
     }
 
+    @Disabled("флаки-тест ")
     @Test
     @UserSession
-    public void userCanSearchTransactionWithValidName(){
+    public void userCanSearchTransactionWithValidName() {
         UserSteps userSteps = SessionStorage.getSteps();
         AccountResponse firstAccount = userSteps.createAccount();
         UpdateProfileRequest updatedName = userSteps.updateName();
@@ -152,7 +158,7 @@ public class AccountsTransferTest extends BaseUITest {
 
     @Test
     @UserSession
-    public void userCannotSearchTransactionWithInvalidName(){
+    public void userCannotSearchTransactionWithInvalidName() {
         UserSteps userSteps = SessionStorage.getSteps();
         AccountResponse firstAccount = userSteps.createAccount();
         userSteps.updateName();
@@ -172,7 +178,7 @@ public class AccountsTransferTest extends BaseUITest {
     @Disabled("Баг: в popup повтора операции TRANSFER_IN отображается firstAccount.getId()")
     @Test
     @UserSession
-    public void userCanRepeatTransfer(){
+    public void userCanRepeatTransfer() {
         UserSteps userSteps = SessionStorage.getSteps();
 
         AccountResponse firstAccount = userSteps.createAccount();

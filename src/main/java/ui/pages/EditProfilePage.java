@@ -20,29 +20,30 @@ public class EditProfilePage extends BasePage<EditProfilePage> {
         return "/edit-profile";
     }
 
-    public EditProfilePage setName(String name){
+    public EditProfilePage setName(String name) {
         inputName.sendKeys(name);
 
         return this;
     }
 
-    public EditProfilePage clickSaveChangeButton(){
+    public EditProfilePage clickSaveChangeButton() {
         saveChangeBtn.click();
 
         return this;
     }
 
-    public EditProfilePage checkUserNameLabel(String name){
+    public EditProfilePage checkUserNameLabel(String name) {
         userNameLabel.shouldHave(text(name));
 
         return this;
     }
 
-    public EditProfilePage checkWelcomeUserName(String name){
+    public EditProfilePage checkWelcomeUserName(String name) {
         welcomeUserName.shouldHave(text(name));
 
         return this;
     }
+
     public EditProfilePage openDashboard() {
         Selenide.open("/dashboard");
         return this;
