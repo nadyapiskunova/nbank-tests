@@ -6,7 +6,6 @@ import api.models.CreateUserResponse;
 import api.models.comparison.ModelAssertions;
 import api.requests.steps.AdminSteps;
 import common.annotations.AdminSession;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import storage.SessionStorage;
 import ui.elements.UserBage;

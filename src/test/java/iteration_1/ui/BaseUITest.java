@@ -2,7 +2,6 @@ package iteration_1.ui;
 
 import api.configs.Config;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import common.extensions.AdminSessionExtension;
 import common.extensions.UiUserSessionExtension;

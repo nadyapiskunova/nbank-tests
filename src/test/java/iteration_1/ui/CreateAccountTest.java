@@ -2,7 +2,6 @@ package iteration_1.ui;
 
 import api.models.AccountResponse;
 import common.annotations.UserSession;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import storage.SessionStorage;
 import ui.pages.BankAlert;

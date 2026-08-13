@@ -4,7 +4,6 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 import common.helpers.StepLogger;
-import common.utils.RetryUtils;
 import lombok.Getter;
 import ui.elements.UserBage;
 
