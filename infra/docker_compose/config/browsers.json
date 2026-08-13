@@ -10,10 +10,10 @@
     }
   },
   "chrome": {
-    "default": "91.0",
+    "default": "128.0",
     "versions": {
-      "91.0": {
-        "image": "selenoid/vnc:chrome_91.0",
+      "128.0": {
+        "image": "selenoid/vnc_chrome:128.0",
         "port": "4444",
         "path": "/"
       }
