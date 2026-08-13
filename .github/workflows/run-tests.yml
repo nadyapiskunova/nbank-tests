@@ -90,12 +90,17 @@ jobs: # аналог этапов
             --clean \
             -o allure-report
 
-      - name: Add Swagger coverage report
+      - name: Prepare reports for publishing
         if: always()
         run: |
-          if [ -f swagger-coverage-report.html ]; then
-            cp swagger-coverage-report.html allure-report/swagger-coverage-report.html
-          fi
+          mkdir -p test-report/${{ github.run_number }}/allure-report
+          mkdir -p test-report/${{ github.run_number }}/swagger-coverage
+
+          cp -r allure-report/* \
+            test-report/${{ github.run_number }}/allure-report/
+
+          cp swagger-coverage-report.html \
+            test-report/${{ github.run_number }}/swagger-coverage/index.html
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
@@ -103,7 +108,7 @@ jobs: # аналог этапов
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure-report
+          publish_dir: test-report
 
       - name: Clean up services
         if: always()
