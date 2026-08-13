@@ -1,0 +1,31 @@
+{
+  "swagger" : "2.0",
+  "host" : "localhost",
+  "schemes" : [ "http" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/auth/login" : {
+      "post" : {
+        "parameters" : [ {
+          "name" : "Accept",
+          "in" : "header",
+          "required" : false,
+          "x-example" : "application/json, application/javascript, text/javascript, text/json"
+        }, {
+          "name" : "Content-Type",
+          "in" : "header",
+          "required" : false,
+          "x-example" : "application/json"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false
+        } ],
+        "responses" : {
+          "200" : { }
+        }
+      }
+    }
+  }
+}
