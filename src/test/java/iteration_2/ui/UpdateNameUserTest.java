@@ -21,9 +21,10 @@ public class UpdateNameUserTest extends BaseUITest {
 
         new EditProfilePage()
                 .open()
-                .setName(name)
-                .clickSaveChangeButton()
-                .checkAlertMessageAndAccept(BankAlert.NAME_UPDATE_SUCCESSFULLY.getMessage())
+                .updateName(
+                        name,
+                        BankAlert.NAME_UPDATE_SUCCESSFULLY.getMessage()
+                )
                 .checkUserNameLabel(name)
                 .openDashboard()
                 .checkWelcomeUserName(name);
@@ -39,10 +40,10 @@ public class UpdateNameUserTest extends BaseUITest {
 
         new EditProfilePage()
                 .open()
-                .setName(name)
-                .clickSaveChangeButton()
-                .checkAlertMessageAndAccept(
+                .updateNameWithInvalidData(
+                        name,
                         BankAlert.NAME_MUST_CONTAIN_TWO_WORDS_WITH_LETTERS_ONLY.getMessage(),
-                        BankAlert.PLEASE_ENTER_VALID_NAME.getMessage());
+                        BankAlert.PLEASE_ENTER_VALID_NAME.getMessage()
+                );
     }
 }

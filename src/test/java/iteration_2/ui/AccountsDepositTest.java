@@ -21,8 +21,10 @@ public class AccountsDepositTest extends BaseUITest {
         new DepositPage()
                 .open()
                 .openSelectorAccounts(createdAccount.getAccountNumber())
-                .makeDeposit(amount)
-                .checkAlertMessageAndAccept(BankAlert.SUCCESSFULLY_DEPOSITED.getMessage())
+                .makeDeposit(
+                        amount,
+                        BankAlert.SUCCESSFULLY_DEPOSITED.getMessage()
+                )
                 .open()
                 .openSelectorAccounts(createdAccount.getAccountNumber())
                 .checkAccountBalance(amount, createdAccount.getAccountNumber());
@@ -41,8 +43,10 @@ public class AccountsDepositTest extends BaseUITest {
         new DepositPage()
                 .open()
                 .openSelectorAccounts(createdAccount.getAccountNumber())
-                .makeDeposit(amount)
-                .checkAlertMessageAndAccept(BankAlert.PLEASE_ENTER_VALID_AMOUNT.getMessage());
+                .makeDeposit(
+                        amount,
+                        BankAlert.PLEASE_ENTER_VALID_AMOUNT.getMessage()
+                );
     }
 
     @Test
@@ -54,8 +58,9 @@ public class AccountsDepositTest extends BaseUITest {
 
         new DepositPage()
                 .open()
-                .clickDeposit()
-                .checkAlertMessageAndAccept(BankAlert.PLEASE_SELECT_ACCOUNT.getMessage());
+                .tryDepositWithoutSelectedAccount(
+                BankAlert.PLEASE_SELECT_ACCOUNT.getMessage()
+        );
     }
 }
 

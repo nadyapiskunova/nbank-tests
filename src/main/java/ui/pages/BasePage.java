@@ -6,6 +6,7 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import common.helpers.StepLogger;
 import org.openqa.selenium.Alert;
 import ui.elements.BaseElement;
 
@@ -51,6 +52,19 @@ public abstract class BasePage<T extends BasePage> {
                 );
         alert.accept();
         return (T) this;
+    }
+
+    public String getAlertTextAndAccept() {
+        return StepLogger.ui(
+                "Accept alert",
+                () -> {
+                    Alert alert = switchTo().alert();
+                    String alertText = alert.getText();
+                    alert.accept();
+
+                    return alertText;
+                }
+        );
     }
 
     public T openSelectorAccounts(String accountNumber) {

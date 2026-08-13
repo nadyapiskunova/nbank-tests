@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CreateUserTest extends BaseUITest {
 
-    @Disabled
     @Test
     @AdminSession
     public void adminCanCrateUserTest() {

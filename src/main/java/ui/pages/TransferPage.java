@@ -4,6 +4,7 @@ import api.models.TransactionType;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
+import common.helpers.StepLogger;
 import common.utils.RetryUtils;
 import ui.elements.TransactionItem;
 
@@ -50,6 +51,99 @@ public class TransferPage extends BasePage<TransferPage> {
         );
     }
 
+    public TransferPage makeTransfer(
+            String senderAccountNumber,
+            String username,
+            String receiverAccountNumber,
+            double amount,
+            String expectedAlertMessage
+    ) {
+        return StepLogger.ui(
+                "Make transfer to user: " + username,
+                () -> {
+                    selectAccount(senderAccountNumber);
+                    setUsername(username);
+                    setReceiverAccountNumber(receiverAccountNumber);
+                    setAmount(amount);
+                    confirmCheckbox();
+                    clickTransferButton();
+                    checkAlertMessageAndAccept(expectedAlertMessage);
+
+                    return this;
+                }
+        );
+    }
+
+    public TransferPage makeTransferWithoutConfirm(
+            String senderAccountNumber,
+            String username,
+            String receiverAccountNumber,
+            double amount,
+            String expectedAlertMessage
+    ) {
+        return StepLogger.ui(
+                "Try to make transfer without confirmation",
+                () -> {
+                    selectAccount(senderAccountNumber);
+                    setUsername(username);
+                    setReceiverAccountNumber(receiverAccountNumber);
+                    setAmount(amount);
+                    clickTransferButton();
+                    checkAlertMessageAndAccept(expectedAlertMessage);
+
+                    return this;
+                }
+        );
+    }
+
+    public TransferPage searchTransactionByName(String name) {
+        return StepLogger.ui(
+                "Search transaction by name: " + name,
+                () -> {
+                    clickTransferAgainButton();
+                    searchByName(name);
+                    clickSearchTransactionButton();
+                    checkFoundUnder(name);
+
+                    return this;
+                }
+        );
+    }
+
+    public TransferPage searchTransactionByInvalidName(
+            String name,
+            String expectedAlertMessage
+    ) {
+        return StepLogger.ui(
+                "Search transaction by invalid name: " + name,
+                () -> {
+                    clickTransferAgainButton();
+                    searchByName(name);
+                    clickSearchTransactionButton();
+                    checkAlertMessageAndAccept(expectedAlertMessage);
+
+                    return this;
+                }
+        );
+    }
+
+    public TransferPage sendRepeatedTransfer(
+            String senderAccountNumber,
+            String expectedAlertMessage
+    ) {
+        return StepLogger.ui(
+                "Send repeated transfer",
+                () -> {
+                    selectSenderAccountNumber(senderAccountNumber);
+                    confirmCheckbox();
+                    clickSendTransferButton();
+                    checkAlertMessageAndAccept(expectedAlertMessage);
+
+                    return this;
+                }
+        );
+    }
+
     public TransferPage selectAccount(String senderAccountNumber) {
         accountsSelector.selectOptionContainingText(senderAccountNumber);
 
@@ -83,7 +177,7 @@ public class TransferPage extends BasePage<TransferPage> {
                 .setScale(2, RoundingMode.HALF_UP)
                 .doubleValue();
 
-        Boolean transactionIsDisplayed = RetryUtils.retry(
+        Boolean transactionIsDisplayed = RetryUtils.retry("Найти транзакцию по типу \"" + transactionType.toString() + "\"",
                 () -> getTransactions().stream()
                         .anyMatch(transaction ->
                                 transaction.getTransactionType() == transactionType
@@ -131,20 +225,33 @@ public class TransferPage extends BasePage<TransferPage> {
     }
 
     public TransferPage repeatTransaction(TransactionType transactionType) {
-        getTransactions().stream()
-                .filter(transaction ->
-                        transaction.getTransactionType() == transactionType)
-                .findFirst()
-                .orElseThrow()
-                .getRepeatButton()
-                .click();
-        return this;
+        return StepLogger.ui(
+                "Repeat transaction: " + transactionType,
+                () -> {
+                    getTransactions().stream()
+                            .filter(transaction ->
+                                    transaction.getTransactionType() == transactionType)
+                            .findFirst()
+                            .orElseThrow()
+                            .getRepeatButton()
+                            .click();
+
+                    return this;
+                }
+        );
     }
 
     public TransferPage checkAccountId(Integer accountId) {
-        accountIdLabel.shouldHave(exactText(String.valueOf(accountId)));
+        return StepLogger.ui(
+                "Check account id: " + accountId,
+                () -> {
+                    accountIdLabel.shouldHave(
+                            exactText(String.valueOf(accountId))
+                    );
 
-        return this;
+                    return this;
+                }
+        );
     }
 
     public TransferPage selectSenderAccountNumber(String accountNumber) {

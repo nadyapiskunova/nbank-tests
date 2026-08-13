@@ -1,6 +1,7 @@
 package ui.pages;
 
 import com.codeborne.selenide.SelenideElement;
+import common.helpers.StepLogger;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -13,10 +14,16 @@ public class LoginPage extends BasePage<LoginPage> {
     }
 
     public LoginPage login(String username, String password) {
-        usernameInput.sendKeys(username);
-        passwordInput.sendKeys(password);
-        button.click();
-        return this;
+        return StepLogger.ui(
+                "Login as user: " + username,
+                () -> {
+                    usernameInput.sendKeys(username);
+                    passwordInput.sendKeys(password);
+                    button.click();
+
+                    return this;
+                }
+        );
     }
 
 }
