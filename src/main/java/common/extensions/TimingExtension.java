@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class TimingExtension implements BeforeTestExecutionCallback, AfterTestExecutionCallback {
     private Map<String, Long> startTime = new HashMap<>();
+
     @Override
     public void beforeTestExecution(ExtensionContext extensionContext) throws Exception {
         String testName = extensionContext.getRequiredTestClass().getPackageName() + "."

@@ -16,7 +16,7 @@ public class BrowserMatchExtension implements ExecutionCondition {
                 .map(el -> el.getAnnotation(Browsers.class))
                 .orElse(null);
 
-        if(annotation == null) {
+        if (annotation == null) {
             return ConditionEvaluationResult.enabled("Нет ограничений к браузеру");
         }
 
@@ -26,9 +26,10 @@ public class BrowserMatchExtension implements ExecutionCondition {
 
         if (matches) {
             return ConditionEvaluationResult.enabled("Текущий браузер удовлетворяет условию: " + currentBrowser);
-        } {
+        }
+        {
             return ConditionEvaluationResult.disabled("Тест пропущен, так как текущий браузер: " + currentBrowser
-            + " не находится в списке допустимых браузеров для теста:  " + Arrays.toString(annotation.value()));
+                    + " не находится в списке допустимых браузеров для теста:  " + Arrays.toString(annotation.value()));
         }
     }
 }

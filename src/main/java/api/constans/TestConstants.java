@@ -1,7 +1,8 @@
 package api.constans;
 
 public class TestConstants {
-    private TestConstants() {}
+    private TestConstants() {
+    }
 
     public static final String ADMIN_USERNAME = "admin";
     public static final String ADMIN_PASSWORD = "admin";

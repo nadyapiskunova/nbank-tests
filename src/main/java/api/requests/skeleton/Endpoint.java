@@ -1,6 +1,17 @@
 package api.requests.skeleton;
 
-import api.models.*;
+import api.models.AccountResponse;
+import api.models.BaseModel;
+import api.models.CreateUserRequest;
+import api.models.CreateUserResponse;
+import api.models.CustomerResponse;
+import api.models.DepositRequest;
+import api.models.LoginUserRequest;
+import api.models.LoginUserResponse;
+import api.models.TransferRequest;
+import api.models.TransferResponse;
+import api.models.UpdateProfileRequest;
+import api.models.UpdateProfileResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,7 +24,7 @@ public enum Endpoint {
             CreateUserResponse.class
     ),
     ACCOUNTS(
-           "/accounts",
+            "/accounts",
             BaseModel.class,
             AccountResponse.class
     ),

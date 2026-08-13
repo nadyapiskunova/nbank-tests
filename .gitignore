@@ -34,6 +34,15 @@ build/
 ### Mac OS ###
 .DS_Store
 
-### Allure ###
+### Allure
+
 allure-results/
 allure-report/
+allure-history/
+
+.env
+
+# Результаты запуска тестов
+
+test-output/
+collected-logs/

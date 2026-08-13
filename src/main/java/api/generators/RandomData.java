@@ -8,16 +8,17 @@ import java.math.RoundingMode;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomData {
-    private RandomData(){}
+    private RandomData() {
+    }
 
     private static final String SPECIAL_CHARACTERS =
             "!@#$%^&*()_+-=[]{}|;:'\",.<>?/\\`~";
 
-    public static String getUsername(){
+    public static String getUsername() {
         return RandomStringUtils.randomAlphabetic(10);
     }
 
-    public static String getPassword(){
+    public static String getPassword() {
         return RandomStringUtils.randomAlphabetic(3).toUpperCase() +
                 RandomStringUtils.randomAlphabetic(5).toLowerCase() +
                 RandomStringUtils.randomNumeric(3) + "%$#";
