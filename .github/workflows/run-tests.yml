@@ -30,7 +30,7 @@ jobs: # аналог этапов
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           # ubuntu-maven-123
-          restore-keys: | 
+          restore-keys: |
             ${{ runner.os }}-maven-
 
       - name: Check code style
@@ -65,31 +65,45 @@ jobs: # аналог этапов
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s http://localhost:4111/v3/api-docs -i target/swagger-coverage-output
 
       - name: Load test report history
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         if: always()
         with:
           ref: gh-pages
           path: gh-pages
 
-      - name: Build test report
-        uses: simple-elf/allure-report-action@v1.7
+      - name: Install Allure
         if: always()
-        with:
-          gh_pages: gh-pages
-          allure_results: target/allure-results
-          allure_history: allure-history
+        run: npm install -g allure-commandline@2.43.0
 
-      - name: Build Swagger coverage report
+      - name: Restore Allure history
         if: always()
-        run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}
+        run: |
+          if [ -d gh-pages/history ]; then
+            mkdir -p target/allure-results/history
+            cp -r gh-pages/history/* target/allure-results/history/
+          fi
+
+      - name: Build test report
+        if: always()
+        run: |
+          allure generate target/allure-results \
+            --clean \
+            -o allure-report
+
+      - name: Add Swagger coverage report
+        if: always()
+        run: |
+          if [ -f swagger-coverage-report.html ]; then
+            cp swagger-coverage-report.html allure-report/swagger-coverage-report.html
+          fi
 
       - name: Publish test report
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure-history
+          publish_dir: allure-report
 
       - name: Clean up services
         if: always()
