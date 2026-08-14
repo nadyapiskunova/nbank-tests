@@ -102,6 +102,9 @@ jobs: # аналог этапов
           cp swagger-coverage-report.html \
             test-report/${{ github.run_number }}/swagger-coverage/index.html
 
+          echo '<meta http-equiv="refresh" content="0; url=${{ github.run_number }}/allure-report/">' \
+            > test-report/index.html
+
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
         if: always()
