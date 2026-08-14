@@ -22,7 +22,7 @@ public class Config {
     }
 
     public static String getProperty(String key) {
-        // ПРИОРИТЕТ 1  - это системное свойство baseApiUrl = ..
+        // ПРИОРИТЕТ1  - это системное свойство baseApiUrl = ..
         String systemValue = System.getProperty(key);
         if (systemValue != null) {
             return systemValue;
