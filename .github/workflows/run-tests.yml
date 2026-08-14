@@ -78,9 +78,13 @@ jobs: # аналог этапов
       - name: Restore Allure history
         if: always()
         run: |
-          if [ -d gh-pages/history ]; then
+          PREVIOUS_RUN=$(find gh-pages -mindepth 1 -maxdepth 1 -type d -name '[0-9]*' \
+            | sort -V \
+            | tail -1)
+
+          if [ -n "$PREVIOUS_RUN" ] && [ -d "$PREVIOUS_RUN/allure-report/history" ]; then
             mkdir -p target/allure-results/history
-            cp -r gh-pages/history/* target/allure-results/history/
+            cp -r "$PREVIOUS_RUN/allure-report/history/"* target/allure-results/history/
           fi
 
       - name: Build test report
