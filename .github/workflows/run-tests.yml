@@ -44,7 +44,7 @@ jobs: # аналог этапов
         run: ./mvnw clean test -q -Pall
         env:
           APIBASEURL: http://localhost:4111
-          UIBASEURL: http://nginx:80
+          UIBASEURL: http://frontend:80
           APIVERSION: /api/v1
 
       - name: Log in to Docker Hub

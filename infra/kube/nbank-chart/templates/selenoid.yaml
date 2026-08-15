@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: selenoid
+
+spec:
+  replicas: {{ .Values.selenoid.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: selenoid
+
+  template:
+    metadata:
+      labels:
+        app: selenoid
+
+    spec:
+      containers:
+        - name: selenoid
+          image: {{ .Values.selenoid.image }}
+          imagePullPolicy: {{ .Values.selenoid.imagePullPolicy }}
+
+          ports:
+            - containerPort: {{ .Values.selenoid.port }}
+
+          volumeMounts:
+            - name: selenoid-config
+              mountPath: /etc/selenoid
+
+            - name: docker-sock
+              mountPath: /var/run/docker.sock
+
+      volumes:
+        - name: selenoid-config
+          configMap:
+            name: selenoid-config
+
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+            type: Socket
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: selenoid
+
+spec:
+  selector:
+    app: selenoid
+
+  ports:
+    - protocol: TCP
+      port: {{ .Values.selenoid.port }}
+      targetPort: {{ .Values.selenoid.port }}
+
+  type: NodePort

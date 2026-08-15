@@ -41,6 +41,7 @@ allure-report/
 allure-history/
 
 .env
+.env.kube
 
 # Результаты запуска тестов
 
