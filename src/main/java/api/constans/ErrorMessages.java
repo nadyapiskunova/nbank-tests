@@ -1,7 +1,8 @@
 package api.constans;
 
 public class ErrorMessages {
-    private ErrorMessages() {}
+    private ErrorMessages() {
+    }
 
     public static final String USERNAME_BLANK =
             "Username cannot be blank";

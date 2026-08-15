@@ -1,0 +1,644 @@
+### Get auth
+POST http://localhost:4111/api/v1/auth/login
+accept: */*
+Content-Type: application/json
+
+{
+  "username": "kate1999",
+  "password": "verysTRongPassword33$"
+}
+
+
+### Admin can create new user with correct data
+POST http://localhost:4111/api/v1/admin/users
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "username": "kate19",
+  "password": "verysTRongPassword33$",
+  "role": "USER"
+}
+
+
+### Authorized user can create account
+POST http://localhost:4111/api/v1/accounts
+accept: */*
+Authorization: Basic a2F0ZTE5OTk6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+
+
+### Check account was created
+GET http://localhost:4111/api/v1/customer/accounts
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+
+
+### Admin cannot create new user with blank username
+POST http://localhost:4111/api/v1/admin/users
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "username": " ",
+  "password": "verysTRongPassword33$",
+  "role": "USER"
+}
+
+
+### Admin cannot create a new user with a 2-character username
+POST http://localhost:4111/api/v1/admin/users
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "username": "ka",
+  "password": "verysTRongPassword33$",
+  "role": "USER"
+}
+
+
+### Admin cannot create a new user with a 16-character username
+POST http://localhost:4111/api/v1/admin/users
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "username": "katekatekatekate",
+  "password": "verysTRongPassword33$",
+  "role": "USER"
+}
+
+
+### Admin cannot create a new user with blank password
+POST http://localhost:4111/api/v1/admin/users
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "username": "kate",
+  "password": " ",
+  "role": "USER"
+}
+
+
+### Admin cannot create a new user with password without digits
+POST http://localhost:4111/api/v1/admin/users
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "username": "kate",
+  "password": "Katekate@",
+  "role": "USER"
+}
+
+
+### Admin cannot create a new user with password without one lower case
+POST http://localhost:4111/api/v1/admin/users
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "username": "kate",
+  "password": "KATEKATE123@",
+  "role": "USER"
+}
+
+
+### Admin cannot create a new user with password without one special character
+POST http://localhost:4111/api/v1/admin/users
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "username": "kate",
+  "password": "KATEkate123",
+  "role": "USER"
+}
+
+
+### Admin cannot create a new user with password with space
+POST http://localhost:4111/api/v1/admin/users
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "username": "kate",
+  "password": "KATEkate123@ ",
+  "role": "USER"
+}
+
+
+### Admin cannot create a new user with password without one upper case character
+POST http://localhost:4111/api/v1/admin/users
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "username": "kate",
+  "password": "katekate123@",
+  "role": "USER"
+}
+
+
+### Admin cannot create a new user with password less than 8 characters
+POST http://localhost:4111/api/v1/admin/users
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "username": "kate",
+  "password": "1234567",
+  "role": "USER"
+}
+
+
+### Admin cannot create a new user with username contains $%^&*()@# characters
+POST http://localhost:4111/api/v1/admin/users
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "username": "k$%^&*()@#",
+  "password": "verysTRongPassword33$",
+  "role": "USER"
+}
+
+
+### Admin can create new user with role not from list "ADMIN", "USER"
+POST http://localhost:4111/api/v1/admin/users
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "username": "kate1999",
+  "password": "verysTRongPassword33$",
+  "role": "EDITOR"
+}
+
+
+### Authorized user can deposit funds to their account with correct sum
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "id": 1,
+  "balance": 100.5
+}
+
+
+### Authorized user can deposit 5000 amount to their account
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "id": 2,
+  "balance": 5000
+}
+
+
+### Authorized user can deposit 4999.99 amount to their account
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "id": 2,
+  "balance": 4999.99
+}
+
+
+### Authorized user can transfer 9999.99 amount between their accounts
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "senderAccountId": 2,
+  "receiverAccountId": 1,
+  "amount": 9999.99
+}
+
+
+### Authorized user can transfer 10000 amount between their accounts
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "senderAccountId": 2,
+  "receiverAccountId": 1,
+  "amount": 10000
+}
+
+
+### Authorized user can transfer 0.01 amount between their accounts
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "senderAccountId": 2,
+  "receiverAccountId": 1,
+  "amount": 0.01
+}
+
+
+### Authorized user can transfer 9999.99 amount to external accounts
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 3,
+  "amount": 9999.99
+}
+
+
+### Authorized user can transfer 10000 amount to  external accounts
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 3,
+  "amount": 10000
+}
+
+
+### Authorized user can transfer 0.01 amount to external accounts
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 3,
+  "amount": 0.01
+}
+
+
+### Authorized user can update profile name with correct data
+PUT http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic a2F0ZTE5OTk6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "name": "Kate Smith"
+}
+
+
+### Authorized user can update profile name with 100-character first and last name
+PUT http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic a2F0ZTE5OTk6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "name": "KKateKateKateKateKateKateKateKateKateKateKateKateKaKKateKateKateKateKateKateKateKateKateKateKateKateKa SmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmith"
+}
+
+
+### Authorized user can update profile name with 1-character first and last name
+PUT http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic a2F0ZTE5OTk6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "name": "K S"
+}
+
+
+### Authorized user can view account transactions with correct data
+GET http://localhost:4111/api/v1/accounts/3/transactions
+accept: */*
+Authorization: Basic a2F0ZTE5OTk6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+
+
+### Authorized user can view their profile
+GET http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic a2F0ZTE5OTk6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+
+
+### Authorized user cannot deposit negative amount to their account
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "id": 1,
+  "balance": -1
+}
+
+
+### User with role "ADMIN" cannot deposit funds to account of user with role "USER"
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "id": 1,
+  "balance": -1
+}
+
+
+### Unauthenticated user cannot deposit funds to their account
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Content-Type: application/json
+
+{
+  "id": 1,
+  "balance": 10
+}
+
+
+### Authorized user cannot deposit 0 amount to their account
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "id": 1,
+  "balance": 0
+}
+
+
+### Authorized user cannot deposit 5000.01 amount to their account
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "id": 1,
+  "balance": 5000.01
+}
+
+
+### Authorized user cannot deposit funds to non-existent account ID
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "id": 333333331,
+  "balance": 10.01
+}
+
+
+### Authorized user cannot deposit funds to another user's account
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "id": 3,
+  "balance": 10.01
+}
+
+
+### Authorized user cannot transfer 0 amount between own accounts
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "senderAccountId": 2,
+  "receiverAccountId": 1,
+  "amount": 0
+}
+
+
+### User with role "ADMIN" cannot transfer funds from account of user with role "USER"
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "senderAccountId": 2,
+  "receiverAccountId": 1,
+  "amount": 0
+}
+
+
+### Authorized user cannot transfer negative amount between own accounts
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "senderAccountId": 2,
+  "receiverAccountId": 1,
+  "amount": -1
+}
+
+
+### Unauthenticated user cannot transfer funds between own accounts
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Content-Type: application/json
+
+{
+  "senderAccountId": 2,
+  "receiverAccountId": 1,
+  "amount": 11
+}
+
+
+### Authorized user cannot transfer 10000.01 amount between own accounts
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": 10000.01
+}
+
+
+### Authorized user cannot transfer 0 amount to external accounts
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 3,
+  "amount": 0
+}
+
+
+### Authorized user cannot transfer negative amount to external accounts
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 3,
+  "amount": -1
+}
+
+
+### Authorized user cannot transfer 10000.01 amount to external accounts
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 3,
+  "amount": 10000.01
+}
+
+
+### Authorized user cannot transfer funds to non-existent account ID
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 3323232,
+  "amount": 10.01
+}
+
+
+### Authorized user cannot transfer funds from non-existent account ID
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic a2F0ZTE5OTg6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "senderAccountId": 3232232323,
+  "receiverAccountId": 3,
+  "amount": 10.01
+}
+
+
+### Unauthenticated user cannot update profile name
+PUT http://localhost:4111/api/v1/customer/profile
+accept: */*
+Content-Type: application/json
+
+{
+  "name": "Kate Smith"
+}
+
+
+### Authorized user cannot update profile name with empty first and last name
+PUT http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic a2F0ZTE5OTk6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "name": "   "
+}
+
+
+### Authorized user cannot update profile name with single word
+PUT http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic a2F0ZTE5OTk6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "name": "Kate"
+}
+
+
+### Authorized user cannot update profile name containing digits
+PUT http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic a2F0ZTE5OTk6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "name": "Kate1 Smith1"
+}
+
+
+### Authorized user cannot update profile name containing special characters
+PUT http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic a2F0ZTE5OTk6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+Content-Type: application/json
+
+{
+  "name": "Kate# Smith"
+}
+
+
+### Authorized user cannot view account transactions with uncorrect account ID
+GET http://localhost:4111/api/v1/accounts/3383883/transactions
+accept: */*
+Authorization: Basic a2F0ZTE5OTk6dmVyeXNUUm9uZ1Bhc3N3b3JkMzMk
+
+
+### Unauthorized user cannot view account transactions with correct data
+GET http://localhost:4111/api/v1/accounts/3/transactions
+accept: */*
+
+
+### User with role "ADMIN" cannot view transactions of user with role "USER"
+GET http://localhost:4111/api/v1/accounts/3/transactions
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+
+
+### Unauthorized user cannot view own profile
+GET http://localhost:4111/api/v1/customer/profile
+accept: */*
+
+
+### User with role "ADMIN" cannot view profile of user with role "USER"
+GET http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+

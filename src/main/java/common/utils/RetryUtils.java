@@ -1,6 +1,6 @@
 package common.utils;
 
-import ui.elements.UserBage;
+import common.helpers.StepLogger;
 
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 
 public class RetryUtils {
     public static <T> T retry(
+            String title,
             Supplier<T> action,
             Predicate<T> condition,
             int maxAttempts,
@@ -25,10 +26,15 @@ public class RetryUtils {
 
         while (attempts < maxAttempts) {
             attempts++;
-            result = action.get();
 
-            if (condition.test(result)) {
-                return result;
+            try {
+                result = StepLogger.log("Attempt " + attempts + ": " + title, () -> action.get());
+
+                if (condition.test(result)) {
+                    return result;
+                }
+            } catch (Throwable e) {
+                System.out.println("Exception " + e.getMessage());
             }
 
             try {
@@ -38,6 +44,6 @@ public class RetryUtils {
             }
         }
 
-        throw  new RuntimeException("Retry failed after " + maxAttempts + " attempts");
+        throw new RuntimeException("Retry failed after " + maxAttempts + " attempts");
     }
 }

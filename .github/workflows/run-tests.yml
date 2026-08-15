@@ -1,0 +1,123 @@
+name: Build and Publish Tests Image on Source Changes
+
+# триггер
+on:
+  push:
+    paths:
+      - 'src/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs: # аналог этапов
+  run-tests:
+    name: Build, Test and Publish
+    runs-on: ubuntu-latest
+    steps: # шаги конкретной job
+      - name: Checkout repository # копируем файлы репозитория внутрь CI агента
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+
+      - name: Cache Maven repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          # ubuntu-maven-123
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Check code style
+        run: ./mvnw checkstyle:check
+
+      - name: Set up services
+        working-directory: infra/docker_compose
+        run: bash restart_docker.sh
+
+      - name: Run tests
+        run: ./mvnw clean test -q -Pall
+        env:
+          APIBASEURL: http://localhost:4111
+          UIBASEURL: http://frontend:80
+          APIVERSION: /api/v1
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nbank-tests:${{ github.sha }}
+
+      - name: Run Swagger coverage
+        if: always()
+        run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s http://localhost:4111/v3/api-docs -i target/swagger-coverage-output
+
+      - name: Load test report history
+        uses: actions/checkout@v4
+        if: always()
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Install Allure
+        if: always()
+        run: npm install -g allure-commandline@2.43.0
+
+      - name: Restore Allure history
+        if: always()
+        run: |
+          PREVIOUS_RUN=$(find gh-pages -mindepth 1 -maxdepth 1 -type d -name '[0-9]*' \
+            | sort -V \
+            | tail -1)
+
+          if [ -n "$PREVIOUS_RUN" ] && [ -d "$PREVIOUS_RUN/allure-report/history" ]; then
+            mkdir -p target/allure-results/history
+            cp -r "$PREVIOUS_RUN/allure-report/history/"* target/allure-results/history/
+          fi
+
+      - name: Build test report
+        if: always()
+        run: |
+          allure generate target/allure-results \
+            --clean \
+            -o allure-report
+
+      - name: Prepare reports for publishing
+        if: always()
+        run: |
+          mkdir -p test-report/${{ github.run_number }}/allure-report
+          mkdir -p test-report/${{ github.run_number }}/swagger-coverage
+
+          cp -r allure-report/* \
+            test-report/${{ github.run_number }}/allure-report/
+
+          cp swagger-coverage-report.html \
+            test-report/${{ github.run_number }}/swagger-coverage/index.html
+
+          echo '<meta http-equiv="refresh" content="0; url=${{ github.run_number }}/allure-report/">' \
+            > test-report/index.html
+
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v4
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: test-report
+          keep_files: true
+
+      - name: Clean up services
+        if: always()
+        run: cd infra/docker_compose && docker compose down

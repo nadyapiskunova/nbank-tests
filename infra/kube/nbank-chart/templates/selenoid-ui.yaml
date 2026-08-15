@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: selenoid-ui
+
+spec:
+  replicas: {{ .Values.selenoidUi.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: selenoid-ui
+
+  template:
+    metadata:
+      labels:
+        app: selenoid-ui
+
+    spec:
+      containers:
+        - name: selenoid-ui
+          image: {{ .Values.selenoidUi.image }}
+          imagePullPolicy: {{ .Values.selenoidUi.imagePullPolicy }}
+
+          args:
+            - "--selenoid-uri"
+            - "http://selenoid:4444"
+
+          ports:
+            - containerPort: {{ .Values.selenoidUi.port }}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: selenoid-ui
+
+spec:
+  selector:
+    app: selenoid-ui
+
+  ports:
+    - protocol: TCP
+      port: {{ .Values.selenoidUi.port }}
+      targetPort: {{ .Values.selenoidUi.port }}
+
+  type: NodePort

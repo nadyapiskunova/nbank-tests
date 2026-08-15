@@ -1,13 +1,18 @@
 package api.requests.steps;
 
 import api.generators.RandomData;
-import api.models.*;
+import api.models.AccountResponse;
+import api.models.CustomerResponse;
+import api.models.DepositRequest;
+import api.models.TransferRequest;
+import api.models.TransferResponse;
+import api.models.UpdateProfileRequest;
 import api.requests.skeleton.Endpoint;
 import api.requests.skeleton.requesters.CrudRequester;
 import api.requests.skeleton.requesters.ValidatedCrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
-import io.restassured.common.mapper.TypeRef;
+import common.helpers.StepLogger;
 
 import java.util.List;
 
@@ -20,34 +25,36 @@ public class UserSteps {
         this.password = password;
     }
 
-    public AccountResponse createAccount(){
+    public AccountResponse createAccount() {
         return new ValidatedCrudRequester<AccountResponse>(
                 RequestSpecs.authAsUser(username, password), Endpoint.ACCOUNTS,
                 ResponseSpecs.entityWasCreated())
                 .post();
     }
 
-    public  List<AccountResponse> getAllAccounts() {
+    public List<AccountResponse> getAllAccounts() {
+        return StepLogger.log("User " + username + "get all accounts", () -> {
         return new ValidatedCrudRequester<AccountResponse>(
                 RequestSpecs.authAsUser(username, password),
                 Endpoint.CUSTOMER_ACCOUNTS,
                 ResponseSpecs.requestReturnsOK())
                 .getAll(AccountResponse[].class);
+        });
     }
 
-    public  AccountResponse deposit(int accountId, double amount){
+    public AccountResponse deposit(int accountId, double amount) {
         DepositRequest depositRequest = DepositRequest.builder()
                 .id(accountId)
                 .balance(amount)
                 .build();
-       return new ValidatedCrudRequester<AccountResponse>(
-                RequestSpecs.authAsUser(username,password),
+        return new ValidatedCrudRequester<AccountResponse>(
+                RequestSpecs.authAsUser(username, password),
                 Endpoint.DEPOSIT,
                 ResponseSpecs.requestReturnsOK())
                 .post(depositRequest);
     }
 
-    public  UpdateProfileRequest updateName() {
+    public UpdateProfileRequest updateName() {
         UpdateProfileRequest updateProfileRequest = UpdateProfileRequest.builder()
                 .name(RandomData.getValidName())
                 .build();
@@ -59,7 +66,7 @@ public class UserSteps {
         return updateProfileRequest;
     }
 
-    public TransferResponse transfer(int senderAccountId, int receiverAccountId, double amount){
+    public TransferResponse transfer(int senderAccountId, int receiverAccountId, double amount) {
         TransferRequest transferRequest = TransferRequest.builder()
                 .senderAccountId(senderAccountId)
                 .receiverAccountId(receiverAccountId)

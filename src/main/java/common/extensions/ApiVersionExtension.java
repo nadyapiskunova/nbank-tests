@@ -28,7 +28,7 @@ public class ApiVersionExtension implements ExecutionCondition {
 
         if (requiredVersion == currentVersion) {
             return ConditionEvaluationResult.enabled(
-                    "API version matches: " + currentVersion
+                    " API version matches:  " + currentVersion
             );
         }
 

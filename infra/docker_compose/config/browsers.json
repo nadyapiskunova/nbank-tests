@@ -1,0 +1,33 @@
+{
+  "firefox": {
+    "default": "89.0",
+    "versions": {
+      "89.0": {
+        "image": "selenoid/vnc:firefox_89.0",
+        "port": "4444",
+        "path": "/wd/hub"
+      }
+    }
+  },
+  "chrome": {
+    "default": "145.0",
+    "versions": {
+      "145.0": {
+        "image": "twilio/selenoid:chrome_stable_145",
+        "port": "4444",
+        "path": "/"
+      }
+    }
+  },
+  "opera": {
+    "default": "76.0",
+    "versions": {
+      "76.0": {
+        "image": "selenoid/vnc:opera_76.0",
+        "port": "4444",
+        "path": "/wd/hub"
+      }
+    }
+  }
+}
+

@@ -1,11 +1,11 @@
 package api.requests.steps;
 
+import api.configs.Config;
+import api.dao.AccountDao;
 import api.dao.TransactionDao;
+import api.dao.UserDao;
 import api.database.Condition;
 import api.database.DBRequest;
-import api.dao.UserDao;
-import api.dao.AccountDao;
-import api.configs.Config;
 import api.database.RequestType;
 import api.database.TableName;
 import api.database.mapper.AccountDaoMapper;
@@ -106,7 +106,7 @@ public class DataBaseSteps {
         });
     }
 
-    public static TransactionDao getTransactionByAccountId(Integer accountId){
+    public static TransactionDao getTransactionByAccountId(Integer accountId) {
         return DBRequest.builder()
                 .requestType(RequestType.SELECT)
                 .table(TableName.TRANSACTIONS)
