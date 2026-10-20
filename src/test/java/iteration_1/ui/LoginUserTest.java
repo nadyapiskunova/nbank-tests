@@ -12,7 +12,7 @@ import ui.pages.UserDashboard;
 public class LoginUserTest extends BaseUITest {
     @Test
     @Browsers({"chrome"})
-    public void adminCanLoginWithCorrectDataTest(){
+    public void adminCanLoginWithCorrectDataTest() {
         CreateUserRequest admin = CreateUserRequest.getAdmin();
 
         new LoginPage().open().login(admin.getUsername(), admin.getPassword())
@@ -20,7 +20,7 @@ public class LoginUserTest extends BaseUITest {
     }
 
     @Test
-    public void userCanLoginWithCorrectDataTest(){
+    public void userCanLoginWithCorrectDataTest() {
         CreateUserRequest user = AdminSteps.createUser();
 
         new LoginPage()

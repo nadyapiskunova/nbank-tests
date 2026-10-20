@@ -3,11 +3,14 @@ package iteration_2.api;
 import api.constans.ErrorMessages;
 import api.constans.Messages;
 import api.constans.TestConstants;
-import api.dao.AccountDao;
-import api.dao.TransactionDao;
 import api.dao.comparison.DaoAndModelAssertions;
 import api.generators.RandomData;
-import api.models.*;
+import api.models.AccountResponse;
+import api.models.CreateUserRequest;
+import api.models.TransactionResponse;
+import api.models.TransactionType;
+import api.models.TransferRequest;
+import api.models.TransferResponse;
 import api.models.comparison.ModelAssertions;
 import api.requests.skeleton.Endpoint;
 import api.requests.skeleton.requesters.CrudRequester;
@@ -125,19 +128,19 @@ public class AccountsTransferTest extends BaseTest {
                     .orElseThrow();
 
             DaoAndModelAssertions.assertThat(
-                            transferOut,
-                            DataBaseSteps.getTransactionByAccountIdAndType(
-                                    firstAccountId,
-                                    TransactionType.TRANSFER_OUT
-                            )
+                    transferOut,
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            firstAccountId,
+                            TransactionType.TRANSFER_OUT
+                    )
             ).match();
 
             DaoAndModelAssertions.assertThat(
-                            transferIn,
-                            DataBaseSteps.getTransactionByAccountIdAndType(
-                                    secondAccountId,
-                                    TransactionType.TRANSFER_IN
-                            )
+                    transferIn,
+                    DataBaseSteps.getTransactionByAccountIdAndType(
+                            secondAccountId,
+                            TransactionType.TRANSFER_IN
+                    )
             ).match();
         });
     }
@@ -361,9 +364,9 @@ public class AccountsTransferTest extends BaseTest {
                 .receiverAccountId(accountIdBySecondUser)
                 .amount(amount)
                 .build();
-         new CrudRequester(
+        new CrudRequester(
                 RequestSpecs.authAsUser(firstUser.getUsername(), firstUser.getPassword()),
-                 Endpoint.TRANSFER,
+                Endpoint.TRANSFER,
                 ResponseSpecs.requestReturnsBadRequest(errorValue))
                 .post(transferToSecondUser);
 
@@ -431,7 +434,7 @@ public class AccountsTransferTest extends BaseTest {
 
     @Test
     @UserSession
-    public void userCannotTransferAmountExceedingBalanceBetweenTheirAccountTest(){
+    public void userCannotTransferAmountExceedingBalanceBetweenTheirAccountTest() {
         CreateUserRequest user = SessionStorage.getUser();
         UserSteps userSteps = SessionStorage.getSteps();
 
@@ -517,7 +520,7 @@ public class AccountsTransferTest extends BaseTest {
 
     @Test
     @UserSession(2)
-    public void userCannotTransferAmountExceedingBalanceToExternalAccountTest(){
+    public void userCannotTransferAmountExceedingBalanceToExternalAccountTest() {
         CreateUserRequest firstUser = SessionStorage.getUser(1);
 
         UserSteps firstUserSteps = SessionStorage.getSteps(1);
@@ -609,7 +612,7 @@ public class AccountsTransferTest extends BaseTest {
 
     @Test
     @UserSession
-    public void adminCannotTransferBetweenUserAccountsTest(){
+    public void adminCannotTransferBetweenUserAccountsTest() {
         UserSteps userSteps = SessionStorage.getSteps();
 
         AccountResponse firstAccount = userSteps.createAccount();
@@ -691,7 +694,7 @@ public class AccountsTransferTest extends BaseTest {
 
     @Test
     @UserSession(2)
-    public void adminCannotTransferFromUserAccountToAnotherUsersAccountTest(){
+    public void adminCannotTransferFromUserAccountToAnotherUsersAccountTest() {
         UserSteps firstUserSteps = SessionStorage.getSteps(1);
         UserSteps secondUserSteps = SessionStorage.getSteps(2);
 
@@ -779,7 +782,7 @@ public class AccountsTransferTest extends BaseTest {
 
     @Test
     @UserSession
-    public void unauthorizedUserCannotTransferBetweenOwnAccountsTest(){
+    public void unauthorizedUserCannotTransferBetweenOwnAccountsTest() {
         UserSteps userSteps = SessionStorage.getSteps();
 
         AccountResponse firstAccount = userSteps.createAccount();
@@ -861,7 +864,7 @@ public class AccountsTransferTest extends BaseTest {
 
     @Test
     @UserSession
-    public void userCannotTransferToNonExistentAccountTest(){
+    public void userCannotTransferToNonExistentAccountTest() {
         CreateUserRequest user = SessionStorage.getUser();
         UserSteps userSteps = SessionStorage.getSteps();
 

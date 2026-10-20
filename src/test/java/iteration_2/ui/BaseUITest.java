@@ -17,7 +17,7 @@ import static com.codeborne.selenide.Selenide.closeWebDriver;
 @ExtendWith(BrowserMatchExtension.class)
 public class BaseUITest extends BaseTest {
     @BeforeAll
-    public static void setupSelenoid(){
+    public static void setupSelenoid() {
         Configuration.remote = Config.getProperty("selenoid.url") + "/wd/hub";
         Configuration.baseUrl = Config.getProperty("uiBaseUrl");
         Configuration.browser = Config.getProperty("browser");

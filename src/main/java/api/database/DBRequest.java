@@ -54,7 +54,7 @@ public class DBRequest {
 
     private String buildSQL() {
         StringBuilder sql = new StringBuilder();
-        
+
         switch (requestType) {
             case SELECT:
                 sql.append("SELECT * FROM ").append(table.getValue());
@@ -69,7 +69,7 @@ public class DBRequest {
             default:
                 throw new UnsupportedOperationException("Request type " + requestType + " not implemented");
         }
-        
+
         return sql.toString();
     }
 

@@ -15,24 +15,23 @@ public class DepositPage extends BasePage<DepositPage> {
         return "/deposit";
     }
 
-    public DepositPage clickDeposit(){
+    public DepositPage clickDeposit() {
         depositButton.click();
         return this;
     }
 
-    public DepositPage makeDeposit(double amount){
+    public DepositPage makeDeposit(double amount) {
         setAmount(amount);
         clickDeposit();
 
         return this;
     }
 
-    public DepositPage checkAccountBalance(double amount, String accountNumber){
+    public DepositPage checkAccountBalance(double amount, String accountNumber) {
         accountsSelector.shouldHave(text(accountNumber))
                 .shouldHave(text("$" + amount));
         return this;
     }
-
 
 
 }

@@ -6,7 +6,11 @@ import api.dao.AccountDao;
 import api.dao.TransactionDao;
 import api.dao.comparison.DaoAndModelAssertions;
 import api.generators.RandomData;
-import api.models.*;
+import api.models.AccountResponse;
+import api.models.CreateUserRequest;
+import api.models.DepositRequest;
+import api.models.TransactionResponse;
+import api.models.TransactionType;
 import api.models.comparison.ModelAssertions;
 import api.requests.skeleton.Endpoint;
 import api.requests.skeleton.requesters.CrudRequester;
@@ -32,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class AccountsDepositTest extends BaseTest {
 
-    public static Stream<Arguments> validDataForUserCanDepositWithValidDataTest(){
+    public static Stream<Arguments> validDataForUserCanDepositWithValidDataTest() {
 
         return Stream.of(
                 Arguments.of(TestConstants.MIN_AMOUNT),
@@ -97,7 +101,7 @@ public class AccountsDepositTest extends BaseTest {
                 .balance(amount)
                 .build();
         new CrudRequester(
-                RequestSpecs.authAsUser(user.getUsername(),user.getPassword()),
+                RequestSpecs.authAsUser(user.getUsername(), user.getPassword()),
                 Endpoint.DEPOSIT,
                 ResponseSpecs.requestReturnsBadRequest(errorValue))
                 .post(depositRequest);
@@ -150,7 +154,7 @@ public class AccountsDepositTest extends BaseTest {
 
     @Test
     @UserSession
-    public void authorizedUserCannotDepositToNonExistentAccountTest(){
+    public void authorizedUserCannotDepositToNonExistentAccountTest() {
         UserSteps userSteps = SessionStorage.getSteps();
 
         CreateUserRequest user = SessionStorage.getUser();
@@ -164,7 +168,7 @@ public class AccountsDepositTest extends BaseTest {
                 .balance(RandomData.getValidDepositAmount())
                 .build();
         new CrudRequester(
-                RequestSpecs.authAsUser(user.getUsername(),user.getPassword()),
+                RequestSpecs.authAsUser(user.getUsername(), user.getPassword()),
                 Endpoint.DEPOSIT,
                 ResponseSpecs.requestReturnsForbidden(ErrorMessages.UNAUTHORIZED_ACCESS_TO_ACCOUNT))
                 .post(userDepositToNonExistentAccount);
@@ -184,23 +188,23 @@ public class AccountsDepositTest extends BaseTest {
 
     @Test
     @UserSession(2)
-    public void authorizedUserCannotDepositToAnotherUsersAccountTest(){
-       CreateUserRequest firstUser = SessionStorage.getUser(1);
+    public void authorizedUserCannotDepositToAnotherUsersAccountTest() {
+        CreateUserRequest firstUser = SessionStorage.getUser(1);
 
-       UserSteps firstUserSteps = SessionStorage.getSteps(1);
-       UserSteps secondUserSteps = SessionStorage.getSteps(2);
+        UserSteps firstUserSteps = SessionStorage.getSteps(1);
+        UserSteps secondUserSteps = SessionStorage.getSteps(2);
 
-       firstUserSteps.createAccount();
+        firstUserSteps.createAccount();
 
-       AccountResponse createdAccountForSecondUser = secondUserSteps.createAccount();
-       Integer accountIdBySecondUser = createdAccountForSecondUser.getId();
+        AccountResponse createdAccountForSecondUser = secondUserSteps.createAccount();
+        Integer accountIdBySecondUser = createdAccountForSecondUser.getId();
 
         DepositRequest depositRequest = DepositRequest.builder()
                 .id(accountIdBySecondUser)
                 .balance(RandomData.getValidDepositAmount())
                 .build();
         new CrudRequester(
-                RequestSpecs.authAsUser(firstUser.getUsername(),firstUser.getPassword()),
+                RequestSpecs.authAsUser(firstUser.getUsername(), firstUser.getPassword()),
                 Endpoint.DEPOSIT,
                 ResponseSpecs.requestReturnsForbidden(ErrorMessages.UNAUTHORIZED_ACCESS_TO_ACCOUNT))
                 .post(depositRequest);
@@ -220,7 +224,7 @@ public class AccountsDepositTest extends BaseTest {
 
     @Test
     @UserSession
-    public void unauthorizedUserCannotDepositFundsToAccountTest(){
+    public void unauthorizedUserCannotDepositFundsToAccountTest() {
         UserSteps userSteps = SessionStorage.getSteps();
 
         AccountResponse account = userSteps.createAccount();

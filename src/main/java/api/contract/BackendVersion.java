@@ -1,4 +1,5 @@
 package api.contract;
+
 import lombok.Getter;
 
 @Getter

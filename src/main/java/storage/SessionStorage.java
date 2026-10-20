@@ -24,19 +24,22 @@ public class SessionStorage {
     private final LinkedHashMap<CreateUserRequest, UserSteps> userStepsMap = new LinkedHashMap<>();
     private final List<Integer> createdUserIds = new ArrayList<>();
 
-    private SessionStorage(){}
+    private SessionStorage() {
+    }
 
     public static void addUser(CreateUserRequest user, Integer userId) {
         INSTANCE.get().userStepsMap.put(user, new UserSteps(user.getUsername(), user.getPassword()));
         INSTANCE.get().createdUserIds.add(userId);
     }
+
     /**
      * Возвращаем объект CreateUserRequest по его порядковому номеру в списке созданных пользователей
+     *
      * @param number Порядковый номер, начиная с 1 (а не с 0)
      * @return Объект CreateUserRequest, соответствующий указанному порядковому номеру
      */
     public static CreateUserRequest getUser(int number) {
-        return new ArrayList<>(INSTANCE.get().userStepsMap.keySet()).get(number-1);
+        return new ArrayList<>(INSTANCE.get().userStepsMap.keySet()).get(number - 1);
     }
 
     public static CreateUserRequest getUser() {
@@ -44,7 +47,7 @@ public class SessionStorage {
     }
 
     public static UserSteps getSteps(int number) {
-        return new ArrayList<>(INSTANCE.get().userStepsMap.values()).get(number-1);
+        return new ArrayList<>(INSTANCE.get().userStepsMap.values()).get(number - 1);
     }
 
     public static UserSteps getSteps() {
@@ -55,7 +58,7 @@ public class SessionStorage {
         return new ArrayList<>(INSTANCE.get().createdUserIds);
     }
 
-    public static void clear(){
+    public static void clear() {
         INSTANCE.remove();
     }
 }

@@ -18,10 +18,10 @@ public class AdminSteps {
                 RandomModelGenerator.generate(CreateUserRequest.class);
 
         CreateUserResponse userResponse = new ValidatedCrudRequester<CreateUserResponse>(
-                        RequestSpecs.adminSpec(),
-                        Endpoint.ADMIN_USER,
-                        ResponseSpecs.entityWasCreated())
-                        .post(userRequest);
+                RequestSpecs.adminSpec(),
+                Endpoint.ADMIN_USER,
+                ResponseSpecs.entityWasCreated())
+                .post(userRequest);
 
         SessionStorage.addUser(userRequest, userResponse.getId());
 

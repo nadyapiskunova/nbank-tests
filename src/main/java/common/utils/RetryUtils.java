@@ -1,7 +1,5 @@
 package common.utils;
 
-import ui.elements.UserBage;
-
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -38,6 +36,6 @@ public class RetryUtils {
             }
         }
 
-        throw  new RuntimeException("Retry failed after " + maxAttempts + " attempts");
+        throw new RuntimeException("Retry failed after " + maxAttempts + " attempts");
     }
 }
