@@ -37,3 +37,8 @@ build/
 ### Allure ###
 allure-results/
 allure-report/
+
+.env
+
+# Результаты запуска тестов
+test-output/
