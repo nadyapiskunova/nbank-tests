@@ -1,0 +1,204 @@
+nadezhda.piskunova@MacBook-Pro-Nadezhda nbank-tests % cd infra/kube
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % helm uninstall nbank
+release "nbank" uninstalled
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % helm list
+NAME    NAMESPACE       REVISION        UPDATED STATUS  CHART   APP VERSION
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % kubectl get all
+NAME                               READY   STATUS        RESTARTS   AGE
+pod/selenoid-ui-744c5d768b-lxzw4   1/1     Terminating   0          39m
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   67m
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % kubectl delete all --all
+pod "selenoid-ui-744c5d768b-lxzw4" deleted from default namespace
+service "kubernetes" deleted from default namespace
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % kubectl delete configmap selenoid-config --ignore-not-found
+configmap "selenoid-config" deleted from default namespace
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % kubectl delete secret postgres-secret --ignore-not-found
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % kubectl get all
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   43s
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % kubectl get configmap
+NAME               DATA   AGE
+kube-root-ca.crt   1      68m
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % kubectl get secret
+No resources found in default namespace.
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % helm install nbank infra/kube/nbank-chart
+Error: INSTALLATION FAILED: repo infra not found
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % helm install nbank ./nbank-chart
+NAME: nbank
+LAST DEPLOYED: Sat Aug 15 12:17:49 2026
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % helm list
+NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+nbank   default         1               2026-08-15 12:17:49.70675 +0300 MSK     deployed        nbank-0.0.1     1.0.0
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % kubectl get pods
+NAME                           READY   STATUS    RESTARTS   AGE
+backend-64d5b79699-zntfk       1/1     Running   0          11s
+frontend-8475f7c85-452mb       1/1     Running   0          11s
+postgres-7487f6cd7b-vb9pg      1/1     Running   0          11s
+selenoid-64b86d7cff-mjlvd      1/1     Running   0          11s
+selenoid-ui-7886fcf9cb-kkntd   1/1     Running   0          11s
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % kubectl get svc
+NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+backend       NodePort    10.111.26.108    <none>        4111:30685/TCP   20s
+frontend      NodePort    10.101.249.164   <none>        80:31369/TCP     20s
+kubernetes    ClusterIP   10.96.0.1        <none>        443/TCP          104s
+postgres      ClusterIP   10.111.87.55     <none>        5432/TCP         20s
+selenoid      NodePort    10.107.162.89    <none>        4444:31338/TCP   20s
+selenoid-ui   NodePort    10.110.164.216   <none>        8080:32584/TCP   20s
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % kubectl logs deployment/backend
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.5)
+
+{"timestamp":"2026-08-15T09:17:52.79353684Z","logger_name":"me.nobugs.bank.BankApplication","thread_name":"main","level":"INFO","message":"Starting BankApplication v0.0.1-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by root in /app)"}
+{"timestamp":"2026-08-15T09:17:55.5773793Z","logger_name":"com.zaxxer.hikari.pool.HikariPool","thread_name":"main","level":"INFO","message":"HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7aa15a80"}
+{"timestamp":"2026-08-15T09:17:55.669498508Z","logger_name":"org.flywaydb.core.FlywayExecutor","thread_name":"main","level":"INFO","message":"Database: jdbc:postgresql://postgres:5432/nbank (PostgreSQL 15.19)"}
+{"timestamp":"2026-08-15T09:17:55.900454633Z","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","message":"Successfully applied 3 migrations to schema \"public\", now at version v3 (execution time 00:00.099s)"}
+{"timestamp":"2026-08-15T09:17:59.584095844Z","logger_name":"org.springframework.boot.web.embedded.tomcat.TomcatWebServer","thread_name":"main","level":"INFO","message":"Tomcat started on port 4111 (http) with context path ''"}
+{"timestamp":"2026-08-15T09:17:59.592691719Z","logger_name":"me.nobugs.bank.BankApplication","thread_name":"main","level":"INFO","message":"Started BankApplication in 7.501 seconds (process running for 7.769)"}
+
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % kubectl logs deployment/frontend
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+/docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+/docker-entrypoint.sh: Configuration complete; ready for start up
+
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % kubectl logs deployment/postgres
+PostgreSQL init process complete; ready for start up.
+2026-08-15 09:17:51.077 UTC [1] LOG:  starting PostgreSQL 15.19 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-08-15 09:17:51.077 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-08-15 09:17:51.086 UTC [1] LOG:  database system is ready to accept connections
+
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % kubectl logs deployment/selenoid
+2026/08/15 09:17:50 [-] [INIT] [Loading configuration files...]
+2026/08/15 09:17:50 [-] [INIT] [Loaded configuration from /etc/selenoid/browsers.json]
+2026/08/15 09:17:50 [-] [INIT] [Video Dir: /opt/selenoid/video]
+2026/08/15 09:17:50 [-] [INIT] [Did not manage to determine your Docker API version - using default version: 1.45]
+2026/08/15 09:17:50 [-] [INIT] [Timezone: UTC]
+2026/08/15 09:17:50 [-] [INIT] [Listening on :4444]
+
+nadezhda.piskunova@MacBook-Pro-Nadezhda kube % kubectl logs deployment/selenoid-ui
+2026/08/15 09:17:50 [INIT] [Listening on :8080]
+
+nadezhda.piskunova@MacBook-Pro-Nadezhda nbank-tests % curl -i http://localhost:4111
+HTTP/1.1 401
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Set-Cookie: JSESSIONID=6A077580C59EF6E0C51A10B0B1648C69; Path=/; HttpOnly
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 0
+Date: Sat, 15 Aug 2026 09:20:41 GMT
+
+nadezhda.piskunova@MacBook-Pro-Nadezhda nbank-tests % curl http://localhost:4444/status
+{"total":5,"used":0,"queued":0,"pending":0,"browsers":{"chrome":{"145.0":{}},"firefox":{"89.0":{}},"opera":{"76.0":{}}}}
+
+nadezhda.piskunova@MacBook-Pro-Nadezhda nbank-tests % kubectl scale deployment frontend --replicas=2
+deployment.apps/frontend scaled
+nadezhda.piskunova@MacBook-Pro-Nadezhda nbank-tests % kubectl get pods
+NAME                           READY   STATUS    RESTARTS   AGE
+backend-64d5b79699-zntfk       1/1     Running   0          4m13s
+frontend-8475f7c85-452mb       1/1     Running   0          4m13s
+frontend-8475f7c85-v2jgz       1/1     Running   0          15s
+postgres-7487f6cd7b-vb9pg      1/1     Running   0          4m13s
+selenoid-64b86d7cff-mjlvd      1/1     Running   0          4m13s
+selenoid-ui-7886fcf9cb-kkntd   1/1     Running   0          4m13s
+nadezhda.piskunova@MacBook-Pro-Nadezhda nbank-tests % kubectl get deployment frontend
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+frontend   2/2     2            2           4m23s
+nadezhda.piskunova@MacBook-Pro-Nadezhda nbank-tests % kubectl scale deployment frontend --replicas=1
+deployment.apps/frontend scaled
+nadezhda.piskunova@MacBook-Pro-Nadezhda nbank-tests % kubectl get pods
+NAME                           READY   STATUS    RESTARTS   AGE
+backend-64d5b79699-zntfk       1/1     Running   0          4m33s
+frontend-8475f7c85-452mb       1/1     Running   0          4m33s
+postgres-7487f6cd7b-vb9pg      1/1     Running   0          4m33s
+selenoid-64b86d7cff-mjlvd      1/1     Running   0          4m33s
+selenoid-ui-7886fcf9cb-kkntd   1/1     Running   0          4m33s
+
+# Final verification using restart_kube.sh
+
+nadezhda.piskunova@MacBook-Pro-Nadezhda nbank-tests % ./infra/kube/restart_kube.sh
+=== Start Minikube ===
+😄  minikube v1.38.1 on Darwin 26.5.2 (arm64)
+✨  Using the docker driver based on existing profile
+👍  Starting "minikube" primary control-plane node in "minikube" cluster
+🚜  Pulling base image v0.0.50 ...
+🏃  Updating the running docker "minikube" container ...
+🐳  Preparing Kubernetes v1.35.1 on Docker 29.2.1 ...
+🔎  Verifying Kubernetes components...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+🌟  Enabled addons: storage-provisioner, default-storageclass
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+=== Remove previous Helm release if it exists ===
+release "nbank" uninstalled
+=== Create PostgreSQL Secret ===
+secret/postgres-secret created
+=== Install NBank Helm chart ===
+NAME: nbank
+LAST DEPLOYED: Sat Aug 15 12:35:08 2026
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+=== Wait for deployments ===
+deployment "postgres" successfully rolled out
+deployment "backend" successfully rolled out
+deployment "frontend" successfully rolled out
+deployment "selenoid" successfully rolled out
+deployment "selenoid-ui" successfully rolled out
+=== Helm releases ===
+NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+nbank   default         1               2026-08-15 12:35:08.570679 +0300 MSK    deployed        nbank-0.0.1     1.0.0
+=== Kubernetes pods ===
+NAME                           READY   STATUS    RESTARTS   AGE
+backend-64d5b79699-d69b4       1/1     Running   0          4s
+frontend-8475f7c85-xp4vg       1/1     Running   0          4s
+postgres-7487f6cd7b-pcths      1/1     Running   0          4s
+selenoid-64b86d7cff-fsfsk      1/1     Running   0          4s
+selenoid-ui-7886fcf9cb-tcrxs   1/1     Running   0          4s
+=== Kubernetes services ===
+NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+backend       NodePort    10.99.210.240    <none>        4111:31088/TCP   6s
+frontend      NodePort    10.108.217.119   <none>        80:31017/TCP     6s
+kubernetes    ClusterIP   10.96.0.1        <none>        443/TCP          18m
+postgres      ClusterIP   10.108.158.135   <none>        5432/TCP         6s
+selenoid      NodePort    10.103.63.5      <none>        4444:30267/TCP   6s
+selenoid-ui   NodePort    10.101.194.190   <none>        8080:32751/TCP   6s
+=== ConfigMaps ===
+NAME               DATA   AGE
+kube-root-ca.crt   1      86m
+selenoid-config    1      6s
+=== Secrets ===
+NAME                          TYPE                 DATA   AGE
+postgres-secret               Opaque               2      6s
+sh.helm.release.v1.nbank.v1   helm.sh/release.v1   1      6s
+=== Start port-forward ===
+
+=== Application is available ===
+Backend:     http://localhost:4111
+Frontend:    http://localhost:3000
+Selenoid:    http://localhost:4444
+Selenoid UI: http://localhost:8080

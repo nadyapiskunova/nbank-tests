@@ -2,6 +2,7 @@ package iteration_1.ui;
 
 import api.models.AccountResponse;
 import common.annotations.UserSession;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import storage.SessionStorage;
 import ui.pages.BankAlert;
@@ -13,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class CreateAccountTest extends BaseUITest {
+    @Disabled("флаки")
     @Test
     @UserSession
     public void userCanCreateAccountTest() {

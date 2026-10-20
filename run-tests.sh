@@ -34,7 +34,7 @@ docker run --rm \
   -e TEST_PROFILE="$TEST_PROFILE" \
   -e TEST_NAME="$TEST_NAME" \
   -e APIBASEURL=http://backend:4111 \
-  -e UIBASEURL=http://nginx:80 \
+  -e UIBASEURL=http://frontend:80 \
   -e SELENOID_URL=http://selenoid:4444 \
   -e SELENOID_UI_URL=http://selenoid-ui:8080 \
   -e DB_URL=jdbc:postgresql://postgres:5432/nbank \

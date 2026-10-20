@@ -1,0 +1,31 @@
+backend:
+  replicaCount: 1
+  image: nobugsme/nbank:with_database_with_fix
+  imagePullPolicy: Always
+  port: 4111
+
+frontend:
+  replicaCount: 1
+  image: nobugsme/nbank-ui:with_nginx
+  imagePullPolicy: IfNotPresent
+  port: 80
+
+postgres:
+  replicaCount: 1
+  image: postgres:15-alpine
+  imagePullPolicy: IfNotPresent
+  port: 5432
+  database: nbank
+  username: postgres
+
+selenoid:
+  replicaCount: 1
+  image: aerokube/selenoid:latest
+  imagePullPolicy: IfNotPresent
+  port: 4444
+
+selenoidUi:
+  replicaCount: 1
+  image: aerokube/selenoid-ui:latest
+  imagePullPolicy: IfNotPresent
+  port: 8080
