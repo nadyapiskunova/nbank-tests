@@ -1,0 +1,3058 @@
+>>> Running tests with profile: ui
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+======== THREAD <<ForkJoinPool-1-worker-2>> TEST STARTED iteration_1.ui.adminCanLoginWithCorrectDataTest() ========
+======== THREAD <<ForkJoinPool-1-worker-8>> TEST STARTED iteration_1.ui.userCanLoginWithCorrectDataTest() ========
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/admin/users
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "epTeQJJTlK",
+    "password": "LIRxaju176%%",
+    "role": "USER"
+}
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/admin/users
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "uzE6c1UHLDDo",
+    "password": "DHMeefo056&%",
+    "role": "USER"
+}
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/admin/users
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "ZA3y5I3sF66DcuA",
+    "password": "GNBcrvx069%$",
+    "role": "USER"
+}
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/admin/users
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "Uv8s",
+    "password": "MXPijlk824%&",
+    "role": "USER"
+}
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/admin/users
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "vSACCwvodWs",
+    "password": "KAMaalk691$&",
+    "role": "USER"
+}
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/admin/users
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "lmvEE6o",
+    "password": "DPOyfxp401%%",
+    "role": "USER"
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic VXY4czpNWFBpamxrODI0JSY=
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:48 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3131,
+    "username": "Uv8s",
+    "password": "$2a$10$WeDOp0egrn8Y5qyOOxKVXOpnQJMdhF74oVP53RmeDzKc2hZYPyQ6i",
+    "name": null,
+    "role": "USER",
+    "accounts": [
+        
+    ]
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic WkEzeTVJM3NGNjZEY3VBOkdOQmNydngwNjklJA==
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:48 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3129,
+    "username": "ZA3y5I3sF66DcuA",
+    "password": "$2a$10$SyMyWxfxJStzUJM9o.gkgu6JmBSc8obEeTjowiFw3d3PQENipRNui",
+    "name": null,
+    "role": "USER",
+    "accounts": [
+        
+    ]
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic dXpFNmMxVUhMRERvOkRITWVlZm8wNTYmJQ==
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:48 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3130,
+    "username": "uzE6c1UHLDDo",
+    "password": "$2a$10$AdLqU0FblykLPq01m3qwKOPUGHDhA40PMhecY1s35iUqJv8CjJawu",
+    "name": null,
+    "role": "USER",
+    "accounts": [
+        
+    ]
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic bG12RUU2bzpEUE95ZnhwNDAxJSU=
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:48 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3132,
+    "username": "lmvEE6o",
+    "password": "$2a$10$Ef7GJKaHc6IjQ4TM2r7Ibe625MeptOn0ZQnWA9hsMSfSzCiMTHUtq",
+    "name": null,
+    "role": "USER",
+    "accounts": [
+        
+    ]
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic ZXBUZVFKSlRsSzpMSVJ4YWp1MTc2JSU=
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:48 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3133,
+    "username": "epTeQJJTlK",
+    "password": "$2a$10$.mjrbdkkKEprKyXAZDdlN.0tkDIJckJXjWh89lRRncpvtBGxOAOlS",
+    "name": null,
+    "role": "USER",
+    "accounts": [
+        
+    ]
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic dlNBQ0N3dm9kV3M6S0FNYWFsazY5MSQm
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:48 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3128,
+    "username": "vSACCwvodWs",
+    "password": "$2a$10$mX4T4p2Kmyv/Ocp5ZJaSqugADpjPz4XPWUwsUIYzQUzApl4Kp9qiO",
+    "name": null,
+    "role": "USER",
+    "accounts": [
+        
+    ]
+}
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/admin/users
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "qU846",
+    "password": "HEKttkm396$$",
+    "role": "USER"
+}
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/admin/users
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "jo9qjx8Ql",
+    "password": "CGZyytb719$%",
+    "role": "USER"
+}
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/admin/users
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "W13ZwWG2E",
+    "password": "TNIgtkp462%%",
+    "role": "USER"
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic cVU4NDY6SEVLdHRrbTM5NiQk
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:48 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3134,
+    "username": "qU846",
+    "password": "$2a$10$Dq36bu03t6/hmAMVYXTMYe1RJ0k/pG8DPNTm9oACDahpdpMhiQSFm",
+    "name": null,
+    "role": "USER",
+    "accounts": [
+        
+    ]
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic VzEzWndXRzJFOlROSWd0a3A0NjIlJQ==
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:48 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3135,
+    "username": "W13ZwWG2E",
+    "password": "$2a$10$fGM/bIvVtAhrSeM51AzRs.WhPZihcUR3nPNahzSQzYUEs59OpXagO",
+    "name": null,
+    "role": "USER",
+    "accounts": [
+        
+    ]
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic am85cWp4OFFsOkNHWnl5dGI3MTkkJQ==
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:48 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3136,
+    "username": "jo9qjx8Ql",
+    "password": "$2a$10$g4YdxuJldu7AXnxwdlt8vOuQI5wBt0IfC3qajNoJRhWKNLx.QmoSq",
+    "name": null,
+    "role": "USER",
+    "accounts": [
+        
+    ]
+}
+Aug 13, 2026 12:07:50 PM org.openqa.selenium.devtools.DevToolsProvider getImplementation
+INFO: WebDriver augmented with DevTools interface; connection will not be verified until first use.
+Aug 13, 2026 12:07:50 PM org.openqa.selenium.devtools.DevToolsProvider getImplementation
+INFO: WebDriver augmented with DevTools interface; connection will not be verified until first use.
+Aug 13, 2026 12:07:50 PM org.openqa.selenium.devtools.DevToolsProvider getImplementation
+INFO: WebDriver augmented with DevTools interface; connection will not be verified until first use.
+Aug 13, 2026 12:07:51 PM org.openqa.selenium.devtools.DevToolsProvider getImplementation
+INFO: WebDriver augmented with DevTools interface; connection will not be verified until first use.
+Aug 13, 2026 12:07:51 PM org.openqa.selenium.devtools.DevToolsProvider getImplementation
+INFO: WebDriver augmented with DevTools interface; connection will not be verified until first use.
+======== THREAD <<ForkJoinPool-1-worker-7>> TEST STARTED iteration_1.ui.adminCanCrateUserTest() ========
+======== THREAD <<ForkJoinPool-1-worker-3>> TEST STARTED iteration_1.ui.adminCannotCrateUserWithInvalidDataTest() ========
+======== THREAD <<ForkJoinPool-1-worker-2>> TEST FINISHED iteration_1.ui.adminCanLoginWithCorrectDataTest(), TEST DURATION: 4459 MLS
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "epTeQJJTlK",
+    "password": "LIRxaju176%%"
+}
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "lmvEE6o",
+    "password": "DPOyfxp401%%"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic bG12RUU2bzpEUE95ZnhwNDAxJSU=
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:51 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "lmvEE6o"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic ZXBUZVFKSlRsSzpMSVJ4YWp1MTc2JSU=
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:51 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "epTeQJJTlK"
+}
+======== THREAD <<ForkJoinPool-1-worker-1>> TEST STARTED iteration_2.ui.userCannotUpdateNameWithInvalidDataTest() ========
+======== THREAD <<ForkJoinPool-1-worker-4>> TEST STARTED iteration_1.ui.userCanCreateAccountTest() ========
+Request method:	GET
+Request URI:	http://backend:4111/api/v1/customer/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic bG12RUU2bzpEUE95ZnhwNDAxJSU=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:52 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+[
+    {
+        "id": 3123,
+        "accountNumber": "ACC35E0E096",
+        "balance": 0.00,
+        "transactions": [
+            
+        ]
+    }
+]
+======== THREAD <<ForkJoinPool-1-worker-4>> TEST FINISHED iteration_1.ui.userCanCreateAccountTest(), TEST DURATION: 631 MLS
+======== THREAD <<ForkJoinPool-1-worker-1>> TEST FINISHED iteration_2.ui.userCannotUpdateNameWithInvalidDataTest(), TEST DURATION: 689 MLS
+Request method:	DELETE
+Request URI:	http://backend:4111/api/v1/admin/users/3132
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+Request method:	DELETE
+Request URI:	http://backend:4111/api/v1/admin/users/3133
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 39
+Date: Thu, 13 Aug 2026 12:07:52 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 3132 deleted successfully.
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 39
+Date: Thu, 13 Aug 2026 12:07:52 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 3133 deleted successfully.
+Aug 13, 2026 12:07:54 PM org.openqa.selenium.devtools.DevToolsProvider getImplementation
+INFO: WebDriver augmented with DevTools interface; connection will not be verified until first use.
+Request method:	GET
+Request URI:	http://backend:4111/api/v1/admin/users
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:54 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+[
+    {
+        "id": 1409,
+        "username": "srUPt",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1793,
+        "username": "HfCLZWoDTmS",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1388,
+        "username": "6AG",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1734,
+        "username": "OsmzYH",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3129,
+        "username": "ZA3y5I3sF66DcuA",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1410,
+        "username": "twCgQChcwsj",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1395,
+        "username": "gsO",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 318,
+        "username": "wI4C",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1378,
+        "username": "vs3dJH",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1987,
+        "username": "PFZ45D7",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3137,
+        "username": "DtOE9rXvjY",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3128,
+        "username": "vSACCwvodWs",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1372,
+        "username": "vl38yXm",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3131,
+        "username": "Uv8s",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1849,
+        "username": "KJ96tEpE1Agh",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1403,
+        "username": "4HjmBOAxT",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1397,
+        "username": "9p2aRwfn",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1399,
+        "username": "CYRNH4",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1570,
+        "username": "tPPeM0d",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1375,
+        "username": "E4KN8LKlXN2Sq",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1514,
+        "username": "FEMXGwVNjSjOmXm",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1384,
+        "username": "RDfJiGRD3R",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1377,
+        "username": "tBCbi",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1393,
+        "username": "tF7wYnVij460",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 2,
+        "username": "john_doe",
+        "name": "John Doe",
+        "role": "USER",
+        "accounts": [
+            {
+                "id": 1,
+                "accountNumber": "ACC12345678",
+                "balance": 1000.00,
+                "transactions": [
+                    {
+                        "id": 1,
+                        "amount": 1000.00,
+                        "type": "DEPOSIT",
+                        "timestamp": "2024-01-01T10:00:00",
+                        "relatedAccountId": null
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 1396,
+        "username": "XJ3E4w272dv",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1386,
+        "username": "dzbMsr",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3135,
+        "username": "W13ZwWG2E",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3136,
+        "username": "jo9qjx8Ql",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1376,
+        "username": "aEppdA8",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1370,
+        "username": "xv6wt9uY7B3T",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1413,
+        "username": "7E6Q",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1390,
+        "username": "N3PLUX",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 4,
+        "username": "bob_wilson",
+        "name": "Bob Wilson",
+        "role": "USER",
+        "accounts": [
+            {
+                "id": 3,
+                "accountNumber": "ACC11223344",
+                "balance": 500.25,
+                "transactions": [
+                    {
+                        "id": 4,
+                        "amount": 500.25,
+                        "type": "DEPOSIT",
+                        "timestamp": "2024-01-04T16:45:00",
+                        "relatedAccountId": null
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 1405,
+        "username": "iQbPL4KxKYaJU",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3130,
+        "username": "uzE6c1UHLDDo",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1385,
+        "username": "oLYEu3iaFkhiju",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1379,
+        "username": "UiL7V7nREc9HZh",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1404,
+        "username": "y78RSY4iUvi99e",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1406,
+        "username": "IhOYMmcVv",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1389,
+        "username": "Wwo6xUGbzQ",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1401,
+        "username": "61Ykb9X5KE",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1919,
+        "username": "hBSBa1Irk",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1407,
+        "username": "3Gs57ZDgm",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1381,
+        "username": "jhIyOQoz6q0Hd",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1391,
+        "username": "p39y",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1374,
+        "username": "3NIqVirjUMGc",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3,
+        "username": "jane_smith",
+        "name": "Jane Smith",
+        "role": "USER",
+        "accounts": [
+            {
+                "id": 2,
+                "accountNumber": "ACC87654321",
+                "balance": 2500.50,
+                "transactions": [
+                    {
+                        "id": 3,
+                        "amount": 2500.00,
+                        "type": "DEPOSIT",
+                        "timestamp": "2024-01-03T09:15:00",
+                        "relatedAccountId": null
+                    },
+                    {
+                        "id": 2,
+                        "amount": 500.50,
+                        "type": "DEPOSIT",
+                        "timestamp": "2024-01-02T14:30:00",
+                        "relatedAccountId": null
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 1392,
+        "username": "mG4XU9QNlHoGe6",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1380,
+        "username": "3GrqkzvAj7K",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1679,
+        "username": "7Uu6nwvwifpRpo",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 846,
+        "username": "5Q07wAxVZiDB",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1,
+        "username": "admin",
+        "name": "System Administrator",
+        "role": "ADMIN",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3134,
+        "username": "qU846",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 319,
+        "username": "JQFNRz2n2k8",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1618,
+        "username": "HCa",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1400,
+        "username": "nv3tCbsLsk",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1383,
+        "username": "NL2SyWb0l",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1369,
+        "username": "kG8PoAYaaBun",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1373,
+        "username": "mY2HVIhOON23",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1408,
+        "username": "ZvtuHBlqP",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1411,
+        "username": "MELeueqbzy",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1423,
+        "username": "Pt6JvU101iTnna",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1398,
+        "username": "nNL",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1387,
+        "username": "hYK4HgpimKeOce",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    }
+]
+======== THREAD <<ForkJoinPool-1-worker-7>> TEST FINISHED iteration_1.ui.adminCanCrateUserTest(), TEST DURATION: 3218 MLS
+Request method:	DELETE
+Request URI:	http://backend:4111/api/v1/admin/users/3137
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+Request method:	GET
+Request URI:	http://backend:4111/api/v1/admin/users
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:54 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+[
+    {
+        "id": 1409,
+        "username": "srUPt",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1793,
+        "username": "HfCLZWoDTmS",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1388,
+        "username": "6AG",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1734,
+        "username": "OsmzYH",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3129,
+        "username": "ZA3y5I3sF66DcuA",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1410,
+        "username": "twCgQChcwsj",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1395,
+        "username": "gsO",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 318,
+        "username": "wI4C",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1378,
+        "username": "vs3dJH",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1987,
+        "username": "PFZ45D7",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3137,
+        "username": "DtOE9rXvjY",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3128,
+        "username": "vSACCwvodWs",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1372,
+        "username": "vl38yXm",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3131,
+        "username": "Uv8s",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1849,
+        "username": "KJ96tEpE1Agh",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1403,
+        "username": "4HjmBOAxT",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1397,
+        "username": "9p2aRwfn",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1399,
+        "username": "CYRNH4",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1570,
+        "username": "tPPeM0d",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1375,
+        "username": "E4KN8LKlXN2Sq",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1514,
+        "username": "FEMXGwVNjSjOmXm",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1384,
+        "username": "RDfJiGRD3R",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1377,
+        "username": "tBCbi",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1393,
+        "username": "tF7wYnVij460",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 2,
+        "username": "john_doe",
+        "name": "John Doe",
+        "role": "USER",
+        "accounts": [
+            {
+                "id": 1,
+                "accountNumber": "ACC12345678",
+                "balance": 1000.00,
+                "transactions": [
+                    {
+                        "id": 1,
+                        "amount": 1000.00,
+                        "type": "DEPOSIT",
+                        "timestamp": "2024-01-01T10:00:00",
+                        "relatedAccountId": null
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 1396,
+        "username": "XJ3E4w272dv",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1386,
+        "username": "dzbMsr",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3135,
+        "username": "W13ZwWG2E",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3136,
+        "username": "jo9qjx8Ql",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1376,
+        "username": "aEppdA8",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1370,
+        "username": "xv6wt9uY7B3T",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1413,
+        "username": "7E6Q",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1390,
+        "username": "N3PLUX",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 4,
+        "username": "bob_wilson",
+        "name": "Bob Wilson",
+        "role": "USER",
+        "accounts": [
+            {
+                "id": 3,
+                "accountNumber": "ACC11223344",
+                "balance": 500.25,
+                "transactions": [
+                    {
+                        "id": 4,
+                        "amount": 500.25,
+                        "type": "DEPOSIT",
+                        "timestamp": "2024-01-04T16:45:00",
+                        "relatedAccountId": null
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 1405,
+        "username": "iQbPL4KxKYaJU",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3130,
+        "username": "uzE6c1UHLDDo",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1385,
+        "username": "oLYEu3iaFkhiju",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1379,
+        "username": "UiL7V7nREc9HZh",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1404,
+        "username": "y78RSY4iUvi99e",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1406,
+        "username": "IhOYMmcVv",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1389,
+        "username": "Wwo6xUGbzQ",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1401,
+        "username": "61Ykb9X5KE",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1919,
+        "username": "hBSBa1Irk",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1407,
+        "username": "3Gs57ZDgm",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1381,
+        "username": "jhIyOQoz6q0Hd",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1391,
+        "username": "p39y",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1374,
+        "username": "3NIqVirjUMGc",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3,
+        "username": "jane_smith",
+        "name": "Jane Smith",
+        "role": "USER",
+        "accounts": [
+            {
+                "id": 2,
+                "accountNumber": "ACC87654321",
+                "balance": 2500.50,
+                "transactions": [
+                    {
+                        "id": 2,
+                        "amount": 500.50,
+                        "type": "DEPOSIT",
+                        "timestamp": "2024-01-02T14:30:00",
+                        "relatedAccountId": null
+                    },
+                    {
+                        "id": 3,
+                        "amount": 2500.00,
+                        "type": "DEPOSIT",
+                        "timestamp": "2024-01-03T09:15:00",
+                        "relatedAccountId": null
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 1392,
+        "username": "mG4XU9QNlHoGe6",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1380,
+        "username": "3GrqkzvAj7K",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1679,
+        "username": "7Uu6nwvwifpRpo",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 846,
+        "username": "5Q07wAxVZiDB",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1,
+        "username": "admin",
+        "name": "System Administrator",
+        "role": "ADMIN",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 3134,
+        "username": "qU846",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 319,
+        "username": "JQFNRz2n2k8",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1618,
+        "username": "HCa",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1400,
+        "username": "nv3tCbsLsk",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1383,
+        "username": "NL2SyWb0l",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1369,
+        "username": "kG8PoAYaaBun",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1373,
+        "username": "mY2HVIhOON23",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1408,
+        "username": "ZvtuHBlqP",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1411,
+        "username": "MELeueqbzy",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1423,
+        "username": "Pt6JvU101iTnna",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1398,
+        "username": "nNL",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    },
+    {
+        "id": 1387,
+        "username": "hYK4HgpimKeOce",
+        "name": null,
+        "role": "USER",
+        "accounts": [
+            
+        ]
+    }
+]
+======== THREAD <<ForkJoinPool-1-worker-3>> TEST FINISHED iteration_1.ui.adminCannotCrateUserWithInvalidDataTest(), TEST DURATION: 3424 MLS
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 39
+Date: Thu, 13 Aug 2026 12:07:54 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 3137 deleted successfully.
+Aug 13, 2026 12:07:55 PM org.openqa.selenium.devtools.DevToolsProvider getImplementation
+INFO: WebDriver augmented with DevTools interface; connection will not be verified until first use.
+Aug 13, 2026 12:07:55 PM org.openqa.selenium.devtools.DevToolsProvider getImplementation
+INFO: WebDriver augmented with DevTools interface; connection will not be verified until first use.
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "vSACCwvodWs",
+    "password": "KAMaalk691$&"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic dlNBQ0N3dm9kV3M6S0FNYWFsazY5MSQm
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:55 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "vSACCwvodWs"
+}
+======== THREAD <<ForkJoinPool-1-worker-9>> TEST STARTED iteration_2.ui.userCannotSearchTransactionWithInvalidName() ========
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic dlNBQ0N3dm9kV3M6S0FNYWFsazY5MSQm
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:55 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3124,
+    "accountNumber": "ACC08BC2555",
+    "balance": 0,
+    "transactions": [
+        
+    ]
+}
+Request method:	PUT
+Request URI:	http://backend:4111/api/v1/customer/profile
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic dlNBQ0N3dm9kV3M6S0FNYWFsazY5MSQm
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "name": "bbXdOqKAW YLqZUIXSmzgkP"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:55 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "customer": {
+        "id": 3128,
+        "username": "vSACCwvodWs",
+        "password": "$2a$10$mX4T4p2Kmyv/Ocp5ZJaSqugADpjPz4XPWUwsUIYzQUzApl4Kp9qiO",
+        "name": "bbXdOqKAW YLqZUIXSmzgkP",
+        "role": "USER",
+        "accounts": [
+            {
+                "id": 3124,
+                "accountNumber": "ACC08BC2555",
+                "balance": 0.00,
+                "transactions": [
+                    
+                ]
+            }
+        ]
+    },
+    "message": "Profile updated successfully"
+}
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/accounts/deposit
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic dlNBQ0N3dm9kV3M6S0FNYWFsazY5MSQm
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "id": 3124,
+    "balance": 5000.0
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:55 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3124,
+    "accountNumber": "ACC08BC2555",
+    "balance": 5000.00,
+    "transactions": [
+        {
+            "id": 2865,
+            "amount": 5000.0,
+            "type": "DEPOSIT",
+            "timestamp": "2026-08-13T12:07:56.192413464",
+            "timestampAsString": "2026-08-13T12:07:56.192413464",
+            "relatedAccountId": 3124,
+            "amountAsDouble": 5000.0
+        }
+    ]
+}
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "uzE6c1UHLDDo",
+    "password": "DHMeefo056&%"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic dXpFNmMxVUhMRERvOkRITWVlZm8wNTYmJQ==
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:55 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "uzE6c1UHLDDo"
+}
+======== THREAD <<ForkJoinPool-1-worker-6>> TEST STARTED iteration_2.ui.userCanDepositWithValidData() ========
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic dXpFNmMxVUhMRERvOkRITWVlZm8wNTYmJQ==
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:55 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3125,
+    "accountNumber": "ACC406ACE34",
+    "balance": 0,
+    "transactions": [
+        
+    ]
+}
+======== THREAD <<ForkJoinPool-1-worker-9>> TEST FINISHED iteration_2.ui.userCannotSearchTransactionWithInvalidName(), TEST DURATION: 833 MLS
+Request method:	DELETE
+Request URI:	http://backend:4111/api/v1/admin/users/3128
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 39
+Date: Thu, 13 Aug 2026 12:07:55 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 3128 deleted successfully.
+Aug 13, 2026 12:07:57 PM org.openqa.selenium.devtools.DevToolsProvider getImplementation
+INFO: WebDriver augmented with DevTools interface; connection will not be verified until first use.
+Aug 13, 2026 12:07:57 PM org.openqa.selenium.devtools.DevToolsProvider getImplementation
+INFO: WebDriver augmented with DevTools interface; connection will not be verified until first use.
+======== THREAD <<ForkJoinPool-1-worker-8>> TEST FINISHED iteration_1.ui.userCanLoginWithCorrectDataTest(), TEST DURATION: 9707 MLS
+Request method:	DELETE
+Request URI:	http://backend:4111/api/v1/admin/users/3129
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 39
+Date: Thu, 13 Aug 2026 12:07:56 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 3129 deleted successfully.
+Request method:	GET
+Request URI:	http://backend:4111/api/v1/customer/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic dXpFNmMxVUhMRERvOkRITWVlZm8wNTYmJQ==
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "Uv8s",
+    "password": "MXPijlk824%&"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:57 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+[
+    {
+        "id": 3125,
+        "accountNumber": "ACC406ACE34",
+        "balance": 892.76,
+        "transactions": [
+            {
+                "id": 2866,
+                "amount": 892.76,
+                "type": "DEPOSIT",
+                "timestamp": "2026-08-13T12:07:57.654165",
+                "relatedAccountId": 3125
+            }
+        ]
+    }
+]
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic VXY4czpNWFBpamxrODI0JSY=
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:57 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "Uv8s"
+}
+======== THREAD <<ForkJoinPool-1-worker-5>> TEST STARTED iteration_2.ui.userCannotDepositWithInvalidData() ========
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic VXY4czpNWFBpamxrODI0JSY=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "jo9qjx8Ql",
+    "password": "CGZyytb719$%"
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:57 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3126,
+    "accountNumber": "ACC9AE610D7",
+    "balance": 0,
+    "transactions": [
+        
+    ]
+}
+======== THREAD <<ForkJoinPool-1-worker-6>> TEST FINISHED iteration_2.ui.userCanDepositWithValidData(), TEST DURATION: 1858 MLS
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic am85cWp4OFFsOkNHWnl5dGI3MTkkJQ==
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:57 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "jo9qjx8Ql"
+}
+Request method:	DELETE
+Request URI:	http://backend:4111/api/v1/admin/users/3130
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+======== THREAD <<ForkJoinPool-1-worker-11>> TEST STARTED iteration_2.ui.userCannotTransferWithoutConfirmTest() ========
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic am85cWp4OFFsOkNHWnl5dGI3MTkkJQ==
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 39
+Date: Thu, 13 Aug 2026 12:07:57 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 3130 deleted successfully.
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:57 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3127,
+    "accountNumber": "ACC4817FEB2",
+    "balance": 0,
+    "transactions": [
+        
+    ]
+}
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic am85cWp4OFFsOkNHWnl5dGI3MTkkJQ==
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:57 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3128,
+    "accountNumber": "ACC0B964A1E",
+    "balance": 0,
+    "transactions": [
+        
+    ]
+}
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/accounts/deposit
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic am85cWp4OFFsOkNHWnl5dGI3MTkkJQ==
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "id": 3127,
+    "balance": 5000.0
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:07:57 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3127,
+    "accountNumber": "ACC4817FEB2",
+    "balance": 5000.00,
+    "transactions": [
+        {
+            "id": 2867,
+            "amount": 5000.0,
+            "type": "DEPOSIT",
+            "timestamp": "2026-08-13T12:07:58.886279924",
+            "timestampAsString": "2026-08-13T12:07:58.886279924",
+            "relatedAccountId": 3127,
+            "amountAsDouble": 5000.0
+        }
+    ]
+}
+======== THREAD <<ForkJoinPool-1-worker-5>> TEST FINISHED iteration_2.ui.userCannotDepositWithInvalidData(), TEST DURATION: 823 MLS
+Aug 13, 2026 12:07:59 PM org.openqa.selenium.devtools.DevToolsProvider getImplementation
+INFO: WebDriver augmented with DevTools interface; connection will not be verified until first use.
+Request method:	DELETE
+Request URI:	http://backend:4111/api/v1/admin/users/3131
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 39
+Date: Thu, 13 Aug 2026 12:07:59 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 3131 deleted successfully.
+Aug 13, 2026 12:07:59 PM org.openqa.selenium.devtools.DevToolsProvider getImplementation
+INFO: WebDriver augmented with DevTools interface; connection will not be verified until first use.
+======== THREAD <<ForkJoinPool-1-worker-11>> TEST FINISHED iteration_2.ui.userCannotTransferWithoutConfirmTest(), TEST DURATION: 1364 MLS
+Request method:	DELETE
+Request URI:	http://backend:4111/api/v1/admin/users/3136
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 39
+Date: Thu, 13 Aug 2026 12:08:00 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 3136 deleted successfully.
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "qU846",
+    "password": "HEKttkm396$$"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic cVU4NDY6SEVLdHRrbTM5NiQk
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:08:00 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "qU846"
+}
+======== THREAD <<ForkJoinPool-1-worker-10>> TEST STARTED iteration_2.ui.userCanSearchTransactionWithValidName() ========
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic cVU4NDY6SEVLdHRrbTM5NiQk
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:08:00 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3129,
+    "accountNumber": "ACC0625941B",
+    "balance": 0,
+    "transactions": [
+        
+    ]
+}
+Request method:	PUT
+Request URI:	http://backend:4111/api/v1/customer/profile
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic cVU4NDY6SEVLdHRrbTM5NiQk
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "name": "YsUNyTVcMVMbgL nwylPdQHbv"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:08:00 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "customer": {
+        "id": 3134,
+        "username": "qU846",
+        "password": "$2a$10$Dq36bu03t6/hmAMVYXTMYe1RJ0k/pG8DPNTm9oACDahpdpMhiQSFm",
+        "name": "YsUNyTVcMVMbgL nwylPdQHbv",
+        "role": "USER",
+        "accounts": [
+            {
+                "id": 3129,
+                "accountNumber": "ACC0625941B",
+                "balance": 0.00,
+                "transactions": [
+                    
+                ]
+            }
+        ]
+    },
+    "message": "Profile updated successfully"
+}
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/accounts/deposit
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic cVU4NDY6SEVLdHRrbTM5NiQk
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "id": 3129,
+    "balance": 5000.0
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:08:00 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3129,
+    "accountNumber": "ACC0625941B",
+    "balance": 5000.00,
+    "transactions": [
+        {
+            "id": 2868,
+            "amount": 5000.0,
+            "type": "DEPOSIT",
+            "timestamp": "2026-08-13T12:08:00.468072841",
+            "timestampAsString": "2026-08-13T12:08:00.468072841",
+            "relatedAccountId": 3129,
+            "amountAsDouble": 5000.0
+        }
+    ]
+}
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "W13ZwWG2E",
+    "password": "TNIgtkp462%%"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic VzEzWndXRzJFOlROSWd0a3A0NjIlJQ==
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:08:00 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "W13ZwWG2E"
+}
+======== THREAD <<ForkJoinPool-1-worker-12>> TEST STARTED iteration_2.ui.userCannotDepositWithoutSelectedAccountTest() ========
+Request method:	POST
+Request URI:	http://backend:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic VzEzWndXRzJFOlROSWd0a3A0NjIlJQ==
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 13 Aug 2026 12:08:00 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 3130,
+    "accountNumber": "ACC83E751B8",
+    "balance": 0,
+    "transactions": [
+        
+    ]
+}
+======== THREAD <<ForkJoinPool-1-worker-12>> TEST FINISHED iteration_2.ui.userCannotDepositWithoutSelectedAccountTest(), TEST DURATION: 255 MLS
+Request method:	DELETE
+Request URI:	http://backend:4111/api/v1/admin/users/3135
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+======== THREAD <<ForkJoinPool-1-worker-10>> TEST FINISHED iteration_2.ui.userCanSearchTransactionWithValidName(), TEST DURATION: 698 MLS
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 39
+Date: Thu, 13 Aug 2026 12:08:00 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 3135 deleted successfully.
+Request method:	DELETE
+Request URI:	http://backend:4111/api/v1/admin/users/3134
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 39
+Date: Thu, 13 Aug 2026 12:08:00 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 3134 deleted successfully.
+>>> Running surefire-report:report
+[INFO] Maven Build Time Profiler started. (Version 0.5.0)
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< org.example:nbank-tests >-----------------------
+[INFO] Building nbank-tests 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> surefire-report:3.2.5:report (default-cli) > [surefire]test @ nbank-tests >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ nbank-tests ---
+[INFO] Copying 3 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ nbank-tests ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ nbank-tests ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ nbank-tests ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ nbank-tests ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] <<< surefire-report:3.2.5:report (default-cli) < [surefire]test @ nbank-tests <<<
+[INFO] 
+[INFO] 
+[INFO] --- surefire-report:3.2.5:report (default-cli) @ nbank-tests ---
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/skins/maven-default-skin/1.3/maven-default-skin-1.3.jar
+Progress (1): 0.9/14 kBProgress (1): 2.3/14 kBProgress (1): 3.6/14 kBProgress (1): 5.0/14 kBProgress (1): 6.4/14 kBProgress (1): 7.7/14 kBProgress (1): 9.1/14 kBProgress (1): 10/14 kB Progress (1): 12/14 kBProgress (1): 13/14 kBProgress (1): 14 kB                      Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/skins/maven-default-skin/1.3/maven-default-skin-1.3.jar (14 kB at 57 kB/s)
+[INFO] Rendering content with org.apache.maven.skins:maven-default-skin:jar:1.3 skin.
+[WARNING] Unable to locate Test Source XRef to link to - DISABLED
+[INFO] MBTP: Session Ended
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.924 s
+[INFO] Finished at: 2026-08-13T12:08:02Z
+[INFO] ------------------------------------------------------------------------
+[INFO] --             Maven Build Time Profiler Summary                      --
+[INFO] ------------------------------------------------------------------------
+[INFO] Project discovery time:        9 ms
+[INFO] ------------------------------------------------------------------------
+[INFO] Project Build Time (reactor order):
+[INFO] 
+[INFO] nbank-tests:
+[INFO]           66 ms : process-resources
+[INFO]           42 ms : compile
+[INFO]            3 ms : process-test-resources
+[INFO]            4 ms : test-compile
+[INFO]           61 ms : test
+[INFO] ------------------------------------------------------------------------
+[INFO] Lifecycle Phase summary:
+[INFO] 
+[INFO]       66 ms : process-resources
+[INFO]       42 ms : compile
+[INFO]        3 ms : process-test-resources
+[INFO]        4 ms : test-compile
+[INFO]       61 ms : test
+[INFO] ------------------------------------------------------------------------
+[INFO] Plugins in lifecycle Phases:
+[INFO] 
+[INFO] process-resources:
+[INFO]       66 ms: org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources (default-resources)
+[INFO] compile:
+[INFO]       42 ms: org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile)
+[INFO] process-test-resources:
+[INFO]        3 ms: org.apache.maven.plugins:maven-resources-plugin:3.3.1:testResources (default-testResources)
+[INFO] test-compile:
+[INFO]        4 ms: org.apache.maven.plugins:maven-compiler-plugin:3.11.0:testCompile (default-testCompile)
+[INFO] test:
+[INFO]       61 ms: org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test)
+[INFO] 
+[INFO]      176 ms plugins execution summary.
+[INFO] ------------------------------------------------------------------------
+[INFO] Plugins directly called via goals:
+[INFO] 
+[INFO]      571 ms : org.apache.maven.plugins:maven-surefire-report-plugin:3.2.5:report (default-cli)
+[INFO] ------------------------------------------------------------------------
+[INFO] Artifact Download summary:
+[INFO]      308 ms : org.apache.maven.skins:maven-default-skin:1.3:jar (13,779 bytes)
+[INFO] 
+[INFO] 308 ms  13,779 bytes. 0.043 MiB / s
+[INFO] ForkTime: 303
+[INFO] ProjectTimer: org.example:nbank-tests:jar:1.0-SNAPSHOT : 303

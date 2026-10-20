@@ -140,6 +140,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>all</id>
             <build>

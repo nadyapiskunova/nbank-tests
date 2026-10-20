@@ -12,6 +12,7 @@ import api.requests.skeleton.requesters.CrudRequester;
 import api.requests.skeleton.requesters.ValidatedCrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
+import common.helpers.StepLogger;
 
 import java.util.List;
 
@@ -32,11 +33,13 @@ public class UserSteps {
     }
 
     public List<AccountResponse> getAllAccounts() {
+        return StepLogger.log("User " + username + "get all accounts", () -> {
         return new ValidatedCrudRequester<AccountResponse>(
                 RequestSpecs.authAsUser(username, password),
                 Endpoint.CUSTOMER_ACCOUNTS,
                 ResponseSpecs.requestReturnsOK())
                 .getAll(AccountResponse[].class);
+        });
     }
 
     public AccountResponse deposit(int accountId, double amount) {

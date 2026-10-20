@@ -10,10 +10,10 @@
     }
   },
   "chrome": {
-    "default": "91.0",
+    "default": "145.0",
     "versions": {
-      "91.0": {
-        "image": "selenoid/vnc:chrome_91.0",
+      "145.0": {
+        "image": "twilio/selenoid:chrome_stable_145",
         "port": "4444",
         "path": "/"
       }
